@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "cardano-connect/balance",
+	"version": "0.1.0",
+	"title": "Cardano Wallet",
+	"category": "widgets",
+	"description": "Cardano wallet balance and account, provides view for lovelace balance and account information.",
+	"keywords": [ "Cardano", "wallet", "connect", "balance" ],
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "cardano-connect",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

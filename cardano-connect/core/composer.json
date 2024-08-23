@@ -1,0 +1,28 @@
+{
+    "name": "pend/wpcc",
+    "description": "Cardano blockchain wallet login for your WordPress website",
+    "type": "project",
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "WPCC\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "PendulumDev",
+            "email": "dev@pendulumdev.co.uk"
+        }
+    ]
+}

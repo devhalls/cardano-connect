@@ -1,0 +1,45 @@
+/*!**************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./connector/src/editor.scss ***!
+  \**************************************************************************************************************************************************************************************************************************************************/
+.wp-block-cardano-connect-connector {
+  --wpcc-font-family: inherit;
+  --wpcc-font-size: 0.85rem;
+  --wpcc-primary-color: rgba(0, 153, 102, 1);
+  --wpcc-primary-dark-color: rgba(0, 51, 34, 1);
+  --wpcc-primary-gradient: linear-gradient(90deg, var(--wpcc-primary-color) 0%, var(--wpcc-primary-dark-color) 100%);
+  --wpcc-text-color: rgba(255, 255, 255, 1);
+  --wpcc-button-sizing: 22px;
+  --wpcc-list-sizing: 220px;
+  --wpcc-bg-shadow: 0 0 12px 4px rgba(65, 65, 65, 0.4);
+  --wpcc-button-icon: url("data:image/svg+xml,<svg width=\"44\" height=\"44\" viewBox=\"0 0 44 44\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path opacity=\"0.5\" d=\"M26.8783 32.2579C26.7714 32.3103 26.6758 32.3833 26.597 32.4726C26.5182 32.5619 26.4579 32.6659 26.4193 32.7786C26.3807 32.8912 26.3647 33.0104 26.3722 33.1293C26.3797 33.2481 26.4105 33.3643 26.4629 33.4713C26.5153 33.5782 26.5883 33.6738 26.6776 33.7525C26.767 33.8313 26.871 33.8917 26.9836 33.9302C27.0963 33.9688 27.2155 33.9848 27.3344 33.9773C27.4533 33.9698 27.5695 33.939 27.6764 33.8866L26.8783 32.2579ZM19.7773 33.1611C14.6692 32.1237 10.814 27.5688 10.814 22.0987H9C9 28.437 13.4696 33.7294 19.4157 34.9386L19.7773 33.1611ZM10.814 22.0987C10.814 15.8595 15.8289 10.8137 22 10.8137V9C14.8131 9 9 14.8716 9 22.0987H10.814ZM22 10.8137C28.1711 10.8137 33.186 15.8595 33.186 22.0987H35C35 14.8716 29.1869 9 22 9V10.8137ZM22.907 31.8528V25.7563H21.093V31.8528H22.907ZM33.186 22.0987C33.186 26.5689 30.6102 30.4297 26.8783 32.2579L27.6764 33.8866C29.8782 32.8039 31.7318 31.1251 33.0265 29.0412C34.3211 26.9573 35.0049 24.5519 35 22.0987H33.186ZM19.4157 34.9386C21.4207 35.3448 22.907 33.6279 22.907 31.8528H21.093C21.093 32.7706 20.3916 33.2869 19.7773 33.1611L19.4157 34.9386Z\" fill=\"%2399CC99\"/><path d=\"M18.3721 21.7565C18.3721 21.5 18.474 21.2539 18.6554 21.0725C18.8369 20.8911 19.0829 20.7892 19.3395 20.7892H24.6604C24.917 20.7892 25.1631 20.8911 25.3445 21.0725C25.526 21.2539 25.6279 21.5 25.6279 21.7565V21.9983C25.6279 22.4747 25.534 22.9464 25.3517 23.3865C25.1694 23.8266 24.9022 24.2265 24.5653 24.5633C24.2284 24.9002 23.8285 25.1673 23.3883 25.3496C22.9482 25.5319 22.4764 25.6258 22 25.6258C21.5236 25.6258 21.0518 25.5319 20.6116 25.3496C20.1715 25.1673 19.7715 24.9002 19.4347 24.5633C19.0978 24.2265 18.8305 23.8266 18.6482 23.3865C18.4659 22.9464 18.3721 22.4747 18.3721 21.9983V21.7565Z\" stroke=\"%2399CC99\" stroke-width=\"1.5\"/><path d=\"M23.8139 20.7891V18.3708M20.186 20.7891V18.3708\" stroke=\"%2399CC99\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>");
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--wpcc-bg-shadow);
+  font-family: var(--wpcc-font-family) sans-serif;
+  font-size: var(--wpcc-font-size);
+  color: var(--wpcc-text-color);
+  background: var(--wpcc-primary-color);
+  background: var(--wpcc-primary-gradient);
+  border-radius: var(--wpcc-button-sizing);
+  height: calc(var(--wpcc-button-sizing) * 2);
+  padding: 0 var(--wpcc-button-sizing) 0 0;
+}
+.wp-block-cardano-connect-connector .connector-icon {
+  background-image: var(--wpcc-button-icon);
+  background-size: calc(var(--wpcc-button-sizing) * 2);
+  width: calc(var(--wpcc-button-sizing) * 2);
+  height: calc(var(--wpcc-button-sizing) * 2);
+}
+.wp-block-cardano-connect-connector .connector-button-content {
+  text-align: left;
+}
+.wp-block-cardano-connect-connector .connector-button-text {
+  display: block;
+}
+
+/*# sourceMappingURL=index.css.map*/

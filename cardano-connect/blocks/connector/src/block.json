@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "cardano-connect/connector",
+	"version": "0.1.0",
+	"title": "Cardano Connector",
+	"category": "widgets",
+	"description": "Cardano wallet connect button, provides wallet login and logout for WordPress users",
+	"keywords": [ "Cardano", "wallet", "connect", "button" ],
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "cardano-connect",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "cardano-connect/assets",
+	"version": "0.1.0",
+	"title": "Cardano Asset List",
+	"category": "widgets",
+	"description": "Cardano wallet asset listing, provides view for assets of a users connected wallet. Optionally filterable by an assets policy ID.",
+	"keywords": [ "Cardano", "wallet", "connect", "assets" ],
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "cardano-connect",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"attributes": {
+		"whitelist": {
+			"type": "string"
+		},
+		"perpage": {
+			"type": "number"
+		}
+	}
+}

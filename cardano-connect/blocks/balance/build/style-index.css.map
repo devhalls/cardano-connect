@@ -1,0 +1,1 @@
+{"version":3,"file":"./style-index.css","mappings":";;;AAAA,2D","sources":["webpack://cardano-connect-blocks/./balance/src/style.scss"],"sourcesContent":["/** Theme block styling is handled via React components **/\n.wp-block-cardano-connect-balance {}\n"],"names":[],"sourceRoot":""}

@@ -1,0 +1,30 @@
+{
+	"name": "cardano-connect-blocks",
+	"version": "0.1.0",
+	"description": "Cardano connect blocks",
+	"author": "PendulumDev",
+	"license": "GPL-2.0-or-later",
+	"homepage": "https://pendulumdev.co.uk",
+	"main": "build/index.js",
+	"scripts": {
+		"start-connector": "wp-scripts start --webpack-copy-php --webpack-src-dir=connector/src/ --output-path=connector/build/",
+		"start-assets": "wp-scripts start --webpack-copy-php --webpack-src-dir=assets/src/ --output-path=assets/build/",
+		"start-balance": "wp-scripts start --webpack-copy-php --webpack-src-dir=balance/src/ --output-path=balance/build/",
+		"build-connector": "wp-scripts build --webpack-copy-php --webpack-src-dir=connector/src/ --output-path=connector/build/",
+		"build-assets": "wp-scripts build --webpack-copy-php --webpack-src-dir=assets/src/ --output-path=assets/build/",
+		"build-balance": "wp-scripts build --webpack-copy-php --webpack-src-dir=balance/src/ --output-path=balance/build/",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"update": "wp-scripts packages-update"
+	},
+	"devDependencies": {
+		"@wordpress/block-editor": "^14.0.0",
+		"@wordpress/scripts": "^28.3.0"
+	},
+	"dependencies": {
+		"@wordpress/blocks": "^13.5.0",
+		"@wordpress/components": "^28.5.0",
+		"@wordpress/i18n": "^5.5.0"
+	}
+}

@@ -1,0 +1,6 @@
+{
+	"name": "cardano-connect-plugin",
+	"scripts": {
+		"package": "zip -r cardano-connect.zip cardano-connect -x 'cardano-connect/blocks/node_modules/*' 'cardano-connect/react/node_modules/*'"
+	}
+}
