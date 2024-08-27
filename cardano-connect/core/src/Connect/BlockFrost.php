@@ -10,7 +10,7 @@ class BlockFrost extends Base
 		];
 	}
 
-	public function getAsset(string $asset): array
+	public function getAsset(string $asset): Response
 	{
 		return $this->get('assets/' . $asset);
 	}

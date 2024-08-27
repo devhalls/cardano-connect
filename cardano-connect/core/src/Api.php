@@ -4,6 +4,7 @@ namespace WPCC;
 
 use WPCC\Connect\Auth;
 use WPCC\Connect\BlockFrost;
+use WPCC\Connect\Response;
 
 class Api extends Base
 {
@@ -100,10 +101,9 @@ class Api extends Base
 		$signature_signed = $this->sanitizeText( $signature['signature'] ) ?: '';
 		$message          = $this->sanitizeText( $params['message'] ) ?: '';
 		$validated        = $this->checkSignature( $stake_address, $message, $signature_key, $signature_signed );
-		if ( ! $validated['success'] ) {
-			return $this->returnResponse( false, $validated, __( 'Signature validation failed', 'cardano-connect' ) );
+		if ( ! $validated->success ) {
+			return $this->returnResponse( false, (array) $validated, __( 'Signature validation failed', 'cardano-connect' ) );
 		}
-
 
 		// Format user wallet metadata
 	    $user_meta_data = array_filter([
@@ -218,10 +218,10 @@ class Api extends Base
 		$api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key');
 		$asset_id = $this->sanitizeText($data['id']) ?: null;
 		$data = (new BlockFrost( $endpoint,  $api_key) )->getAsset($asset_id);
-		if ($data['success']) {
+		if ($data->success) {
 			return $this->returnResponse(
 				true,
-				(array) $data['response']
+				(array) $data->response
 			);
 		}
 		return $this->returnResponse(
@@ -247,7 +247,7 @@ class Api extends Base
 	/**
 	 * Call external API to validate the signature was signed by the address.
 	 */
-	private function checkSignature(string $stake_address, string $message, string $signature_key, string $signature_signed): array
+	private function checkSignature(string $stake_address, string $message, string $signature_key, string $signature_signed): Response
 	{
 		$endpoint = $this->getSetting(self::SETTING_PREFIX.'endpoint');
 		return ( new Auth( $endpoint ) )->cardanoVerify($stake_address, $message, $signature_key, $signature_signed);

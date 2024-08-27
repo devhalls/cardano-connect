@@ -37,51 +37,33 @@ abstract class Base
 
 	abstract protected function setHeaders(): array;
 
-	public function get(string $uri): array
+	public function get(string $uri): Response
 	{
 		try {
 			$response = $this->client->get($uri);
 			$result = json_decode(
 				$response->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR
 			);
-			return [
-				'success' => true,
-				'response' => $result,
-			];
+			return new Response(true, $result);
 		} catch ( GuzzleException $e ) {
-			return [
-				'success' => false,
-				'message' => $e->getMessage()
-			];
+			return new Response(false, $e->getMessage());
 		} catch ( Exception $e ) {
-			return [
-				'success' => false,
-				'message' => $e->getMessage()
-			];
+			return new Response(false, $e->getMessage());
 		}
 	}
 
-	public function post(string $uri, $data = []): array
+	public function post(string $uri, $data = []): Response
 	{
 		try {
 			$response = $this->client->post($uri, [RequestOptions::JSON => $data]);
 			$result = json_decode(
 				$response->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR
 			);
-			return [
-				'success' => true,
-				'response' => $result,
-			];
+			return new Response(true, $result);
 		} catch ( GuzzleException $e ) {
-			return [
-				'success' => false,
-				'message' => $e->getMessage()
-			];
+			return new Response(false, $e->getMessage());
 		} catch ( Exception $e ) {
-			return [
-				'success' => false,
-				'message' => $e->getMessage()
-			];
+			return new Response(false, $e->getMessage());
 		}
 	}
 }

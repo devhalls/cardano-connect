@@ -8,7 +8,7 @@ class Auth extends Base
 		return [];
 	}
 
-	public function cardanoVerify(string $stake_address, string $message, string $signature_key, string $signature_signed): array
+	public function cardanoVerify(string $stake_address, string $message, string $signature_key, string $signature_signed): Response
 	{
 		return $this->post('verify', [
 			'address' => $stake_address,

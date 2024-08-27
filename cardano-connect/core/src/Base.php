@@ -374,7 +374,7 @@ abstract class Base
                                 'note' => __('Text shown when successfully connected for the first time', 'cardano-connect')
                             ],
                             self::SETTING_PREFIX.'label_welcome_back' => [
-                                'default' => __('Welcome back to the website', 'cardano-connect'),
+                                'default' => __('Welcome back!', 'cardano-connect'),
                                 'label' => __('Connected welcome back', 'cardano-connect'),
                                 'type' => 'text',
                                 'rules' => [

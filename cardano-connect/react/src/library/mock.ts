@@ -15,7 +15,7 @@ export const mockOption: AjaxResponse<Options> = {
         label_error: 'Unable to sign authentication',
         label_invalid_account: 'Invalid account, please switch to the wallet you originally connected with.',
         label_switch_to_testnet: 'Mainnet connection is currently disabled, please switch to testnet to connect.',
-        label_welcome_back: 'Welcome back to the website',
+        label_welcome_back: 'Welcome back',
         label_welcome_new: 'Thanks for connecting',
         label_paginate_prev: 'Prev',
         label_paginate_next: 'Next',
