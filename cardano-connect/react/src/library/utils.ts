@@ -4,6 +4,22 @@ export const trimAddress = (string: string, padded: number = 6) => {
         : ''
 }
 
+export const trimText = (string: string | string[], maxLength: number, ellipsis?: boolean): string => {
+    let trimmed: string
+    if (!string) {
+        return
+    }
+    if (typeof string === 'string') {
+        trimmed = string.substring(0, maxLength)
+    } else {
+        trimmed = string.join(' ').substring(0, maxLength)
+    }
+    return (
+        trimmed.trim() +
+        (ellipsis && trimmed?.length >= maxLength ? '...' : '')
+    )
+}
+
 export const translateError = (error: string): string => {
     let formattedError: string = error
     const replacements: {match: string; replace: string}[] = [
@@ -23,6 +39,15 @@ export const translateError = (error: string): string => {
     return formattedError
 }
 
+export const formatBalance = (quantity: string) => {
+    const formatted = parseInt((parseInt(quantity, 10) / 1_00).toString(), 10)
+    return formatted.toString().slice(0, -4) + '.' + formatted.toString().slice(-4)
+}
+
+export const ucFirst = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export const convertToApiAsset = (asset: Asset): ApiAsset => {
     return {
         asset: asset.unit,
@@ -32,14 +57,63 @@ export const convertToApiAsset = (asset: Asset): ApiAsset => {
         metadata: null,
         mint_or_burn_count: 0,
         onchain_metadata: {
-            image: null,
             name: asset.assetName,
-            type: '',
-            attributes: null
+            description: null,
+            image: null,
+            mediaType: null,
+            files: null
         },
         onchain_metadata_extra: null,
         onchain_metadata_standard: null,
         policy_id: asset.policyId,
-        quantity: asset.quantity
+        quantity: asset.quantity,
+        walletAsset: asset
     }
+}
+
+export const classMap = {
+    // General use classes.
+    loader: 'wpcc-loader wpcc-card',
+    error: 'wpcc-error',
+    row: 'wpcc-row',
+    col: 'wpcc-col',
+    notFound: 'wpcc-not-found',
+    pagination: 'wpcc-pagination wpcc-card',
+    copy: 'wpcc-copy',
+    // Connector component classes.
+    container: 'connector-container',
+    connected: 'connector-content connector-connected',
+    disconnected: 'connector-content connector-disconnected',
+    list: 'connector-wallet-list',
+    listButton: 'connector-list-button',
+    listEmpty: 'connector-no-wallets',
+    button: 'connector-button',
+    buttonIcon: 'connector-icon',
+    buttonContent: 'connector-button-content',
+    buttonText: 'connector-button-text',
+    buttonAddress: 'connector-button-address',
+    errorContainer: 'connector-error',
+    // Balance classes.
+    balanceContainer: 'wpcc-balance wpcc-card',
+    balanceRow: 'wpcc-balance-row',
+    balanceCol: 'wpcc-balance-col',
+    balanceTotalRow: 'wpcc-balance-total-row wpcc-balance-row',
+    // Asset list classes.
+    assetsContainer: 'wpcc-assets-container',
+    assetTitle: 'wpcc-assets-title',
+    assetTitleText: 'wpcc-assets-title-text',
+    assetItem: 'wpcc-assets-item wpcc-card wpcc-row',
+    assetItemCol: 'wpcc-assets-item-col',
+    assetItemImage: 'wpcc-assets-item-image',
+    assetItemTitle: 'wpcc-assets-item-title',
+    assetItemDescription: 'wpcc-assets-item-description',
+    assetItemQuantity: 'wpcc-assets-item-quantity',
+    // Message component classes.
+    messages: 'wpcc-messages',
+    message: 'wpcc-message wpcc-card',
+    messageRemove: 'wpcc-message-remove',
+    messageError: 'wpcc-message-error',
+    messageSuccess: 'wpcc-message-success',
+    messageWarning: 'wpcc-message-warning',
+    messageNotice: 'wpcc-message-notice',
 }

@@ -28,6 +28,12 @@ We assume you have already installed wp-env using your preferred method or using
 * [wp-env](https://developer.wordpress.org/block-editor/getting-started/devenv/) v10.2.0
 * [wp-scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) v27.9.0
 
+You can zip the plugin from the root directory using creating cardano-connect.zip
+
+```
+npm run package
+```
+
 ### Start the dev server
 
 We use wp-env for the WordPress environment when working locally.  

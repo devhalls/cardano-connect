@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, state } from './library/state'
 import './app.css';
+import {Message} from "./components/Message";
 
 const connectorElements = document.getElementsByClassName('wp-block-cardano-connect-connector')
 for (let i = 0; i < connectorElements.length; i++) {
@@ -63,6 +64,22 @@ for (let i = 0; i < balanceElements.length; i++) {
         </React.StrictMode>
     );
 }
+
+const messageElement = document.createElement('div')
+messageElement.id = 'wp-block-cardano-connect-message'
+document.body.appendChild(messageElement)
+const message = ReactDOM.createRoot(messageElement);
+message.render(
+    <React.StrictMode>
+        <MeshProvider>
+            <Provider store={state}>
+                <PersistGate persistor={persistor}>
+                    <Message />
+                </PersistGate>
+            </Provider>
+        </MeshProvider>
+    </React.StrictMode>
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {useLovelace, useWallet, useWalletList} from "@meshsdk/react";
+import {useWallet, useWalletList} from "@meshsdk/react";
 import {backendDisconnect, backendGetUser, backendConnect, backendGetOptions} from "../library";
 import {Wallet} from "@meshsdk/core";
-import {translateError, trimAddress} from "../library/utils";
+import {classMap, translateError, trimAddress} from "../library/utils";
 import {useAppDispatch, useAppSelector} from "../library/state";
 import {
     getUserNetwork,
@@ -13,63 +13,48 @@ import {
     setUserState
 } from "../library/user";
 import {getOptionState, setOptionState} from "../library/option";
+import {resetMessageState, setMessage} from "../library/message";
+import {Loader} from "./Loader";
 
-export const Connector = ({
-    loader = 'Loading...',
-    classMap = {
-        container: 'connector-container',
-        connected: 'connector-content connector-connected',
-        disconnected: 'connector-content connector-disconnected',
-        list: 'connector-wallet-list',
-        listButton: 'connector-list-button',
-        listEmpty: 'connector-no-wallets',
-        button: 'connector-button',
-        buttonIcon: 'connector-icon',
-        buttonContent: 'connector-button-content',
-        buttonText: 'connector-button-text',
-        buttonAddress: 'connector-button-address',
-        errorContainer: 'connector-error'
-    }
-}: ComponentConnector) => {
+export const Connector = ({}: ComponentConnector) => {
+
+    // APP state
+
     const dispatch = useAppDispatch()
     const user: UserState = useAppSelector(getUserState)
     const options: OptionState = useAppSelector(getOptionState)
     const currentNetwork = useAppSelector(getUserNetwork)
-    const wallets = useWalletList()
-    const balance = useLovelace();
-    const { connect, disconnect, wallet, name, error, connected  } = useWallet()
 
     // Connector state
 
+    const wallets = useWalletList()
+    const { connect, disconnect, wallet, name, error, connected  } = useWallet()
     const [hideWalletList, setHideWalletList] = useState<boolean>(true)
-    const [errorText, setErrorText] = useState<string|null>(null)
     const [mounted, setMounted] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
     const [authenticated, setAuthenticated] = useState<boolean>(false)
 
     // Helpers
 
-    function onError(message: string) {
-        setErrorText(translateError(message))
+    const onError = (message: string) => {
+        dispatch(setMessage({
+            message: translateError(message),
+            type: 'error'
+        }))
         setAuthenticated(false)
         dispatch(resetUserState())
         setLoading(false)
         disconnect()
-        return message
     }
 
     // Click handlers
 
-    function onClickButton() {
-        setErrorText(null)
+    const onClickButton = () => {
+        dispatch(resetMessageState())
         setHideWalletList(!hideWalletList)
     }
 
-    function onClickError() {
-        setErrorText(null)
-    }
-
-    async function onClickConnect(wallet: Wallet): Promise<void> {
+    const onClickConnect = async (wallet: Wallet): Promise<void> => {
         setLoading(true)
         try {
             await connect(wallet.name)
@@ -79,20 +64,24 @@ export const Connector = ({
         }
     }
 
-    async function onClickDisconnect(): Promise<void> {
+    const onClickDisconnect = async (): Promise<void> => {
         if (confirm(options?.label_disconnect)) {
             setLoading(true)
-            const disconnectRes = await backendDisconnect(user.nonce)
-            if (!disconnectRes.success) {
-                onError(disconnectRes.message)
-            } else {
-                dispatch(resetUserState())
-                // Now we have cleared WP cookies reload the page
-                if (options.logout_redirect) {
-                    global.window.location.replace(options.logout_redirect)
+            try {
+                const disconnectRes = await backendDisconnect(user.nonce)
+                if (!disconnectRes.success) {
+                    onError(disconnectRes.message)
                 } else {
-                    global.window.location.reload()
+                    dispatch(resetUserState())
+                    // Now we have cleared WP cookies reload the page
+                    if (options.logout_redirect) {
+                        global.window.location.replace(options.logout_redirect)
+                    } else {
+                        global.window.location.reload()
+                    }
                 }
+            } catch (e: any) {
+                onError(e.message)
             }
         }
     }
@@ -153,6 +142,10 @@ export const Connector = ({
             if (!connectRes.success) {
                 onError(connectRes.message)
             } else {
+                dispatch(setMessage({
+                    message: connectRes.message,
+                    type: 'success'
+                }))
                 if (options.login_redirect) {
                     global.window.location.replace(options.login_redirect)
                 } else {
@@ -270,8 +263,10 @@ export const Connector = ({
                 }
             })
             if (!errorSent) {
-                onError('message')
-                setErrorText(translateError((error as any).toString()))
+                dispatch(setMessage({
+                    type: 'error',
+                    message: translateError((error as any).toString()),
+                }))
             }
             setLoading(false)
         }
@@ -284,9 +279,7 @@ export const Connector = ({
                     <span className={classMap.buttonIcon}></span>
                     {loading ? (
                         <span className={classMap.buttonContent}>
-                            <span className={classMap.buttonText}>
-                                {loader}
-                            </span>
+                            <Loader className={null} />
                         </span>
                     ) : (
                         <span className={classMap.buttonContent}>
@@ -318,7 +311,6 @@ export const Connector = ({
                         )}
                     </div>
                 )}
-                {errorText && <div className={classMap.errorContainer} onClick={onClickError}>{errorText}</div>}
             </div>
         </div>
     )

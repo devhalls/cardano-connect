@@ -31,7 +31,14 @@ abstract class Base
 		self::SETTING_PREFIX . 'label_invalid_account',
 		self::SETTING_PREFIX . 'label_create_mainnet_prompt',
 		self::SETTING_PREFIX . 'label_create_testnet_prompt',
+		self::SETTING_PREFIX . 'label_paginate_next',
+		self::SETTING_PREFIX . 'label_paginate_prev',
+		self::SETTING_PREFIX . 'label_paginate_items',
+		self::SETTING_PREFIX . 'label_assets_policy_label',
+		self::SETTING_PREFIX . 'label_assets_quantity_label',
 		self::SETTING_PREFIX . 'label_no_assets',
+		self::SETTING_PREFIX . 'label_text_copied',
+		self::SETTING_PREFIX . 'label_text_copied_failed',
 		self::SETTING_PREFIX . 'assets_whitelist',
 		self::SETTING_PREFIX . 'assets_api_endpoint',
 		self::SETTING_PREFIX . 'assets_api_key',
@@ -144,6 +151,13 @@ abstract class Base
 	        'label_create_mainnet_prompt' => null,
 			'label_create_testnet_prompt' => null,
 	        'label_no_assets' => null,
+	        'label_text_copied' => null,
+			'label_text_copied_failed' => null,
+	        'label_paginate_prev' => null,
+			'label_paginate_next' => null,
+			'label_paginate_items' => null,
+			'label_assets_policy_label' => null,
+			'label_assets_quantity_label' => null,
             'assets_whitelist' => null,
             'assets_ipfs_endpoint' => null,
             'assets_placeholder' => null,
@@ -404,7 +418,52 @@ abstract class Base
 	                            ],
 	                            'note' => __('Text shown when user is logged in but connected to a network they have not connected to before', 'cardano-connect')
                             ],
-	                        self::SETTING_PREFIX.'label_no_assets' => [
+                            self::SETTING_PREFIX.'label_paginate_prev' => [
+	                            'default' => __('Prev', 'cardano-connect'),
+	                            'label' => __('Previous button', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Text shown on the pagination previous button', 'cardano-connect')
+                            ],
+                            self::SETTING_PREFIX.'label_paginate_next' => [
+	                            'default' => __('Next', 'cardano-connect'),
+	                            'label' => __('Next button', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Text shown on the pagination next button', 'cardano-connect')
+                            ],
+                            self::SETTING_PREFIX.'label_paginate_items' => [
+	                            'default' => __('Items', 'cardano-connect'),
+	                            'label' => __('Total text', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Text shown next to the pagination total results number', 'cardano-connect')
+                            ],
+                            self::SETTING_PREFIX.'label_assets_policy_label' => [
+	                            'default' => __('Token Collection', 'cardano-connect'),
+	                            'label' => __('Policy label text', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Policy label shown next to the policy ID', 'cardano-connect')
+                            ],
+                            self::SETTING_PREFIX.'label_assets_quantity_label' => [
+	                            'default' => __('Qty', 'cardano-connect'),
+	                            'label' => __('Quantity label text', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Quantity label shown next to the assets quantity', 'cardano-connect')
+                            ],
+                            self::SETTING_PREFIX.'label_no_assets' => [
 		                        'default' => __('No assets found in your wallet', 'cardano-connect'),
 		                        'label' => __('No assets found prompt', 'cardano-connect'),
 		                        'type' => 'text',
@@ -413,6 +472,24 @@ abstract class Base
 		                        ],
 		                        'note' => __('Text shown if no assets are found in their wallet', 'cardano-connect')
 	                        ],
+                            self::SETTING_PREFIX.'label_text_copied' => [
+	                            'default' => __('Copied', 'cardano-connect'),
+	                            'label' => __('Copied text prompt', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Text shown when user copies text (click to copy)', 'cardano-connect')
+                            ],
+                            self::SETTING_PREFIX.'label_text_copied_failed' => [
+	                            'default' => __('Copied failed', 'cardano-connect'),
+	                            'label' => __('Copied failed text prompt', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Text shown when user copies text but the action fails (click to copy)', 'cardano-connect')
+                            ],
                         ]
                     ]
                 ]

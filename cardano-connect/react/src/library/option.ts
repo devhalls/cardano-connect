@@ -25,8 +25,14 @@ const initialState: OptionState = {
   label_welcome_back: null,
   label_welcome_new: null,
   label_no_assets: null,
+  label_text_copied: null,
+  label_text_copied_failed: null,
+  label_paginate_prev: null,
+  label_paginate_next: null,
+  label_paginate_items: null,
+  label_assets_policy_label: null,
+  label_assets_quantity_label: null,
   assets_whitelist: null,
-  error: null
 }
 
 // Define the slice
@@ -34,9 +40,6 @@ const optionSlice = createSlice({
   name: 'option',
   initialState,
   reducers: {
-    setOptionError(state, action: PayloadAction<string | null>) {
-      state.error = action.payload
-    },
     setOptionState(state, action: PayloadAction<OptionState>) {
       return {...state, ...action.payload}
     },
@@ -47,15 +50,12 @@ const optionSlice = createSlice({
 })
 
 // Define getters
-export const getOptionError = (state: RootState): string | null => {
-  return state.option.error
-}
 export const getOptionState = (state: RootState): OptionState => {
   return state.option
 }
 
 // Define mutators
-export const { setOptionError, setOptionState, resetOptionState } = optionSlice.actions
+export const { setOptionState, resetOptionState } = optionSlice.actions
 
 // Export the slice
 export default optionSlice.reducer

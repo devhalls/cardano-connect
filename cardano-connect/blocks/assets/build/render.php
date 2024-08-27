@@ -10,6 +10,6 @@
 <div
     <?php echo wp_kses_data(get_block_wrapper_attributes()) ?>
     data-whitelist="<?php echo esc_attr( $attributes['whitelist'] ); ?>"
-    data-perpage="<?php echo esc_attr( $attributes['perpage'] ); ?>"
+    data-perpage="<?php echo esc_attr( $attributes['perpage'] ?? 10 ); ?>"
 >
 </div>

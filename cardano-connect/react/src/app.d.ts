@@ -7,24 +7,38 @@ declare type Asset = {
     fingerprint: string
     quantity: string
 }
+declare type AssetFile = {
+    mediaType: string
+    name: string
+    src: string
+}
 // Asset as from WP API
 declare type ApiAsset = {
     asset: string
-    policy_id: string
     asset_name: string
     fingerprint: string
     quantity: string
     initial_mint_tx_hash: string
     mint_or_burn_count: number
-    onchain_metadata: {
+    onchain_metadata: { [key in string]: string } & {
         name: string
-        type: string
+        description: string
         image: string
-        attributes: string[]
+        mediaType: string
+        files: AssetFile[]
     },
     onchain_metadata_standard: string
     onchain_metadata_extra: null
-    metadata: null
+    policy_id: string
+    metadata: {
+        decimals: number
+        description: string
+        logo: string
+        name: string
+        ticker: string
+        url: string
+    },
+    walletAsset: Asset
 }
 declare type Balance = {
     unit: string
@@ -85,9 +99,8 @@ declare type UserState = {
     balances?: Balance[]
     collateral?: UxTO[]
     nonce: string | null
-    error?: string | null
 }
-declare type OptionState = Options & { error?: string | null }
+declare type OptionState = Options
 declare type Options = {
     version: string
     plugin_name: string
@@ -106,12 +119,28 @@ declare type Options = {
     label_create_testnet_prompt: string
     label_welcome_back: string
     label_welcome_new: string
+    label_paginate_prev: string
+    label_paginate_next: string
+    label_paginate_items: string
+    label_assets_policy_label: string
+    label_assets_quantity_label: string
     label_no_assets: string
+    label_text_copied: string
+    label_text_copied_failed: string
     assets_whitelist: string
     assets_api_endpoint: string
     assets_api_key: string
     assets_ipfs_endpoint: string
     assets_placeholder: string
+}
+declare type Message = {
+    type: 'error' | 'success' | 'notice'
+    id: number
+    message: string
+    timestamp: number
+}
+declare type MessageState = {
+    messages: Message[]
 }
 declare interface AjaxResponse<T>  {
     data: T
@@ -119,63 +148,21 @@ declare interface AjaxResponse<T>  {
     success: boolean
     message: string
 }
-declare interface ComponentConnector {
-    loader?: string
-    classMap?: {
-        container: string
-        connected: string
-        disconnected: string
-        list: string
-        listButton: string
-        listEmpty: string
-        button: string
-        buttonIcon: string
-        buttonContent: string
-        buttonText: string
-        buttonAddress: string
-        errorContainer: string
-    }
-}
+declare interface ComponentConnector {}
 declare interface ComponentAssets {
     perPage?: number
     whitelistString?: string
-    loader?: string
-    classMap?: {
-        container: string
-        errorContainer: string
-        loader: string
-        assetContainer: string
-        assetPagination: string
-        assetNotFound: string
-    }
 }
-
 declare interface ComponentAsset {
     asset: ApiAsset
-    index: number
-    filteredApiAssets: ApiAsset[]
-    classMap?: {
-        assetTitle: string
-        assetItem: string
-        assetItemCol: string
-        assetItemBlock: string
-        assetItemImage: string
-        assetItemText: string
-        assetItemQuantity: string
-        assetItemTitle: string
-    }
+    showTitle?: boolean
 }
-
-
-declare interface ComponentBalance {
-    loader?: string
-    classMap?: {
-        container: string
-        errorContainer: string
-        loader: string
-        row: string
-        col: string
-        total: string
-        cost: string
-    }
+declare interface ComponentBalance {}
+declare interface ComponentCopy {
+    text: string
+    copyText?: string
+    title?: string
+}
+declare interface ComponentLoader {
+    className?: string
 }

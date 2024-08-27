@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import userSlice from './user'
 import optionSlice from './option'
+import messageSlide from './message'
 import storage from 'redux-persist/lib/storage'
 import persistReducer from 'redux-persist/es/persistReducer'
 import persistStore from 'redux-persist/es/persistStore'
@@ -10,14 +11,15 @@ import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist
 
 const rootReducer = combineReducers({
     user: userSlice,
-    option: optionSlice
+    option: optionSlice,
+    message: messageSlide
 })
 
 const persistedReducer = persistReducer(
     {
         key: 'store',
         storage,
-        whitelist: ['user', 'option'],
+        whitelist: ['user', 'option', 'message'],
         stateReconciler: autoMergeLevel2
     },
     rootReducer

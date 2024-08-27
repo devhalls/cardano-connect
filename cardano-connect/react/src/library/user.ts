@@ -10,7 +10,6 @@ const initialState: UserState = {
   assets: null,
   balances: null,
   collateral: null,
-  error: null,
   nonce: null,
 }
 
@@ -19,9 +18,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserError(state, action: PayloadAction<string | null>) {
-      state.error = action.payload
-    },
     setUserNetwork(state, action: PayloadAction<string | null>) {
       state.network = action.payload
     },
@@ -44,9 +40,6 @@ const userSlice = createSlice({
 })
 
 // Define getters
-export const getUserError = (state: RootState): string | null => {
-  return state.user.error
-}
 export const getUserNetwork = (state: RootState): string | null => {
   return state.user.network
 }
@@ -65,7 +58,6 @@ export const getUserState = (state: RootState): UserState => {
 
 // Define mutators
 export const {
-  setUserError,
   setUserNetwork,
   setUserAssets,
   setUserBalances,

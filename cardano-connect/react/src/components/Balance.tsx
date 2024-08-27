@@ -2,45 +2,27 @@ import React, {useEffect, useState} from "react";
 import {useAppSelector} from "../library/state";
 import {getUserBalances, getUserCollateral, getUserNetwork, getUserState} from "../library/user";
 import {useWalletList} from "@meshsdk/react";
-import {trimAddress} from "../library/utils";
+import {classMap, formatBalance, trimAddress, ucFirst} from "../library/utils";
+import {Copy} from "./Copy";
+import {Loader} from "./Loader";
 
-export const Balance = ({
-    loader = 'Loading...',
-    classMap = {
-        container: 'balance-container',
-        errorContainer: 'balance-error',
-        loader: 'wpcc-loader',
-        row: 'balance-row',
-        col: 'balance-col',
-        total: 'balance-total',
-        cost: 'balance-cost',
-    }
-}: ComponentBalance) => {
+export const Balance = ({}: ComponentBalance) => {
+
+    // APP State
+
     const user: UserState = useAppSelector(getUserState)
-    const network = useAppSelector(getUserNetwork)
+    const network: string = useAppSelector(getUserNetwork)
     const balances: Balance[] = useAppSelector(getUserBalances)
     const collateral: UxTO[] = useAppSelector(getUserCollateral)
+
+    // Local state
+
     const wallet = useWalletList().find((wallet) => wallet.name === user.web3?.cardano_connect_wallet);
-
-    // Connector state
-
-    const [errorText, setErrorText] = useState<string|null>(null)
     const [loading, setLoading] = useState<boolean>(true)
     const [filteredBalance, setFilteredBalance] = useState<Balance[]|null>(null)
     const allowedUnits = ['lovelace']
-
-    // Helpers
-
-    const formatBalance = (quantity: string) => {
-        const formatted = parseInt((parseInt(quantity, 10) / 1_00).toString(), 10)
-        return formatted.toString().slice(0, -4) + '.' + formatted.toString().slice(-4)
-    }
-
-    // Click handlers
-
-    function onClickError() {
-        setErrorText(null)
-    }
+    const address: string = network === 'testnet' ? user.web3?.cardano_connect_address_testnet : user.web3?.cardano_connect_address
+    const stakeAddress: string = network === 'testnet' ? user.web3?.cardano_connect_stake_address_testnet : user.web3?.cardano_connect_stake_address
 
     // Load data
 
@@ -52,42 +34,38 @@ export const Balance = ({
     }, [balances]);
 
     return user.connected ? (
-        <div className={classMap.container}>
+        <div className={classMap.balanceContainer}>
             {loading ? (
-                <span className={classMap.loader}>
-                    {loader}
-                </span>
+                <Loader />
             ) : (
-                <div>
-                    <div className={classMap.row}>
-                        <div className={classMap.col}>User ID:</div>
-                        <div className={classMap.col}>{user.user.ID}</div>
+                <>
+                    <div className={classMap.balanceRow}>
+                        <div className={classMap.balanceCol}>Address:</div>
+                        <div className={classMap.balanceCol}>
+                            <Copy text={trimAddress(address)} copyText={address} />
+                        </div>
                     </div>
-                    <div className={classMap.row}>
-                        <div className={classMap.col}>Address:</div>
-                        <div
-                            className={classMap.col}>{trimAddress(network === 'testnet' ? user.web3.cardano_connect_address_testnet : user.web3.cardano_connect_address)}</div>
+                    <div className={classMap.balanceRow}>
+                        <div className={classMap.balanceCol}>Stake Address:</div>
+                        <div className={classMap.balanceCol}>
+                            <Copy text={trimAddress(stakeAddress)} copyText={stakeAddress} />
+                        </div>
                     </div>
-                    <div className={classMap.row}>
-                        <div className={classMap.col}>Stake Address:</div>
-                        <div
-                            className={classMap.col}>{trimAddress(network === 'testnet' ? user.web3.cardano_connect_stake_address_testnet : user.web3.cardano_connect_stake_address)}</div>
+                    <div className={classMap.balanceRow}>
+                        <div className={classMap.balanceCol}>Network:</div>
+                        <div className={classMap.balanceCol}>{network}</div>
                     </div>
-                    <div className={classMap.row}>
-                        <div className={classMap.col}>Network:</div>
-                        <div className={classMap.col}>{network}</div>
-                    </div>
-                    <div className={classMap.row}>
-                        <div className={classMap.col}>Wallet:</div>
-                        <div className={classMap.col}>
-                            <img width={26} height={26} src={wallet.icon} alt={wallet.name}/>
-                            {user.web3.cardano_connect_wallet}
+                    <div className={classMap.balanceRow}>
+                        <div className={classMap.balanceCol}>Wallet:</div>
+                        <div className={classMap.row}>
+                            <img width={18} height={18} src={wallet.icon} alt={wallet.name}/>
+                            {ucFirst(user.web3.cardano_connect_wallet)}
                         </div>
                     </div>
                     {collateral?.length ? (
-                        <div className={classMap.row}>
-                            <div className={classMap.col}>Wallet collateral:</div>
-                            <div className={classMap.cost}>
+                        <div className={classMap.balanceRow}>
+                            <div className={classMap.balanceCol}>Wallet collateral:</div>
+                            <div className={classMap.balanceCol}>
                                 {collateral?.map((col: UxTO) => {
                                     return col.output?.amount?.map((out) => (
                                         <div key={out.unit + out.quantity}>₳ {formatBalance(out.quantity)}</div>
@@ -96,14 +74,13 @@ export const Balance = ({
                             </div>
                         </div>
                     ) : null}
-                    <div className={classMap.row}>
-                        <div className={classMap.col}>Wallet Balance:</div>
+                    <div className={classMap.balanceTotalRow}>
+                        <div className={classMap.balanceCol}>Balance:</div>
                         {filteredBalance?.map((balance: Balance) => (
-                            <div key={balance.unit + balance.quantity} className={classMap.total}>₳ {formatBalance(balance.quantity)}</div>
+                            <div key={balance.unit + balance.quantity} className={classMap.balanceCol}>₳ {formatBalance(balance.quantity)}</div>
                         ))}
                     </div>
-                    {errorText && <div className={classMap.errorContainer} onClick={onClickError}>{errorText}</div>}
-                </div>
+                </>
             )}
         </div>
     ) : null
