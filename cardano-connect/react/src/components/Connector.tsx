@@ -8,7 +8,9 @@ import {
     getUserNetwork,
     getUserState,
     resetUserState,
-    setUserAssets, setUserBalances, setUserCollateral,
+    setUserAssets,
+    setUserBalances,
+    setUserCollateral,
     setUserNetwork,
     setUserState
 } from "../library/user";

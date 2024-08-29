@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {useAppSelector} from "../library/state";
-import {getUserAssets, getUserState} from "../library/user";
+import {useAppDispatch, useAppSelector} from "../library/state";
+import {getUserApiAssets, getUserAssets, getUserState, setUserApiAssets} from "../library/user";
 import {getOptionState} from "../library/option";
 import {Asset as AssetComponent} from "./Asset";
 import {classMap, convertToApiAsset} from "../library/utils";
@@ -8,14 +8,17 @@ import {Loader} from "./Loader";
 import {backendGetAsset} from "../library";
 
 export const Assets = ({
-    perPage = 10, // if set to 0 pagination will be disabled
+    perPage = 1, // if set to 0 pagination will be disabled
+    hideTitles = null,
     whitelistString = null,
 }: ComponentAssets) => {
 
     // APP State
 
+    const dispatch = useAppDispatch()
     const user: UserState = useAppSelector(getUserState)
     const assets: Asset[] = useAppSelector(getUserAssets)
+    const apiAssets: ApiAsset[] = useAppSelector(getUserApiAssets)
     const options: OptionState = useAppSelector(getOptionState)
 
     // Connector state
@@ -26,7 +29,6 @@ export const Assets = ({
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [itemsPerPage, setItemsPerPage] = useState<number>(perPage > 0 ? perPage : 10000)
     const [total, setTotal] = useState<number | null>(null)
-    const [apiAssets, setApiAssets] = useState<ApiAsset[] | null>([])
 
     // Helpers
 
@@ -61,7 +63,7 @@ export const Assets = ({
         const pageApiAssets: ApiAsset[] = []
         for (let i = 0; i < filteredAssets.length; i++) {
             if (i >= ((page - 1) * limit) && i < (page * limit)) {
-                let formatted = apiAssets.find(asset => asset.walletAsset.unit === filteredAssets[i].unit)
+                let formatted = apiAssets?.find(asset => asset.walletAsset.unit === filteredAssets[i].unit)
                 if (!formatted) {
                     try {
                         const assetRes = await backendGetAsset({
@@ -79,9 +81,7 @@ export const Assets = ({
                 pageApiAssets.push(formatted)
             }
         }
-        setApiAssets((val) => {
-            return [...val, ...pageApiAssets]
-        })
+        dispatch(setUserApiAssets(pageApiAssets))
         setPagedAssets(pageApiAssets)
         setCurrentPage(page)
         setLoading(false)
@@ -90,10 +90,10 @@ export const Assets = ({
     // Set data on load
 
     useEffect(() => {
-        if (assets && assets.length) {
+        if (user.connected && assets && assets.length) {
             filterAssets()
         }
-    }, [assets, filterAssets]);
+    }, [user.connected, assets, filterAssets]);
 
     return user.connected ? (
         <div className={classMap.assetsContainer}>
@@ -119,7 +119,7 @@ export const Assets = ({
                         <AssetComponent
                             key={i + a.fingerprint}
                             asset={a}
-                            showTitle={(!pagedAssets[i - 1] || a.policy_id !== pagedAssets[i - 1].policy_id)}
+                            showTitle={!hideTitles && (!pagedAssets[i - 1] || a.policy_id !== pagedAssets[i - 1].policy_id)}
                         />
                     )) : (
                         <div className={classMap.notFound}>

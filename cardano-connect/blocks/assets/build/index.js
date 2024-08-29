@@ -82,6 +82,18 @@ function Edit({
           onChange: nextValue => setAttributes({
             perpage: parseInt(nextValue)
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          style: {
+            marginTop: 20
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.CheckboxControl, {
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hide titles?'),
+            onChange: nextValue => setAttributes({
+              hide_titles: !!nextValue
+            }),
+            checked: !!attributes.hide_titles,
+            value: 'hide_titles'
+          })
         })]
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
         children: [attributes.whitelist ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -142,6 +154,10 @@ __webpack_require__.r(__webpack_exports__);
     perpage: {
       type: 'number',
       default: 10
+    },
+    hide_titles: {
+      type: 'boolean',
+      default: false
     }
   },
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],

@@ -3,6 +3,7 @@
 namespace WPCC\Connect;
 
 interface DataInterface {
-	public function getAsset();
-	public function getRewardHistory();
+	public function getAsset(string $asset): Response;
+
+	public function getStakeHistory(string $stake_address): Response;
 }

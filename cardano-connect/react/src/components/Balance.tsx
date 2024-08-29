@@ -27,11 +27,11 @@ export const Balance = ({}: ComponentBalance) => {
     // Load data
 
     useEffect(() => {
-        if (balances) {
+        if (user.connected && balances) {
             setFilteredBalance(balances.filter(b => allowedUnits.includes(b.unit) ? b : false))
         }
         setLoading(!balances?.length)
-    }, [balances]);
+    }, [user.connected, balances]);
 
     return user.connected ? (
         <div className={classMap.balanceContainer}>

@@ -116,6 +116,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--wpcc-base-sizing);
+    margin-bottom: var(--wpcc-base-sizing);
 }
 .wpcc-assets-container .wpcc-loader {
     width: 100%;

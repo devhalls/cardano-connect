@@ -40,6 +40,11 @@ export async function backendGetUser(nonce: string): Promise<AjaxResponse<UserDa
     return nodeEnv === 'development' ? mockUser : await get(`user`);
 }
 
+export async function backendGetRewards(nonce: string): Promise<AjaxResponse<UserData>> {
+    instance.defaults.headers.common['X-WP-Nonce'] = nonce
+    return await get(`rewards`);
+}
+
 export async function backendGetAsset(data: {
     asset: string
     nonce: string

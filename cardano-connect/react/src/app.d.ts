@@ -14,6 +14,7 @@ declare type AssetFile = {
 }
 // Asset as from WP API
 declare type ApiAsset = {
+    cached?: number
     asset: string
     asset_name: string
     fingerprint: string
@@ -95,8 +96,9 @@ declare type UserState = {
     network: string | null
     web3: UserWeb3 | null
     user: User | null
-    assets?: Asset[]
-    balances?: Balance[]
+    assets?: Asset[] | null
+    apiAssets?: ApiAsset[] | null
+    balances?: Balance[] | null
     collateral?: UxTO[]
     nonce: string | null
 }
@@ -151,6 +153,7 @@ declare interface AjaxResponse<T>  {
 declare interface ComponentConnector {}
 declare interface ComponentAssets {
     perPage?: number
+    hideTitles?: boolean
     whitelistString?: string
 }
 declare interface ComponentAsset {

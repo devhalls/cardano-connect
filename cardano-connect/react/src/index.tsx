@@ -33,6 +33,9 @@ for (let i = 0; i < assetsElements.length; i++) {
     const perPage: number = assetsElements[i].getAttribute('data-perpage')
         ? parseInt(assetsElements[i].getAttribute('data-perpage'))
         : undefined
+    const hideTitles: boolean = assetsElements[i].getAttribute('data-hide_titles')
+        ? !!assetsElements[i].getAttribute('data-hide_titles')
+        : undefined
     assets.render(
         <React.StrictMode>
             <MeshProvider>
@@ -40,6 +43,7 @@ for (let i = 0; i < assetsElements.length; i++) {
                     <PersistGate persistor={persistor}>
                         <Assets
                             perPage={perPage}
+                            hideTitles={hideTitles}
                             whitelistString={assetsElements[i].getAttribute('data-whitelist')}
                         />
                     </PersistGate>

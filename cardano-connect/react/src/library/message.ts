@@ -3,33 +3,33 @@ import {RootState} from "./state";
 
 // Define the initial slice state
 const initialState: MessageState = {
-  messages: null
+    messages: null
 }
 
 // Define the slice
 const messageSlice = createSlice({
-  name: 'message',
-  initialState,
-  reducers: {
-    setMessage(state, action: PayloadAction<{  type: Message['type']; message: Message['message'] }>) {
-      state.messages = [...(state.messages || []), ...[{
-        id: new Date().getTime(),
-        timestamp: new Date().getTime(),
-        ...action.payload,
-      }]]
+    name: 'message',
+    initialState,
+    reducers: {
+        setMessage(state, action: PayloadAction<{  type: Message['type']; message: Message['message'] }>) {
+            state.messages = [...(state.messages || []), ...[{
+                id: new Date().getTime(),
+                timestamp: new Date().getTime(),
+                ...action.payload,
+            }]]
+        },
+        removeMessage(state, action: PayloadAction<number>) {
+            return {...state, ...{ messages: [...state.messages.filter(m => m.id !== action.payload) ] }}
+        },
+        resetMessageState(state) {
+            return {...state, ...initialState}
+        },
     },
-    removeMessage(state, action: PayloadAction<number>) {
-      return {...state, ...{ messages: [...state.messages.filter(m => m.id !== action.payload) ] }}
-    },
-    resetMessageState(state) {
-      return {...state, ...initialState}
-    },
-  },
 })
 
 // Define getters
 export const getMessageState = (state: RootState): MessageState => {
-  return state.message
+    return state.message
 }
 
 // Define mutators

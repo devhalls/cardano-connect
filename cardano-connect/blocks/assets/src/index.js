@@ -11,6 +11,10 @@ registerBlockType( metadata.name, {
 		perpage: {
 			type: 'number',
 			default: 10
+		},
+		hide_titles: {
+			type: 'boolean',
+			default: false
 		}
 	},
 	edit: Edit,

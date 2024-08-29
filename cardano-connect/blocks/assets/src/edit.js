@@ -4,7 +4,7 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
 import { __ } from '@wordpress/i18n';
-import { TextareaControl } from '@wordpress/components';
+import {CheckboxControl, TextareaControl} from '@wordpress/components';
 import { __experimentalNumberControl as NumberControl } from "@wordpress/components";
 
 /**
@@ -52,6 +52,14 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 							step={1}
 							onChange={(nextValue) => setAttributes({perpage: parseInt(nextValue)})}
 						/>
+						<div style={{ marginTop: 20 }}>
+							<CheckboxControl
+								label={__('Hide titles?')}
+								onChange={(nextValue) => setAttributes({hide_titles: !!nextValue})}
+								checked={!!attributes.hide_titles}
+								value={'hide_titles'}
+							/>
+						</div>
 					</>
 				) : (
 					<>

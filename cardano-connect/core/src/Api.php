@@ -71,6 +71,15 @@ class Api extends Base
 			    'permission_callback' => '__return_true'
 		    ]
 	    );
+	    register_rest_route(
+		    $this->plugin_name,
+		    '/rewards/',
+		    [
+			    'methods'  => 'GET',
+			    'callback' => [$this, 'getStakeHistory'],
+			    'permission_callback' => '__return_true'
+		    ]
+	    );
     }
 
     /**
@@ -212,12 +221,41 @@ class Api extends Base
         );
     }
 
+	/**
+	 * Get an assets data from the external db-sync API.
+	 * @route /cardano-connect/asset/{id}
+	 */
 	public function getAsset( $data ): array
 	{
 		$endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint');
 		$api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key');
 		$asset_id = $this->sanitizeText($data['id']) ?: null;
 		$data = (new BlockFrost( $endpoint,  $api_key) )->getAsset($asset_id);
+		if ($data->success) {
+			return $this->returnResponse(
+				true,
+				(array) $data->response
+			);
+		}
+		return $this->returnResponse(
+			false,
+			[]
+		);
+	}
+
+	/**
+	 * Get a users reward history data from the external db-sync API.
+	 * @route /cardano-connect/rewards
+	 */
+	public function getStakeHistory(): array
+	{
+		$endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint');
+		$api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key');
+		$user_data = $this->getCurrentUser();
+		$address = $user_data['web3']['cardano_connect_network'] === 'mainnet'
+			? $user_data['web3']['cardano_connect_stake_address']
+			: $user_data['web3']['cardano_connect_stake_address_testnet'];
+		$data = (new BlockFrost( $endpoint,  $api_key) )->getStakeHistory($address);
 		if ($data->success) {
 			return $this->returnResponse(
 				true,

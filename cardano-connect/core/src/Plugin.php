@@ -51,6 +51,7 @@ class Plugin extends Base
 			array(
 				'whitelist' => null,
 				'perpage' => null,
+				'hide_titles' => null,
 			), $attributes
 		);
 		return $this->getTemplate('shortcode/cardano-connect-assets', $formatted_attributes);
