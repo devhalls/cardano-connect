@@ -1,5 +1,5 @@
 import axios from "axios";
-import {mockOption, mockUser} from "./mock";
+import {mockApiAsset, mockOption, mockUser} from "./mock";
 
 const nodeEnv: string = process.env.NODE_ENV
 
@@ -50,7 +50,7 @@ export async function backendGetAsset(data: {
     nonce: string
 }): Promise<AjaxResponse<ApiAsset>> {
     instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
-    return await get(`asset/${data.asset}`);
+    return nodeEnv === 'development' ? mockApiAsset : await get(`asset/${data.asset}`);
 }
 
 export async function backendConnect(data: {

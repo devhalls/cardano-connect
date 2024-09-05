@@ -44,6 +44,10 @@ export const formatBalance = (quantity: string) => {
     return formatted.toString().slice(0, -4) + '.' + formatted.toString().slice(-4)
 }
 
+export const formatNumber = (x: number): string => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export const ucFirst = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -77,14 +81,15 @@ export const classMap = {
     error: 'wpcc-error',
     row: 'wpcc-row',
     col: 'wpcc-col',
-    notFound: 'wpcc-not-found',
+    notFound: 'wpcc-not-found wpcc-card',
     pagination: 'wpcc-pagination wpcc-card',
     copy: 'wpcc-copy',
     // Connector component classes.
     container: 'connector-container',
     connected: 'connector-content connector-connected',
     disconnected: 'connector-content connector-disconnected',
-    list: 'connector-wallet-list',
+    list: 'connector-wallet-list wpcc-card',
+    menu: 'connector-menu-list wpcc-card',
     listButton: 'connector-list-button',
     listEmpty: 'connector-no-wallets',
     button: 'connector-button',
@@ -108,6 +113,18 @@ export const classMap = {
     assetItemTitle: 'wpcc-assets-item-title',
     assetItemDescription: 'wpcc-assets-item-description',
     assetItemQuantity: 'wpcc-assets-item-quantity',
+    // Asset modal classes.
+    assetModal: 'wpcc-asset-modal wpcc-card',
+    assetModalHeader: 'wpcc-asset-modal-header',
+    assetModalTitle: 'wpcc-asset-modal-title',
+    assetModalClose: 'wpcc-asset-modal-close',
+    assetModalBody: 'wpcc-asset-modal-body',
+    assetModalCol: 'wpcc-asset-modal-col',
+    assetModalImage: 'wpcc-asset-modal-image',
+    assetModalData: 'wpcc-asset-modal-data',
+    assetModalTitleRow: 'wpcc-asset-modal-data-row wpcc-asset-modal-data-title',
+    assetModalDataRow: 'wpcc-asset-modal-data-row',
+    assetModalCode: 'wpcc-asset-modal-code wpcc-card-dark',
     // Message component classes.
     messages: 'wpcc-messages',
     message: 'wpcc-message wpcc-card',

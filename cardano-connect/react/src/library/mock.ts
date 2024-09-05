@@ -10,7 +10,8 @@ export const mockOption: AjaxResponse<Options> = {
             ' Please connect now to link your Mainnet account.',
         label_create_testnet_prompt: 'You are logged in but do not have a Tesnet wallet connected to your account.' +
             ' Please connect now to link your Testnet account.',
-        label_disconnect: 'Are you sure you would like to disconnect?',
+        label_disconnect: 'Disconnect',
+        label_disconnect_prompt: 'Are you sure you would like to disconnect?',
         label_empty: 'No wallets detected. Please install a Wallet browser extension or switch browsers.',
         label_error: 'Unable to sign authentication',
         label_invalid_account: 'Invalid account, please switch to the wallet you originally connected with.',
@@ -22,18 +23,17 @@ export const mockOption: AjaxResponse<Options> = {
         label_paginate_items: 'Items',
         label_assets_policy_label: 'Token Collection',
         label_assets_quantity_label: 'Qty',
-        label_no_assets: 'No assets found in your wallet',
+        label_no_assets: 'No assets found',
         label_text_copied: 'Copied!',
         label_text_copied_failed: 'Copy failed',
-        login_redirect: null,
+        login_redirect: '/wallet',
         logout_redirect: null,
         mainnet_active: true,
         plugin_name: 'cardano-connect',
         version: '0.1.0',
-        assets_whitelist: "889d2c8073303f7e66d894d6ca3e1ed7ac01906e72b4227b98676e55" +
-            " 4bf184e01e0f163296ab253edd60774e2d34367d0e7b6cbc689b567d c48699aa28e497a277c5271b7dff2e747e40e6d6dc46dc2ca963cc32",
+        assets_whitelist: "c48699aa28e497a277c5271b7dff2e747e40e6d6dc46dc2ca963cc32",
         assets_api_endpoint: 'https://cardano-mainnet.blockfrost.io/api/v0/',
-        assets_api_key: 'mainnetOLRdsudAM3buVEStJlUlXHAuKTpfYEWS',
+        assets_api_key: 'xxx',
         assets_ipfs_endpoint: 'https://ipfs.io/ipfs/',
         assets_placeholder: 'https://upstream.org.uk/wp-content/plugins/cardano-connect/assets/logo-dark.svg'
     }
@@ -47,15 +47,15 @@ export const mockUser: AjaxResponse<{ user: User|null; web3: UserWeb3|null }> = 
         user: {
             data: {
                 ID: '2',
-                user_login: 'superadmin',
-                user_pass: '$P$BvjQGVueJFc8QI\/rOniBcw0x7pOslH.',
-                user_nicename: 'superadmin',
-                user_email: 'wpadmin@pendulumdev.co.uk',
+                user_login: 'tester',
+                user_pass: 'tester',
+                user_nicename: 'tester',
+                user_email: 'tester@pendulumdev.co.uk',
                 user_url: '',
                 user_registered: '2023-09-26 13:56:40',
                 user_activation_key: '',
                 user_status: '0',
-                display_name: 'Superadmin'
+                display_name: 'tester'
             },
             ID: 2,
             caps: {
@@ -104,7 +104,17 @@ export const mockApiAsset: AjaxResponse<ApiAsset> = {
             Rarity: "Bear",
             Type: "Torrent",
             description: "Ongoing access to Upstream and partnered events and unlockables",
-            files: null,
+            files: [{
+                src: "ipfs://QmdanSQgrSHS1vsUen9tYk168rS12P3mMKh3yhPgQ4LJ2T",
+                mediaType: "image/gif",
+                name: 'Image 1'
+            }],
+            ArrDescription: [
+                "Moneda's radiant presence illuminates the surrounding expanse",
+                "of red and black, her purpose transcending the mere",
+                "illumination as she imparts the virtues of",
+                "profound wisdom and patience"
+            ],
             image: "ipfs://QmdanSQgrSHS1vsUen9tYk168rS12P3mMKh3yhPgQ4LJ2T",
             mediaType: "image/gif",
             name: "Upstream Event Pass 0001",

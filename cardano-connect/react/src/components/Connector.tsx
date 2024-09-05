@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useWallet, useWalletList} from "@meshsdk/react";
 import {backendDisconnect, backendGetUser, backendConnect, backendGetOptions} from "../library";
 import {Wallet} from "@meshsdk/core";
-import {classMap, translateError, trimAddress} from "../library/utils";
+import {classMap, translateError, trimAddress, ucFirst} from "../library/utils";
 import {useAppDispatch, useAppSelector} from "../library/state";
 import {
     getUserNetwork,
@@ -35,6 +35,7 @@ export const Connector = ({}: ComponentConnector) => {
     const [mounted, setMounted] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
     const [authenticated, setAuthenticated] = useState<boolean>(false)
+    const [hideMenu, setHideMenu] = useState<boolean>(true)
 
     // Helpers
 
@@ -67,8 +68,9 @@ export const Connector = ({}: ComponentConnector) => {
     }
 
     const onClickDisconnect = async (): Promise<void> => {
-        if (confirm(options?.label_disconnect)) {
+        if (confirm(options?.label_disconnect_prompt)) {
             setLoading(true)
+            setHideMenu(true)
             try {
                 const disconnectRes = await backendDisconnect(user.nonce)
                 if (!disconnectRes.success) {
@@ -277,11 +279,11 @@ export const Connector = ({}: ComponentConnector) => {
     return (
         <div className={classMap.container}>
             <div className={authenticated ? classMap.connected : classMap.disconnected}>
-                <button className={classMap.button} onClick={() => authenticated ? onClickDisconnect() : onClickButton()}>
+                <button className={classMap.button} onClick={() => authenticated ? setHideMenu(!hideMenu) : onClickButton()}>
                     <span className={classMap.buttonIcon}></span>
                     {loading ? (
                         <span className={classMap.buttonContent}>
-                            <Loader className={null} />
+                            <Loader className={'wpcc-loader'} color={'#ffffff'} />
                         </span>
                     ) : (
                         <span className={classMap.buttonContent}>
@@ -305,12 +307,18 @@ export const Connector = ({}: ComponentConnector) => {
                                     onClick={() => onClickConnect(wallet)}
                                     className={classMap.listButton}
                                 >
-                                    <img width={26} height={26} src={wallet.icon} alt={wallet.name}/>
+                                    <img width={26} height={'auto'} src={wallet.icon} alt={wallet.name}/> {ucFirst(wallet.name)}
                                 </button>
                             ))
                         ) : (
                             <div className={classMap.listEmpty}>{options?.label_empty}</div>
                         )}
+                    </div>
+                )}
+                {!hideMenu && (
+                    <div className={classMap.menu}>
+                        <a href={options.login_redirect} title={'Wallet'}>Wallet</a>
+                        <div onClick={onClickDisconnect}>{options.label_disconnect}</div>
                     </div>
                 )}
             </div>

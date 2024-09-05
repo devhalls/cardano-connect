@@ -8,8 +8,9 @@ import {Loader} from "./Loader";
 import {backendGetAsset} from "../library";
 
 export const Assets = ({
-    perPage = 1, // if set to 0 pagination will be disabled
+    perPage = 10, // if set to 0 pagination will be disabled
     hideTitles = null,
+    notFound = null,
     whitelistString = null,
 }: ComponentAssets) => {
 
@@ -29,6 +30,7 @@ export const Assets = ({
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [itemsPerPage, setItemsPerPage] = useState<number>(perPage > 0 ? perPage : 10000)
     const [total, setTotal] = useState<number | null>(null)
+    const [showModal, setShowModal] = useState<ApiAsset|null>(null)
 
     // Helpers
 
@@ -120,10 +122,12 @@ export const Assets = ({
                             key={i + a.fingerprint}
                             asset={a}
                             showTitle={!hideTitles && (!pagedAssets[i - 1] || a.policy_id !== pagedAssets[i - 1].policy_id)}
+                            showModal={showModal?.fingerprint === a.fingerprint}
+                            setShowModal={setShowModal}
                         />
                     )) : (
                         <div className={classMap.notFound}>
-                            {options.label_no_assets}
+                            {notFound || options.label_no_assets}
                         </div>
                     )}
                 </>

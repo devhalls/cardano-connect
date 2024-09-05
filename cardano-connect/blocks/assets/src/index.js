@@ -8,13 +8,16 @@ registerBlockType( metadata.name, {
 		whitelist: {
 			type: 'string',
 		},
-		perpage: {
+		per_page: {
 			type: 'number',
 			default: 10
 		},
 		hide_titles: {
 			type: 'boolean',
 			default: false
+		},
+		not_found: {
+			type: 'string',
 		}
 	},
 	edit: Edit,

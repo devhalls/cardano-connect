@@ -196,7 +196,7 @@ class Api extends Base
     public function disconnect(): array
     {
         wp_clear_auth_cookie();
-        return $this->returnResponse(true, [], $this->options['label_disconnect']);
+        return $this->returnResponse(true, [], $this->options['label_disconnect_prompt']);
     }
 
     /**

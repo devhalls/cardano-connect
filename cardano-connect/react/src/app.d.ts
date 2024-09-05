@@ -1,5 +1,52 @@
 declare var wpCardanoConnect: { nonce: string }
-// Asset as from wallet
+
+// Models
+
+declare interface AjaxResponse<T>  {
+    data: T
+    nonce: string
+    success: boolean
+    message: string
+}
+declare type Options = {
+    version: string
+    plugin_name: string
+    mainnet_active: boolean
+    login_redirect: null|string
+    logout_redirect: null|string
+    label_connect: string
+    label_connected: string
+    label_connect_cancel: string
+    label_empty: string
+    label_disconnect: string
+    label_disconnect_prompt: string
+    label_error: string
+    label_invalid_account: string
+    label_switch_to_testnet: string
+    label_create_mainnet_prompt: string
+    label_create_testnet_prompt: string
+    label_welcome_back: string
+    label_welcome_new: string
+    label_paginate_prev: string
+    label_paginate_next: string
+    label_paginate_items: string
+    label_assets_policy_label: string
+    label_assets_quantity_label: string
+    label_no_assets: string
+    label_text_copied: string
+    label_text_copied_failed: string
+    assets_whitelist: string
+    assets_api_endpoint: string
+    assets_api_key: string
+    assets_ipfs_endpoint: string
+    assets_placeholder: string
+}
+declare type Message = {
+    type: 'error' | 'success' | 'notice'
+    id: number
+    message: string
+    timestamp: number
+}
 declare type Asset = {
     unit: string
     policyId: string
@@ -12,7 +59,6 @@ declare type AssetFile = {
     name: string
     src: string
 }
-// Asset as from WP API
 declare type ApiAsset = {
     cached?: number
     asset: string
@@ -21,7 +67,7 @@ declare type ApiAsset = {
     quantity: string
     initial_mint_tx_hash: string
     mint_or_burn_count: number
-    onchain_metadata: { [key in string]: string } & {
+    onchain_metadata: { [key in string]?: string } & {
         name: string
         description: string
         image: string
@@ -91,6 +137,10 @@ declare type UserWeb3 = {
     cardano_connect_stake_address_testnet: string
     cardano_connect_network: 'mainnet'|'testnet'
 }
+
+// States
+
+declare type OptionState = Options
 declare type UserState = {
     connected: boolean
     network: string | null
@@ -102,70 +152,33 @@ declare type UserState = {
     collateral?: UxTO[]
     nonce: string | null
 }
-declare type OptionState = Options
-declare type Options = {
-    version: string
-    plugin_name: string
-    mainnet_active: boolean
-    login_redirect: null|string
-    logout_redirect: null|string
-    label_connect: string
-    label_connected: string
-    label_connect_cancel: string
-    label_empty: string
-    label_disconnect: string
-    label_error: string
-    label_invalid_account: string
-    label_switch_to_testnet: string
-    label_create_mainnet_prompt: string
-    label_create_testnet_prompt: string
-    label_welcome_back: string
-    label_welcome_new: string
-    label_paginate_prev: string
-    label_paginate_next: string
-    label_paginate_items: string
-    label_assets_policy_label: string
-    label_assets_quantity_label: string
-    label_no_assets: string
-    label_text_copied: string
-    label_text_copied_failed: string
-    assets_whitelist: string
-    assets_api_endpoint: string
-    assets_api_key: string
-    assets_ipfs_endpoint: string
-    assets_placeholder: string
-}
-declare type Message = {
-    type: 'error' | 'success' | 'notice'
-    id: number
-    message: string
-    timestamp: number
-}
 declare type MessageState = {
     messages: Message[]
 }
-declare interface AjaxResponse<T>  {
-    data: T
-    nonce: string
-    success: boolean
-    message: string
-}
+
+// Component interfaces
+
 declare interface ComponentConnector {}
 declare interface ComponentAssets {
     perPage?: number
     hideTitles?: boolean
+    notFound?: string
     whitelistString?: string
 }
 declare interface ComponentAsset {
     asset: ApiAsset
     showTitle?: boolean
+    showModal?: boolean
+    setShowModal?: (a: ApiAsset | null) => void
 }
 declare interface ComponentBalance {}
 declare interface ComponentCopy {
-    text: string
+    text: string | React.ReactElement
     copyText?: string
     title?: string
+    className?: string
 }
 declare interface ComponentLoader {
     className?: string
+    color?: string
 }

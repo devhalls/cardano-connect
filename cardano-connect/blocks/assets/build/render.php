@@ -10,7 +10,8 @@
 <div
     <?php echo wp_kses_data(get_block_wrapper_attributes()) ?>
     data-whitelist="<?php echo esc_attr( $attributes['whitelist'] ?? null ); ?>"
-    data-perpage="<?php echo esc_attr( $attributes['perpage'] ?? 10 ); ?>"
+    data-per_page="<?php echo esc_attr( $attributes['per_page'] ?? 10 ); ?>"
     data-hide_titles="<?php echo esc_attr( $attributes['hide_titles'] ?? false ); ?>"
+    data-not_found="<?php echo esc_attr( $attributes['not_found'] ?? null ); ?>"
 >
 </div>

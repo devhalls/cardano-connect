@@ -25,8 +25,14 @@
     "whitelist": {
       "type": "string"
     },
-    "perpage": {
+    "per_page": {
       "type": "number"
+    },
+    "hide_titles": {
+      "type": "boolean"
+    },
+    "not_found": {
+      "type": "string"
     }
   }
 }

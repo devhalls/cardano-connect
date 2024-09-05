@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../library/state";
 import {classMap, ucFirst} from "../library/utils";
 import {getMessageState, removeMessage} from "../library/message";
@@ -18,6 +18,8 @@ export const Message = () => {
         }, 300)
     }
 
+    // State hooks
+
     useEffect(() => {
         if (message.messages) {
             message.messages.map(a => {
@@ -36,7 +38,7 @@ export const Message = () => {
                         classMap.message + ' ' +
                         classMap[`message${ucFirst(message.type)}`] + ' '
                     }>
-                    {message.message}
+                    {ucFirst(message.message)}
                 </div>
             ))}
         </div>

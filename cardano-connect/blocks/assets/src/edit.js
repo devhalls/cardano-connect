@@ -45,12 +45,12 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						/>
 						<NumberControl
 							label={__('Items per page')}
-							help={__('(Set to 0 to disable pagination)')}
-							value={attributes.perpage}
+							help={__('(Set to 0 to disable pagination, max 100)')}
+							value={attributes.per_page}
 							min={0}
-							max={10000000}
+							max={100}
 							step={1}
-							onChange={(nextValue) => setAttributes({perpage: parseInt(nextValue)})}
+							onChange={(nextValue) => setAttributes({per_page: parseInt(nextValue)})}
 						/>
 						<div style={{ marginTop: 20 }}>
 							<CheckboxControl
@@ -60,6 +60,12 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 								value={'hide_titles'}
 							/>
 						</div>
+						<TextareaControl
+							label={__('Not found text')}
+							help={__('(Replaces default options not found text)')}
+							value={attributes.not_found}
+							onChange={(nextValue) => setAttributes({not_found: nextValue})}
+						/>
 					</>
 				) : (
 					<>

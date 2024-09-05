@@ -24,6 +24,7 @@ abstract class Base
 		self::SETTING_PREFIX . 'label_connect_cancel',
 		self::SETTING_PREFIX . 'label_empty',
 		self::SETTING_PREFIX . 'label_disconnect',
+		self::SETTING_PREFIX . 'label_disconnect_prompt',
 		self::SETTING_PREFIX . 'label_error',
 		self::SETTING_PREFIX . 'label_welcome_new',
 		self::SETTING_PREFIX . 'label_welcome_back',
@@ -143,6 +144,7 @@ abstract class Base
             'label_connect_cancel' => null,
             'label_empty' => null,
             'label_disconnect' => null,
+	        'label_disconnect_prompt' => null,
             'label_error' => null,
             'label_welcome_new' => null,
             'label_welcome_back' => null,
@@ -347,13 +349,22 @@ abstract class Base
                                 'note' => __('Text shown when the user has no compatible wallet extensions installed', 'cardano-connect')
                             ],
                             self::SETTING_PREFIX.'label_disconnect' => [
-                                'default' => __('Are you sure you would like to disconnect?', 'cardano-connect'),
-                                'label' => __('Disconnect prompt', 'cardano-connect'),
-                                'type' => 'text',
-                                'rules' => [
-                                    'required',
-                                ],
-                                'note' => __('Text confirmation shown when user clicks the disconnect button', 'cardano-connect')
+	                            'default' => __('Disconnect', 'cardano-connect'),
+	                            'label' => __('Disconnect button', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Text shown on the disconnect button', 'cardano-connect')
+                            ],
+                            self::SETTING_PREFIX.'label_disconnect_prompt' => [
+	                            'default' => __('Are you sure you would like to disconnect?', 'cardano-connect'),
+	                            'label' => __('Disconnect prompt', 'cardano-connect'),
+	                            'type' => 'text',
+	                            'rules' => [
+		                            'required',
+	                            ],
+	                            'note' => __('Text confirmation shown when user clicks the disconnect button', 'cardano-connect')
                             ],
                             self::SETTING_PREFIX.'label_error' => [
                                 'default' => __('Unable to sign authentication', 'cardano-connect'),
@@ -464,7 +475,7 @@ abstract class Base
 	                            'note' => __('Quantity label shown next to the assets quantity', 'cardano-connect')
                             ],
                             self::SETTING_PREFIX.'label_no_assets' => [
-		                        'default' => __('No assets found in your wallet', 'cardano-connect'),
+		                        'default' => __('No assets found', 'cardano-connect'),
 		                        'label' => __('No assets found prompt', 'cardano-connect'),
 		                        'type' => 'text',
 		                        'rules' => [

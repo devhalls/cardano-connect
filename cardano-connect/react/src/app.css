@@ -5,6 +5,7 @@
     --wpcc-font-size: 0.85rem;
     --wpcc-primary-gray-light: rgba(245, 245, 245, 1);
     --wpcc-primary-gray: rgba(215, 215, 215, 1);
+    --wpcc-primary-gray-dark: rgba(195, 195, 195, 1);
     --wpcc-primary-bg: rgba(255, 255, 255, 1);
     --wpcc-primary-color: rgba(0, 153, 102, 1);
     --wpcc-primary-dark-color: rgba(0, 51, 34, 1);
@@ -37,6 +38,12 @@
     padding: var(--wpcc-base-sizing);
     position: relative;
 }
+.wpcc-card-dark {
+    background: var(--wpcc-primary-gray-light);
+    border-radius: calc(var(--wpcc-border-radius) / 2);
+    padding: var(--wpcc-base-sizing);
+    position: relative;
+}
 .wpcc-row {
     display: flex;
     align-items: center;
@@ -46,6 +53,17 @@
     flex-direction: column;
     gap: calc(var(--wpcc-base-sizing) / 2);
 }
+.wpcc-not-found {
+    text-align: center;
+    width: 100%;
+}
+.wpcc-copy {
+    cursor: pointer;
+    display: inline-block;
+}
+
+/** Loader component **/
+
 .wpcc-loader {
     display: flex;
     align-items: center;
@@ -55,6 +73,9 @@
     width: 40px;
     height: 40px;
 }
+
+/** Pagination component **/
+
 .wpcc-pagination {
     display: flex;
     width: 100%;
@@ -76,12 +97,6 @@
 }
 .wpcc-pagination > span:last-child {
     margin-left: auto;
-}
-.wpcc-not-found {
-
-}
-.wpcc-copy {
-    cursor: pointer;
 }
 
 /** Balance component **/
@@ -131,6 +146,7 @@
     font-size: 0.8rem;
 }
 .wpcc-assets-item {
+    cursor: pointer;
     gap: calc(var(--wpcc-base-sizing) / 2);
     width: calc(50% - calc(var(--wpcc-base-sizing) / 2));
     box-sizing: border-box;
@@ -182,10 +198,103 @@
     font-weight: bold;
 }
 
+/** Asset modal component **/
+
+.wpcc-asset-modal {
+    position: fixed;
+    z-index: 1;
+    top: var(--wpcc-base-sizing);
+    left: var(--wpcc-base-sizing);
+    right: var(--wpcc-base-sizing);
+    bottom: calc(var(--wpcc-base-sizing) * 5);
+    box-shadow: var(--wpcc-bg-shadow);
+    overflow: scroll;
+    background-color: rgba(255,255,255,0.9);
+    padding: 0;
+}
+.wpcc-asset-modal-header {
+    display: flex;
+    gap: var(--wpcc-base-sizing);
+    background-color: var(--wpcc-primary-gray-light);
+    padding: var(--wpcc-base-sizing);
+}
+.wpcc-asset-modal-title {
+    margin: 0;
+}
+.wpcc-asset-modal-close {
+    margin-left: auto;
+}
+.wpcc-asset-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wpcc-base-sizing);
+    padding: var(--wpcc-base-sizing);
+}
+.wpcc-asset-modal-col {}
+.wpcc-asset-modal-image {
+    border-radius: calc(var(--wpcc-border-radius) / 2);
+    margin-bottom: var(--wpcc-base-sizing);
+    overflow: hidden;
+    width: 100%;
+    display: block;
+}
+.wpcc-asset-modal-code code {
+    white-space: break-spaces;
+}
+.wpcc-asset-modal-data {
+    padding: 0;
+    margin: 0;
+}
+.wpcc-asset-modal-data-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.wpcc-asset-modal-data-row {
+    list-style: none;
+    background-color: var(--wpcc-primary-gray);
+    padding: calc(var(--wpcc-base-sizing) / 2);
+}
+.wpcc-asset-modal-data-row:nth-child(even) {
+    background-color: var(--wpcc-primary-gray-light);
+}
+.wpcc-asset-modal-data-row:first-child {
+    border-radius: calc(var(--wpcc-border-radius) / 2) calc(var(--wpcc-border-radius) / 2) 0 0;
+}
+.wpcc-asset-modal-data-row:last-child {
+    border-radius: 0 0 calc(var(--wpcc-border-radius) / 2) calc(var(--wpcc-border-radius) / 2);
+}
+.wpcc-asset-modal-data-row > span:first-child {
+    width: 100%;
+    display: block;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .wpcc-asset-modal-body {
+        flex-direction: row;
+    }
+    .wpcc-asset-modal-col:last-child {
+        flex-grow: 1;
+    }
+    .wpcc-asset-modal-image {
+        width: 420px;
+    }
+    .wpcc-asset-modal-data-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .wpcc-asset-modal-data-row > span:first-child {
+        width: 140px;
+        white-space: wrap;
+        margin-right: var(--wpcc-base-sizing);
+    }
+}
+
 /** Message component **/
 
 .wpcc-messages {
     position: fixed;
+    z-index: 2;
     bottom: var(--wpcc-base-sizing);
     right: var(--wpcc-base-sizing);
     width: var(--wpcc-error-sizing);
@@ -253,16 +362,16 @@
 /* Wallet list elements */
 
 .connector-wallet-list {
-    position: absolute;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    top: 100%;
-    left: -100%;
-    right: -100%;
-    margin: 0 auto;
     animation: var(--wpcc-animate);
-    width: var(--wpcc-list-sizing);
+    position: absolute;
+    left: 0;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    top: calc(100% + var(--wpcc-base-sizing) / 2);
+    box-shadow: var(--wpcc-bg-shadow);
+    border-radius: var(--wpcc-border-radius);
 }
 .connector-list-button {
     padding: 0;
@@ -271,13 +380,8 @@
     border: none;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: var(--wpcc-primary-bg);
-    border-radius: var(--wpcc-border-radius);
-    box-shadow: var(--wpcc-bg-shadow);
-    width: calc(var(--wpcc-base-sizing) * 2);
-    height: calc(var(--wpcc-base-sizing) * 2);
-    margin: calc(var(--wpcc-base-sizing) / 4);
+    background-color: transparent;
+    gap: calc(var(--wpcc-base-sizing) / 2);
 }
 .connector-no-wallets {
     text-align: center;
@@ -287,6 +391,28 @@
     background-color: var(--wpcc-primary-bg);
     margin: calc(var(--wpcc-base-sizing) / 4);
     color: var(--wpcc-text-color-dark);
+}
+
+.connector-menu-list {
+    animation: var(--wpcc-animate);
+    position: absolute;
+    left: 0;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    top: calc(100% + var(--wpcc-base-sizing) / 2);
+    box-shadow: var(--wpcc-bg-shadow);
+    border-radius: var(--wpcc-border-radius);
+}
+.connector-menu-list > * {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--wpcc-text-color-dark);
+}
+.connector-menu-list > *:hover {
+    opacity: 0.7;
 }
 
 /* Animations */

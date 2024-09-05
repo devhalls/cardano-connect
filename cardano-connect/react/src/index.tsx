@@ -30,11 +30,14 @@ for (let i = 0; i < connectorElements.length; i++) {
 const assetsElements = document.getElementsByClassName('wp-block-cardano-connect-assets')
 for (let i = 0; i < assetsElements.length; i++) {
     const assets = ReactDOM.createRoot(assetsElements[i])
-    const perPage: number = assetsElements[i].getAttribute('data-perpage')
-        ? parseInt(assetsElements[i].getAttribute('data-perpage'))
+    const perPage: number = assetsElements[i].getAttribute('data-per_page')
+        ? parseInt(assetsElements[i].getAttribute('data-per_page'))
         : undefined
     const hideTitles: boolean = assetsElements[i].getAttribute('data-hide_titles')
         ? !!assetsElements[i].getAttribute('data-hide_titles')
+        : undefined
+    const notFound: string = assetsElements[i].getAttribute('data-not_found')
+        ? assetsElements[i].getAttribute('data-not_found')
         : undefined
     assets.render(
         <React.StrictMode>
@@ -44,6 +47,7 @@ for (let i = 0; i < assetsElements.length; i++) {
                         <Assets
                             perPage={perPage}
                             hideTitles={hideTitles}
+                            notFound={notFound}
                             whitelistString={assetsElements[i].getAttribute('data-whitelist')}
                         />
                     </PersistGate>
