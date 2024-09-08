@@ -137,9 +137,16 @@ declare type UserWeb3 = {
     cardano_connect_stake_address_testnet: string
     cardano_connect_network: 'mainnet'|'testnet'
 }
+declare type ImageFormatted = {
+    src: string
+    title: string
+}
 
 // States
 
+declare type UxState = {
+    assetModal: { asset: ApiAsset; images: ImageFormatted[] } | null
+}
 declare type OptionState = Options
 declare type UserState = {
     connected: boolean
@@ -168,8 +175,6 @@ declare interface ComponentAssets {
 declare interface ComponentAsset {
     asset: ApiAsset
     showTitle?: boolean
-    showModal?: boolean
-    setShowModal?: (a: ApiAsset | null) => void
 }
 declare interface ComponentBalance {}
 declare interface ComponentCopy {

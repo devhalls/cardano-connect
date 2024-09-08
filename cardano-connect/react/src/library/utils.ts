@@ -39,8 +39,12 @@ export const translateError = (error: string): string => {
     return formattedError
 }
 
-export const formatBalance = (quantity: string) => {
-    const formatted = parseInt((parseInt(quantity, 10) / 1_00).toString(), 10)
+export const formatBalance = (quantity: string): string => {
+    const asNumber: number = parseInt(quantity, 10)
+    if (asNumber <= 0) {
+        return '0'
+    }
+    const formatted: number = parseInt((asNumber / 1_00).toString(), 10)
     return formatted.toString().slice(0, -4) + '.' + formatted.toString().slice(-4)
 }
 

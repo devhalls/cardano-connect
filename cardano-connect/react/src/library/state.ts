@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import userSlice from './user'
 import optionSlice from './option'
 import messageSlide from './message'
+import uxSlice from './ux'
 import storage from 'redux-persist/lib/storage'
 import persistReducer from 'redux-persist/es/persistReducer'
 import persistStore from 'redux-persist/es/persistStore'
@@ -12,7 +13,8 @@ import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist
 const rootReducer = combineReducers({
     user: userSlice,
     option: optionSlice,
-    message: messageSlide
+    message: messageSlide,
+    ux: uxSlice // Not persisted
 })
 
 const persistedReducer = persistReducer(

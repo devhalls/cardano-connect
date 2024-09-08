@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, state } from './library/state'
 import './app.css';
 import {Message} from "./components/Message";
+import {AssetModal} from "./components/AssetModal";
 
 const connectorElements = document.getElementsByClassName('wp-block-cardano-connect-connector')
 for (let i = 0; i < connectorElements.length; i++) {
@@ -74,7 +75,7 @@ for (let i = 0; i < balanceElements.length; i++) {
 }
 
 const messageElement = document.createElement('div')
-messageElement.id = 'wp-block-cardano-connect-message'
+messageElement.id = 'wp-block-cardano-connect-global'
 document.body.appendChild(messageElement)
 const message = ReactDOM.createRoot(messageElement);
 message.render(
@@ -83,6 +84,7 @@ message.render(
             <Provider store={state}>
                 <PersistGate persistor={persistor}>
                     <Message />
+                    <AssetModal />
                 </PersistGate>
             </Provider>
         </MeshProvider>

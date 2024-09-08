@@ -148,7 +148,7 @@
 .wpcc-assets-item {
     cursor: pointer;
     gap: calc(var(--wpcc-base-sizing) / 2);
-    width: calc(50% - calc(var(--wpcc-base-sizing) / 2));
+    width: calc(100%);
     box-sizing: border-box;
     float: left;
 }
@@ -174,7 +174,11 @@
 .wpcc-assets-item-image {
     border-radius: calc(var(--wpcc-border-radius) / 4);
     background-color: white;
-    padding: 4px;
+    padding: 3px;
+}
+.wpcc-asset-modal-image img {
+    width: 100%;
+    display: block;
 }
 .wpcc-assets-item-image img {
     width: calc(var(--wpcc-base-sizing) * 4);
@@ -197,12 +201,17 @@
     font-size: 0.8rem;
     font-weight: bold;
 }
+@media (min-width: 768px) {
+    .wpcc-assets-item {
+        width: calc(50% - calc(var(--wpcc-base-sizing) / 2));
+    }
+}
 
 /** Asset modal component **/
 
 .wpcc-asset-modal {
     position: fixed;
-    z-index: 1;
+    z-index: 10;
     top: var(--wpcc-base-sizing);
     left: var(--wpcc-base-sizing);
     right: var(--wpcc-base-sizing);
@@ -372,6 +381,7 @@
     top: calc(100% + var(--wpcc-base-sizing) / 2);
     box-shadow: var(--wpcc-bg-shadow);
     border-radius: var(--wpcc-border-radius);
+    box-sizing: content-box;
 }
 .connector-list-button {
     padding: 0;
@@ -382,15 +392,11 @@
     align-items: center;
     background-color: transparent;
     gap: calc(var(--wpcc-base-sizing) / 2);
+    color: var(--wpcc-text-color-dark);
 }
 .connector-no-wallets {
-    text-align: center;
-    border-radius: var(--wpcc-border-radius);
-    box-shadow: var(--wpcc-bg-shadow);
-    padding: calc(var(--wpcc-base-sizing) / 2);
-    background-color: var(--wpcc-primary-bg);
-    margin: calc(var(--wpcc-base-sizing) / 4);
     color: var(--wpcc-text-color-dark);
+    min-width: var(--wpcc-error-sizing);
 }
 
 .connector-menu-list {

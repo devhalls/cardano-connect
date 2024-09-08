@@ -6,6 +6,7 @@ import {Asset as AssetComponent} from "./Asset";
 import {classMap, convertToApiAsset} from "../library/utils";
 import {Loader} from "./Loader";
 import {backendGetAsset} from "../library";
+import {setAssetModal} from "../library/ux";
 
 export const Assets = ({
     perPage = 10, // if set to 0 pagination will be disabled
@@ -30,7 +31,6 @@ export const Assets = ({
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [itemsPerPage, setItemsPerPage] = useState<number>(perPage > 0 ? perPage : 10000)
     const [total, setTotal] = useState<number | null>(null)
-    const [showModal, setShowModal] = useState<ApiAsset|null>(null)
 
     // Helpers
 
@@ -94,6 +94,8 @@ export const Assets = ({
     useEffect(() => {
         if (user.connected && assets && assets.length) {
             filterAssets()
+        } else {
+            setLoading(false)
         }
     }, [user.connected, assets, filterAssets]);
 
@@ -106,7 +108,7 @@ export const Assets = ({
                             onClick={() => filterPage(currentPage - 1, itemsPerPage)}>
                         {options.label_paginate_prev}
                     </button>
-                    <button disabled={loading || currentPage >= Math.ceil(filteredAssets.length / itemsPerPage)}
+                    <button disabled={loading || (filteredAssets && currentPage >= Math.ceil(filteredAssets.length / itemsPerPage))}
                             onClick={() => filterPage(currentPage + 1, itemsPerPage)}>
                         {options.label_paginate_next}
                     </button>
@@ -122,8 +124,6 @@ export const Assets = ({
                             key={i + a.fingerprint}
                             asset={a}
                             showTitle={!hideTitles && (!pagedAssets[i - 1] || a.policy_id !== pagedAssets[i - 1].policy_id)}
-                            showModal={showModal?.fingerprint === a.fingerprint}
-                            setShowModal={setShowModal}
                         />
                     )) : (
                         <div className={classMap.notFound}>
