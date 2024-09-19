@@ -2,18 +2,31 @@
 
 namespace WPCC;
 
-use WPCC\Connect\Auth;
-use WPCC\Connect\BlockFrost;
+use WPCC\Connect\Base as ConnectBase;
 use WPCC\Connect\Response;
+use WPCC\Connect\Providers\Upstream;
+use WPCC\Connect\Providers\BlockFrost;
 
 class Api extends Base
 {
+	public ConnectBase $connectSignerProvider;
+	public ConnectBase $connectDataProvider;
+
     /**
      * @inheritDoc
      */
     public function run(): void
     {
         add_action( 'rest_api_init', [$this, 'registerApi'] );
+
+		// Set signer provider.
+	    $endpoint = $this->getSetting(self::SETTING_PREFIX.'endpoint');
+		$this->connectSignerProvider = new Upstream( $endpoint );
+
+		// Set chain data provider.
+	    $endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint');
+	    $api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key');
+		$this->connectDataProvider = new BlockFrost( $endpoint,  $api_key );
     }
 
     /**
@@ -26,6 +39,24 @@ class Api extends Base
      */
     public function registerApi(): void
     {
+	    register_rest_route(
+		    $this->plugin_name,
+		    '/user/',
+		    [
+			    'methods'  => 'GET',
+			    'callback' => [$this, 'getUser'],
+			    'permission_callback' => '__return_true'
+		    ]
+	    );
+	    register_rest_route(
+		    $this->plugin_name,
+		    '/options/',
+		    [
+			    'methods'  => 'GET',
+			    'callback' => [$this, 'getOptions'],
+			    'permission_callback' => '__return_true'
+		    ]
+	    );
         register_rest_route(
             $this->plugin_name,
             '/connect/',
@@ -44,30 +75,30 @@ class Api extends Base
                 'permission_callback' => '__return_true'
             ]
         );
-        register_rest_route(
-            $this->plugin_name,
-            '/user/',
-            [
-                'methods'  => 'GET',
-                'callback' => [$this, 'getUser'],
-                'permission_callback' => '__return_true'
-            ]
-        );
-        register_rest_route(
-            $this->plugin_name,
-            '/options/',
-            [
-                'methods'  => 'GET',
-                'callback' => [$this, 'getOptions'],
-                'permission_callback' => '__return_true'
-            ]
-        );
 	    register_rest_route(
 		    $this->plugin_name,
 		    '/asset/(?P<id>[a-zA-Z0-9-]+)',
 		    [
 			    'methods'  => 'GET',
 			    'callback' => [$this, 'getAsset'],
+			    'permission_callback' => '__return_true'
+		    ]
+	    );
+	    register_rest_route(
+		    $this->plugin_name,
+		    '/pools/',
+		    [
+			    'methods'  => 'GET',
+			    'callback' => [$this, 'getStakePools'],
+			    'permission_callback' => '__return_true'
+		    ]
+	    );
+	    register_rest_route(
+		    $this->plugin_name,
+		    '/pool/(?P<id>[a-zA-Z0-9-]+)',
+		    [
+			    'methods'  => 'GET',
+			    'callback' => [$this, 'getPool'],
 			    'permission_callback' => '__return_true'
 		    ]
 	    );
@@ -81,6 +112,32 @@ class Api extends Base
 		    ]
 	    );
     }
+
+	// Locally provided.
+
+	/**
+	 * Get the current authenticated user and their metadata.
+	 * Returns empty user object with ID=0 if not logged in.
+	 * @route /cardano-connect/user
+	 */
+	public function getUser(): array
+	{
+		return $this->returnResponse(true, $this->getCurrentUser());
+	}
+
+	/**
+	 * Get the plugin options.
+	 * @route /cardano-connect/options
+	 */
+	public function getOptions(): array
+	{
+		return $this->returnResponse(
+			true,
+			$this->options
+		);
+	}
+
+	// Connect signer provider.
 
     /**
      * API endpoint handle.
@@ -199,27 +256,7 @@ class Api extends Base
         return $this->returnResponse(true, [], $this->options['label_disconnect_prompt']);
     }
 
-    /**
-     * Get the current authenticated user and their metadata.
-     * Returns empty user object with ID=0 if not logged in.
-     * @route /cardano-connect/user
-     */
-    public function getUser(): array
-    {
-        return $this->returnResponse(true, $this->getCurrentUser());
-    }
-
-    /**
-     * Get the plugin options.
-     * @route /cardano-connect/options
-     */
-    public function getOptions(): array
-    {
-        return $this->returnResponse(
-			true,
-	        $this->options
-        );
-    }
+	// Connect chain data provider.
 
 	/**
 	 * Get an assets data from the external db-sync API.
@@ -227,10 +264,8 @@ class Api extends Base
 	 */
 	public function getAsset( $data ): array
 	{
-		$endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint');
-		$api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key');
 		$asset_id = $this->sanitizeText($data['id']) ?: null;
-		$data = (new BlockFrost( $endpoint,  $api_key) )->getAsset($asset_id);
+		$data = $this->connectDataProvider->getAsset($asset_id);
 		if ($data->success) {
 			return $this->returnResponse(
 				true,
@@ -240,6 +275,57 @@ class Api extends Base
 		return $this->returnResponse(
 			false,
 			[]
+		);
+	}
+
+	public function getStakePools( $data ): array
+	{
+		$page = $data->get_param('page') ?: 1;
+		$per_page = $data->get_param('perPage') ?: 10;
+		$data = $this->connectDataProvider->getStakePools($page, $per_page);
+		if ($data->success) {
+			return $this->returnResponse(
+				true,
+				[
+					'total' => 3000,
+					'items' => (array) $data->response
+				]
+			);
+		}
+		return $this->returnResponse(
+			false,
+			[]
+		);
+	}
+
+	public function getPool( $data ): array
+	{
+		$pool_id = $this->sanitizeText($data['id']) ?: null;
+		$data = $this->connectDataProvider->getStakePoolData($pool_id);
+		$metadata = $this->connectDataProvider->getStakePoolMetaData($pool_id);
+		if ($metadata->success) {
+			$metadata_array = (array) $metadata->response;
+			$metadata_file = $this->connectDataProvider->getStakePoolMetadataFile($metadata_array['url']);
+			$metadata_file_array = $metadata_file->success ? (array) $metadata_file->response : null;
+			if (isset($metadata_file_array['extended'])) {
+				$metadata_file_extended = $this->connectDataProvider->getStakePoolMetadataFile($metadata_file_array['extended']);
+				$metadata_file_extended_array = $metadata_file_extended->success ? (array) $metadata_file_extended->response : null;
+			} else {
+				$metadata_file_extended_array = null;
+			}
+			return $this->returnResponse(
+				true,
+				[
+					'data' => (array) $data->response,
+					'metadata' => $metadata_array,
+					'metadata_file' => $metadata_file_array,
+					'metadata_file_extended' => $metadata_file_extended_array
+				]
+			);
+		}
+		return $this->returnResponse(
+			false,
+			[$pool_id]
 		);
 	}
 
@@ -249,13 +335,11 @@ class Api extends Base
 	 */
 	public function getStakeHistory(): array
 	{
-		$endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint');
-		$api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key');
 		$user_data = $this->getCurrentUser();
 		$address = $user_data['web3']['cardano_connect_network'] === 'mainnet'
 			? $user_data['web3']['cardano_connect_stake_address']
 			: $user_data['web3']['cardano_connect_stake_address_testnet'];
-		$data = (new BlockFrost( $endpoint,  $api_key) )->getStakeHistory($address);
+		$data = $this->connectDataProvider->getStakeHistory($address);
 		if ($data->success) {
 			return $this->returnResponse(
 				true,
@@ -267,6 +351,8 @@ class Api extends Base
 			[]
 		);
 	}
+
+	// Private helper methods.
 
     /**
      * Return a formatted API response with a new wp_create_nonce( 'wp_rest' ).
@@ -287,8 +373,7 @@ class Api extends Base
 	 */
 	private function checkSignature(string $stake_address, string $message, string $signature_key, string $signature_signed): Response
 	{
-		$endpoint = $this->getSetting(self::SETTING_PREFIX.'endpoint');
-		return ( new Auth( $endpoint ) )->cardanoVerify($stake_address, $message, $signature_key, $signature_signed);
+		return $this->connectSignerProvider->verify($stake_address, $message, $signature_key, $signature_signed);
 	}
 
 	/**

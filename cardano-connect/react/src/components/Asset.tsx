@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../library/state";
 import {getOptionState} from "../library/option";
-import {classMap, formatNumber, trimText} from "../library/utils";
-import {Copy} from "./Copy";
-import {Loader} from "./Loader";
+import {classMap, trimText} from "../library/utils";
+import {Copy} from "./common/Copy";
+import {Loader} from "./common/Loader";
 import {setAssetModal} from "../library/ux";
 
 export const Asset = ({
@@ -64,7 +64,7 @@ export const Asset = ({
             }
             setLoadingImage(false)
         })
-    }, []);
+    }, [options]);
 
     // Load image data
 
@@ -73,7 +73,7 @@ export const Asset = ({
             asset.onchain_metadata.image,
             asset.onchain_metadata.title
         )
-    }, []);
+    }, [asset, loadImage]);
 
     return (
         <>

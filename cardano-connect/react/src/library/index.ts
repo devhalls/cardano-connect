@@ -1,5 +1,5 @@
 import axios from "axios";
-import {mockApiAsset, mockOption, mockUser} from "./mock";
+import {mockApiAsset, mockApiPool, mockApiPools, mockOption, mockUser} from "./mock";
 
 const nodeEnv: string = process.env.NODE_ENV
 
@@ -40,28 +40,15 @@ export async function backendGetUser(nonce: string): Promise<AjaxResponse<UserDa
     return nodeEnv === 'development' ? mockUser : await get(`user`);
 }
 
-export async function backendGetRewards(nonce: string): Promise<AjaxResponse<UserData>> {
-    instance.defaults.headers.common['X-WP-Nonce'] = nonce
-    return await get(`rewards`);
-}
-
-export async function backendGetAsset(data: {
-    asset: string
-    nonce: string
-}): Promise<AjaxResponse<ApiAsset>> {
-    instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
-    return nodeEnv === 'development' ? mockApiAsset : await get(`asset/${data.asset}`);
-}
-
 export async function backendConnect(data: {
-     nonce: string,
-     message: string,
-     address: string,
-     stakeAddress: string,
-     signature: string,
-     wallet: string,
-     network: number
- }): Promise<AjaxResponse<UserData>> {
+    nonce: string,
+    message: string,
+    address: string,
+    stakeAddress: string,
+    signature: string,
+    wallet: string,
+    network: number
+}): Promise<AjaxResponse<UserData>> {
     instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
     return await post(`connect`, {
         message: data.message,
@@ -76,4 +63,38 @@ export async function backendConnect(data: {
 export async function backendDisconnect(nonce: string): Promise<AjaxResponse<null>> {
     instance.defaults.headers.common['X-WP-Nonce'] = nonce
     return await get(`disconnect`);
+}
+
+export async function backendGetAsset(data: {
+    asset: string
+    nonce: string
+}): Promise<AjaxResponse<ApiAsset>> {
+    instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
+    return nodeEnv === 'development' ? mockApiAsset : await get(`asset/${data.asset}`);
+}
+
+export async function backendGetPools(data: {
+    page: number
+    perPage: number
+    nonce: string
+}): Promise<AjaxResponse<PaginatedData<Pool>>> {
+    instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
+    return nodeEnv === 'development'
+        ? mockApiPools(data.page, data.perPage)
+        : await get(`pools`, {
+            params: {
+                page: data.page,
+                perPage: data.perPage
+            }
+        });
+}
+
+export async function backendGetPool(data: {
+    nonce: string,
+    poolId: string
+}): Promise<AjaxResponse<PoolData>> {
+    instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
+    return nodeEnv === 'development'
+        ? mockApiPool(data.poolId)
+        : await get(`pool/${data.poolId}`)
 }

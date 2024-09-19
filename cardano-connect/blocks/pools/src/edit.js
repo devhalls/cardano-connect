@@ -34,17 +34,17 @@ import './editor.scss';
 export default function Edit({ attributes, setAttributes, isSelected }) {
 	return (
 		<div { ...useBlockProps() }>
-			<div className={'assets-control'}>
+			<div className={'pools-control'}>
 				{isSelected ? (
 					<>
 						<TextareaControl
-							label={__('Whitelist Policy ID(s)')}
-							help={__('(Filter the list of assets by one or more policy ID(s). Enter one Policy ID per line)')}
+							label={__('Whitelist Pool ID(s)')}
+							help={__('(Filter the list of pools by one or more pool ID(s). Enter one Pool ID per line)')}
 							value={attributes.whitelist}
 							onChange={(nextValue) => setAttributes({whitelist: nextValue})}
 						/>
 						<NumberControl
-							label={__('Items per page')}
+							label={__('Pools per page')}
 							help={__('(Set to 0 to disable pagination, max 100)')}
 							value={attributes.per_page}
 							min={0}
@@ -52,14 +52,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 							step={1}
 							onChange={(nextValue) => setAttributes({per_page: parseInt(nextValue)})}
 						/>
-						<div style={{ marginTop: 20 }}>
-							<CheckboxControl
-								label={__('Hide the collection titles?')}
-								onChange={(nextValue) => setAttributes({hide_titles: !!nextValue})}
-								checked={!!attributes.hide_titles}
-								value={'hide_titles'}
-							/>
-						</div>
+						<br/>
 						<TextareaControl
 							label={__('Not found text')}
 							help={__('(Replaces default options not found text with a custom message for this block)')}
@@ -71,23 +64,24 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 					<>
 						{attributes.whitelist ? (
 							<div>
-								<div className={'assets-title'}>
-									<div className={'assets-image'}></div>
-									<div className={'assets-text'}>
-										{__('Filtered assets by Policy ID(s)')}
+								<div className={'pools-title'}>
+									<div className={'pools-image'}></div>
+									<div className={'pools-text'}>
+										{__('Filtered Pools by ID(s)')}
 									</div>
 								</div>
-								<div className={'assets-attribute'}>{attributes.whitelist}</div>
+								<div className={'pools-attribute'}>{attributes.whitelist}</div>
 							</div>
 						) : (
-							<div className={'assets-title'}>
-								<div className={'assets-image'}></div>
-								<div className={'assets-text'}>
-									{ __('All wallet assets') }
+							<div className={'pools-title'}>
+								<div className={'pools-image'}></div>
+								<div className={'pools-text'}>
+									{__('All pools')}
 								</div>
 							</div>
 						)}
-						<div className={'assets-placeholder'}></div>
+						<div className={'pools-placeholder'}></div>
+						<div className={'pools-placeholder'}></div>
 					</>
 				)}
 			</div>

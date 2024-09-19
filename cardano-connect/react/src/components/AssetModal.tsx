@@ -1,8 +1,7 @@
 import React from "react";
 import {useAppDispatch, useAppSelector} from "../library/state";
-import {getOptionState} from "../library/option";
 import {classMap, formatNumber} from "../library/utils";
-import {Copy} from "./Copy";
+import {Copy} from "./common/Copy";
 import {getUxAssetModal, setAssetModal} from "../library/ux";
 
 export const AssetModal = () => {
@@ -10,7 +9,6 @@ export const AssetModal = () => {
     // APP State
 
     const dispatch = useAppDispatch()
-    const options: OptionState = useAppSelector(getOptionState)
     const assetModal: UxState['assetModal'] = useAppSelector(getUxAssetModal)
 
     // Local state

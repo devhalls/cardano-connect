@@ -4,9 +4,8 @@ import {getUserApiAssets, getUserAssets, getUserState, setUserApiAssets} from ".
 import {getOptionState} from "../library/option";
 import {Asset as AssetComponent} from "./Asset";
 import {classMap, convertToApiAsset} from "../library/utils";
-import {Loader} from "./Loader";
+import {Loader} from "./common/Loader";
 import {backendGetAsset} from "../library";
-import {setAssetModal} from "../library/ux";
 
 export const Assets = ({
     perPage = 10, // if set to 0 pagination will be disabled

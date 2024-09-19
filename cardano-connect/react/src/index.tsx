@@ -11,6 +11,7 @@ import { persistor, state } from './library/state'
 import './app.css';
 import {Message} from "./components/Message";
 import {AssetModal} from "./components/AssetModal";
+import {Pools} from "./components/Pools";
 
 const connectorElements = document.getElementsByClassName('wp-block-cardano-connect-connector')
 for (let i = 0; i < connectorElements.length; i++) {
@@ -74,10 +75,36 @@ for (let i = 0; i < balanceElements.length; i++) {
     );
 }
 
-const messageElement = document.createElement('div')
-messageElement.id = 'wp-block-cardano-connect-global'
-document.body.appendChild(messageElement)
-const message = ReactDOM.createRoot(messageElement);
+const poolsElements = document.getElementsByClassName('wp-block-cardano-connect-pools')
+for (let i = 0; i < poolsElements.length; i++) {
+    const pools = ReactDOM.createRoot(poolsElements[i]);
+    const perPage: number = poolsElements[i].getAttribute('data-per_page')
+        ? parseInt(poolsElements[i].getAttribute('data-per_page'))
+        : undefined
+    const notFound: string = poolsElements[i].getAttribute('data-not_found')
+        ? poolsElements[i].getAttribute('data-not_found')
+        : undefined
+    pools.render(
+        <React.StrictMode>
+            <MeshProvider>
+                <Provider store={state}>
+                    <PersistGate persistor={persistor}>
+                        <Pools
+                            perPage={perPage}
+                            notFound={notFound}
+                            whitelistString={poolsElements[i].getAttribute('data-whitelist')}
+                        />
+                    </PersistGate>
+                </Provider>
+            </MeshProvider>
+        </React.StrictMode>
+    );
+}
+
+const globalElement = document.createElement('div')
+globalElement.id = 'wp-block-cardano-connect-global'
+document.body.appendChild(globalElement)
+const message = ReactDOM.createRoot(globalElement);
 message.render(
     <React.StrictMode>
         <MeshProvider>

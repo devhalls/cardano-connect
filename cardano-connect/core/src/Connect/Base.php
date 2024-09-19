@@ -15,7 +15,7 @@ abstract class Base
 
 	protected array $headers = [];
 
-	protected Client $client;
+	public Client $client;
 
 	public function __construct(string $endpoint, string $api_key = null) {
 		$this->base_uri = $endpoint;
@@ -37,10 +37,12 @@ abstract class Base
 
 	abstract protected function setHeaders(): array;
 
-	public function get(string $uri): Response
+	public function get(string $uri, array $query = null): Response
 	{
 		try {
-			$response = $this->client->get($uri);
+			$response = $this->client->get($uri, $query ? [
+				RequestOptions::QUERY => $query
+			] : []);
 			$result = json_decode(
 				$response->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR
 			);

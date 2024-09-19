@@ -54,8 +54,17 @@ cd cardano-connect/blocks
 # Install dependencies.
 npm install
 
-# Start the wp-scripts enviromnent
-npm run start
+# Start the wp-scripts enviromnent.
+npm run start-connector
+npm run start-assets
+npm run start-balance
+npm run start-pools
+
+# Build blocks. 
+npm run build-connector
+npm run build-assets
+npm run build-balance
+npm run build-pools
 ```
 
 ---
@@ -67,7 +76,7 @@ React is used for the frontend Web3 components and development environment. Reac
 * [typescript](https://www.typescriptlang.org/) v5.5.3
 * [react](https://react.dev/) v18.2.0
 * [react-app-rewired](https://github.com/timarney/react-app-rewired) v2.2.1
-* [mesh.js](https://meshjs.dev) 1.5.2
+* [mesh.js](https://meshjs.dev) v1.5.2
 
 React nodes target block and shortcode HTML outputs defined in WordPress allowing us to bind various React nodes to user defined locations across their WordPress website.
 
@@ -81,7 +90,7 @@ npm install
 # Build output for WordPress to consume
 npm run build
 
-# Start the react dev server (no WordPress).
+# Start the react dev server (no WordPress using mockData).
 npm run start
 ```
 

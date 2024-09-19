@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "cardano-connect/pools",
+  "version": "0.1.0",
+  "title": "Cardano Pool List",
+  "category": "widgets",
+  "description": "Cardano pool listing, provides view for pools and their metadata. Optionally filterable by pool ID(s).",
+  "keywords": [
+    "Cardano",
+    "wallet",
+    "connect",
+    "SPOs"
+  ],
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "cardano-connect",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "whitelist": {
+      "type": "string"
+    },
+    "per_page": {
+      "type": "number"
+    },
+    "not_found": {
+      "type": "string"
+    }
+  }
+}

@@ -62,8 +62,8 @@ class Assets extends Base
                     wp_localize_script('wpcc-react-js', 'wpCardanoConnect', [
                         'nonce' => wp_create_nonce('wp_rest')
                     ]);
-				} else {
-					wp_enqueue_style('wpcc-react-css', $this->react_cdn . $entrypoint, [], $this->version);
+				} else if (!$this->options['disable_styles']) {
+					wp_enqueue_style( 'wpcc-react-css', $this->react_cdn . $entrypoint, [], $this->version );
 				}
 			}
         }

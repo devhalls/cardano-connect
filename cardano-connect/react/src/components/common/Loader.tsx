@@ -1,5 +1,5 @@
 import React from "react";
-import {classMap} from "../library/utils";
+import {classMap} from "../../library/utils";
 
 export const Loader = ({ className = classMap.loader, color = '#030303' }: ComponentLoader) => {
     return (

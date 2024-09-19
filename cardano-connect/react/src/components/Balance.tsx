@@ -3,10 +3,10 @@ import {useAppSelector} from "../library/state";
 import {getUserBalances, getUserCollateral, getUserNetwork, getUserState} from "../library/user";
 import {useWalletList} from "@meshsdk/react";
 import {classMap, formatBalance, trimAddress, ucFirst} from "../library/utils";
-import {Copy} from "./Copy";
-import {Loader} from "./Loader";
+import {Copy} from "./common/Copy";
+import {Loader} from "./common/Loader";
 
-export const Balance = ({}: ComponentBalance) => {
+export const Balance = ({className}: ComponentBalance) => {
 
     // APP State
 
@@ -20,13 +20,13 @@ export const Balance = ({}: ComponentBalance) => {
     const wallet = useWalletList().find((wallet) => wallet.name === user.web3?.cardano_connect_wallet);
     const [loading, setLoading] = useState<boolean>(true)
     const [filteredBalance, setFilteredBalance] = useState<Balance[]|null>(null)
-    const allowedUnits = ['lovelace']
     const address: string = network === 'testnet' ? user.web3?.cardano_connect_address_testnet : user.web3?.cardano_connect_address
     const stakeAddress: string = network === 'testnet' ? user.web3?.cardano_connect_stake_address_testnet : user.web3?.cardano_connect_stake_address
 
     // Load data
 
     useEffect(() => {
+        const allowedUnits = ['lovelace']
         if (user.connected && balances) {
             setFilteredBalance(balances.filter(b => allowedUnits.includes(b.unit) ? b : false))
         }
@@ -34,7 +34,7 @@ export const Balance = ({}: ComponentBalance) => {
     }, [user.connected, balances]);
 
     return user.connected ? (
-        <div className={classMap.balanceContainer}>
+        <div className={`${classMap.balanceContainer} ${className}`}>
             {loading ? (
                 <Loader />
             ) : (

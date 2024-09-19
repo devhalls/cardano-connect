@@ -13,6 +13,7 @@ class Plugin extends Base
 	    add_shortcode( 'cardano-connect-connector', [$this, 'registerConnectorShortcode']  );
 	    add_shortcode( 'cardano-connect-assets', [$this, 'registerAssetsShortcode']  );
 	    add_shortcode( 'cardano-connect-balance', [$this, 'registerBalanceShortcode']  );
+	    add_shortcode( 'cardano-connect-pools', [$this, 'registerPoolsShortcode']  );
 
         (new Settings())->run();
         (new Assets())->run();
@@ -32,10 +33,11 @@ class Plugin extends Base
 	    register_block_type( $this->plugin_path . 'blocks/connector/build' );
 	    register_block_type( $this->plugin_path . 'blocks/assets/build' );
 	    register_block_type( $this->plugin_path . 'blocks/balance/build' );
+	    register_block_type( $this->plugin_path . 'blocks/pools/build' );
     }
 
     /**
-     * Include the shortcode template.
+     * Include the connector shortcode template.
      */
     public function registerConnectorShortcode(): string
     {
@@ -43,7 +45,7 @@ class Plugin extends Base
     }
 
 	/**
-	 * Include the shortcode template.
+	 * Include the assets shortcode template.
 	 */
 	public function registerAssetsShortcode($attributes = []): string
 	{
@@ -59,11 +61,26 @@ class Plugin extends Base
 	}
 
 	/**
-	 * Include the shortcode template.
+	 * Include the balance shortcode template.
 	 */
 	public function registerBalanceShortcode(): string
 	{
 		return $this->getTemplate('shortcode/cardano-connect-balance');
+	}
+
+	/**
+	 * Include the pools shortcode template.
+	 */
+	public function registerPoolsShortcode($attributes = []): string
+	{
+		$formatted_attributes = shortcode_atts(
+			array(
+				'whitelist' => null,
+				'per_page' => null,
+				'not_found' => null,
+			), $attributes
+		);
+		return $this->getTemplate('shortcode/cardano-connect-pools', $formatted_attributes);
 	}
 
     /**

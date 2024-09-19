@@ -35,6 +35,7 @@ export const translateError = (error: string): string => {
         if (formattedError.includes(r.match)) {
             formattedError = r.replace
         }
+        return r
     })
     return formattedError
 }
@@ -45,11 +46,15 @@ export const formatBalance = (quantity: string): string => {
         return '0'
     }
     const formatted: number = parseInt((asNumber / 1_00).toString(), 10)
-    return formatted.toString().slice(0, -4) + '.' + formatted.toString().slice(-4)
+    return formatNumber(parseInt(formatted.toString().slice(0, -4))) + '.' + formatted.toString().slice(-4)
 }
 
 export const formatNumber = (x: number): string => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export const formatPercentage = (x: number): string => {
+    return (x * 100).toFixed(2)
 }
 
 export const ucFirst = (string: string) => {
@@ -79,6 +84,18 @@ export const convertToApiAsset = (asset: Asset): ApiAsset => {
     }
 }
 
+export const filterPaginatedRange = (data: any[], page: number, perPage: number) => {
+    if (perPage === 0) {
+        return data
+    }
+    const min = (perPage * page) - perPage
+    const max = perPage * page
+    return data.filter((a, i) => {
+        const index = i+1
+        return index <= max && index > min
+    })
+}
+
 export const classMap = {
     // General use classes.
     loader: 'wpcc-loader wpcc-card',
@@ -87,7 +104,10 @@ export const classMap = {
     col: 'wpcc-col',
     notFound: 'wpcc-not-found wpcc-card',
     pagination: 'wpcc-pagination wpcc-card',
+    paginationItems: 'wpcc-pagination-items',
     copy: 'wpcc-copy',
+    icon: 'wpcc-icon',
+    linkIcon: 'wpcc-link-icon',
     // Connector component classes.
     container: 'connector-container',
     connected: 'connector-content connector-connected',
@@ -137,4 +157,27 @@ export const classMap = {
     messageSuccess: 'wpcc-message-success',
     messageWarning: 'wpcc-message-warning',
     messageNotice: 'wpcc-message-notice',
+    // Pool.
+    pools: 'wpcc-pools',
+    pool: 'wpcc-pool wpcc-card',
+    poolImage: 'wpcc-pool-image',
+    poolContent: 'wpcc-pool-content',
+    poolHeader: 'wpcc-pool-header',
+    poolHeaderRight: 'wpcc-pool-header-right',
+    poolTicker: 'wpcc-pool-ticker',
+    poolName: 'wpcc-pool-name',
+    poolSocial: 'wpcc-pool-social',
+    poolId: 'wpcc-pool-id',
+    // Bar component classes.
+    bar: 'wpcc-bar',
+    barTitle: 'wpcc-bar-title',
+    barContent: 'wpcc-bar-content',
+    barContentOverlay: 'wpcc-bar-content-overlay',
+    barCoverage: 'wpcc-bar-coverage',
+    barCoverageInner: 'wpcc-bar-coverage-inner',
+    // Stats component classes.
+    stats: 'wpcc-stats',
+    statsTitle: 'wpcc-stats-title',
+    statsContent: 'wpcc-stats-content',
+
 }

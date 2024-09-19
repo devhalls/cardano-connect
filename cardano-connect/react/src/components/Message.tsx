@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../library/state";
 import {classMap, ucFirst} from "../library/utils";
 import {getMessageState, removeMessage} from "../library/message";
@@ -10,30 +10,29 @@ export const Message = () => {
     const dispatch = useAppDispatch()
     const message: MessageState = useAppSelector(getMessageState)
 
-    // Click handlers
+    // Event handlers
 
-    const onClickError = (id: number) => {
+    const onRemoveError = useCallback((id: number, timing = 300) => {
         setTimeout(() => {
             dispatch(removeMessage(id))
-        }, 300)
-    }
+        }, timing)
+    }, [dispatch])
 
     // State hooks
 
     useEffect(() => {
         if (message.messages) {
             message.messages.map(a => {
-                setTimeout(() => {
-                    dispatch(removeMessage(a.id))
-                }, 6000)
+                onRemoveError(a.id, 6000)
+                return a
             })
         }
-    }, [message.messages]);
+    }, [message.messages, onRemoveError]);
 
     return message.messages && message.messages.length > 0 ? (
         <div className={classMap.messages}>
             {message.messages.map(message => (
-                <div key={message.id} onClick={() => onClickError(message.id)}
+                <div key={message.id} onClick={() => onRemoveError(message.id)}
                      className={
                         classMap.message + ' ' +
                         classMap[`message${ucFirst(message.type)}`] + ' '

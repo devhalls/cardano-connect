@@ -1,17 +1,23 @@
 declare var wpCardanoConnect: { nonce: string }
 
-// Models
-
-declare interface AjaxResponse<T>  {
+declare interface AjaxResponse<T> {
     data: T
     nonce: string
     success: boolean
     message: string
 }
+declare interface PaginatedData<T> {
+    total: number,
+    items: T[]
+}
+
+// Models
+
 declare type Options = {
     version: string
     plugin_name: string
     mainnet_active: boolean
+    disable_styles: boolean
     login_redirect: null|string
     logout_redirect: null|string
     label_connect: string
@@ -67,13 +73,7 @@ declare type ApiAsset = {
     quantity: string
     initial_mint_tx_hash: string
     mint_or_burn_count: number
-    onchain_metadata: { [key in string]?: string } & {
-        name: string
-        description: string
-        image: string
-        mediaType: string
-        files: AssetFile[]
-    },
+    onchain_metadata: any,
     onchain_metadata_standard: string
     onchain_metadata_extra: null
     policy_id: string
@@ -141,6 +141,74 @@ declare type ImageFormatted = {
     src: string
     title: string
 }
+declare type Pool = {
+    pool_id: string
+}
+declare type PoolData = {
+    metadata?: PoolMetadata
+    data?: PoolDetails
+    metadata_file?: PoolMetadataFile
+    metadata_file_extended?: PoolMetadataFileExtended
+}
+declare type PoolDetails = {
+    pool_id: string
+    hex: string
+    vrf_key: string
+    blocks_minted: number
+    blocks_epoch: number
+    live_stake: string
+    live_size: number
+    live_saturation: number
+    live_delegators: number
+    active_stake: string
+    active_size: number
+    declared_pledge: string
+    live_pledge: string
+    margin_cost: number
+    fixed_cost: string
+    reward_account: string
+    owners: string[]
+    registration: string[]
+    retirement: string[]
+}
+declare type PoolMetadata = {
+    pool_id: string
+    hex: string
+    url: string
+    hash: string
+    ticker: string
+    name: string
+    description: string
+    homepage: string
+}
+declare type PoolMetadataFile = {
+    ticker: string
+    name: string
+    description: string
+    homepage: string
+    extended?: string
+}
+declare type PoolMetadataFileExtended = {
+    info: {
+        url_png_icon_64x64?: string
+        url_png_logo?: string
+        location?: string
+        social: {
+            twitter_handle?: string
+            telegram_handle?: string
+            facebook_handle?: string
+            youtube_handle?: string
+            twitch_handle?: string
+            discord_handle?: string
+            github_handle?: string
+        },
+        about: {
+            me: string
+            server: string
+            company: string
+        },
+    }
+}
 
 // States
 
@@ -176,14 +244,54 @@ declare interface ComponentAsset {
     asset: ApiAsset
     showTitle?: boolean
 }
-declare interface ComponentBalance {}
+declare interface ComponentPools {
+    whitelistString?: string,
+    perPage?: number
+    notFound?: string
+}
+declare interface ComponentPool {
+    poolId: string
+    index: number
+}
+declare interface ComponentBalance {
+    className?: string
+}
+declare interface ComponentBar {
+    title: string | React.ReactElement
+    content?: string | React.ReactElement
+    percentage: number
+    colorMap?: { [key in number]: string }
+    defaultColor?: string
+    className?: string
+}
+declare interface ComponentStats {
+    title?: string | React.ReactElement
+    stats: {
+        content: string | React.ReactElement
+        color: string
+    }[]
+    className?: string
+}
 declare interface ComponentCopy {
     text: string | React.ReactElement
     copyText?: string
     title?: string
     className?: string
 }
+declare interface ComponentLinkIcon {
+    title: string
+    url: string
+    icon?: string
+    className?: string
+}
 declare interface ComponentLoader {
     className?: string
     color?: string
+}
+declare interface ComponentPaginator<T> {
+    renderer: (item: T, index: number) => React.ReactElement
+    fetcher: (page: number, perPage: number) => Promise<PaginatedData<T>>
+    perPage?: number
+    className?: string
+    notFound?: string
 }

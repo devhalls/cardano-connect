@@ -10,6 +10,7 @@ const initialState: OptionState = {
     version: null,
     plugin_name: null,
     mainnet_active: null,
+    disable_styles: null,
     login_redirect: null,
     logout_redirect: null,
     label_connect: null,

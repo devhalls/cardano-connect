@@ -16,7 +16,7 @@ import {
 } from "../library/user";
 import {getOptionState, setOptionState} from "../library/option";
 import {resetMessageState, setMessage} from "../library/message";
-import {Loader} from "./Loader";
+import {Loader} from "./common/Loader";
 
 export const Connector = ({}: ComponentConnector) => {
 

@@ -17,6 +17,7 @@ abstract class Base
 		self::SETTING_PREFIX . 'version',
 		self::SETTING_PREFIX . 'plugin_name',
 		self::SETTING_PREFIX . 'mainnet_active',
+		self::SETTING_PREFIX . 'disable_styles',
 		self::SETTING_PREFIX . 'login_redirect',
 		self::SETTING_PREFIX . 'logout_redirect',
 		self::SETTING_PREFIX . 'label_connect',
@@ -137,6 +138,7 @@ abstract class Base
             'version' => $this->version,
             'plugin_name' => $this->plugin_name,
             'mainnet_active' => false,
+	        'disable_styles' => false,
             'login_redirect' => null,
             'logout_redirect' => null,
             'label_connect' => null,
@@ -205,6 +207,12 @@ abstract class Base
                                 'label' => __('Activate mainnet?', 'cardano-connect'),
                                 'type' => 'checkbox',
                                 'note' => __('Check this box to activate mainnet connections. If you change this option, users on the other network will need to create new accounts with a new wallet on this network.', 'cardano-connect')
+                            ],
+                            self::SETTING_PREFIX.'disable_styles' => [
+	                            'default' => false,
+	                            'label' => __('Disable styles?', 'cardano-connect'),
+	                            'type' => 'checkbox',
+	                            'note' => __('Check this box to disable default plugin styles. You can add your own styles using your theme or other plugins.', 'cardano-connect')
                             ],
                             self::SETTING_PREFIX.'login_redirect' => [
                                 'default' => null,
@@ -600,7 +608,7 @@ abstract class Base
     /**
      * Fetch a setting value based on its field name. Returns null if not found.
      * $field_key = 'all' will return the full settings array.
-     * If an option value can equate to false (eg. 0), then you must check for === false.
+     * If an option value can equate to false (e.g. 0), then you must check for === false.
      * @return mixed
      */
     protected function getSetting(string $field_key = 'all')
@@ -649,7 +657,7 @@ abstract class Base
 	}
 
 	/**
-	 * Get a user by an address, checks both tesnet and mainnet address and stake fields.
+	 * Get a user by an address, checks both testnet and mainnet address and stake fields.
 	 */
 	protected function getUserByAddress(string $address): array
 	{

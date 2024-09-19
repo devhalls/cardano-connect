@@ -1,8 +1,8 @@
-import React, {useCallback} from 'react'
-import {classMap} from "../library/utils";
-import {setMessage} from "../library/message";
-import {useAppDispatch, useAppSelector} from "../library/state";
-import {getOptionState} from "../library/option";
+import React from 'react'
+import {classMap} from "../../library/utils";
+import {setMessage} from "../../library/message";
+import {useAppDispatch, useAppSelector} from "../../library/state";
+import {getOptionState} from "../../library/option";
 
 export const Copy = ({
   text,
@@ -18,7 +18,7 @@ export const Copy = ({
 
   // Click handler
 
-  const copyClick = useCallback(async () => {
+  const copyClick = async () => {
     try {
       await navigator.clipboard.writeText(copyText || text.toString())
       dispatch(setMessage({
@@ -31,7 +31,7 @@ export const Copy = ({
         message: options.label_text_copied_failed,
       }))
     }
-  }, [options])
+  }
 
   return (
     <div className={className} onClick={copyClick} title={title}>
