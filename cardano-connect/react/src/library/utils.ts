@@ -40,13 +40,13 @@ export const translateError = (error: string): string => {
     return formattedError
 }
 
-export const formatBalance = (quantity: string): string => {
+export const formatBalance = (quantity: string, decimals: number = 2): string => {
     const asNumber: number = parseInt(quantity, 10)
     if (asNumber <= 0) {
         return '0'
     }
     const formatted: number = parseInt((asNumber / 1_00).toString(), 10)
-    return formatNumber(parseInt(formatted.toString().slice(0, -4))) + '.' + formatted.toString().slice(-4)
+    return formatNumber(parseInt(formatted.toString().slice(0, -4))) + (decimals > 0 ? '.' + formatted.toString().slice(-decimals) : '')
 }
 
 export const formatNumber = (x: number): string => {
@@ -164,6 +164,8 @@ export const classMap = {
     poolContent: 'wpcc-pool-content',
     poolHeader: 'wpcc-pool-header',
     poolHeaderRight: 'wpcc-pool-header-right',
+    poolBody: 'wpcc-pool-body',
+    poolBodyBars: 'wpcc-pool-body-bars',
     poolTicker: 'wpcc-pool-ticker',
     poolName: 'wpcc-pool-name',
     poolSocial: 'wpcc-pool-social',

@@ -41,7 +41,7 @@ export const Pool = ({poolId, index}: ComponentPool) => {
     }, [getPool]);
 
     return (
-        <div key={poolId + '-' + index} className={classMap.pool}>
+        <div key={poolId + '-' + index} className={`${classMap.pool} pool-${poolId}`}>
             {loading ? <Loader/> : !poolData ?
                 <div className={classMap.notFound}>
                     {options.label_no_assets}
@@ -108,39 +108,43 @@ export const Pool = ({poolId, index}: ComponentPool) => {
                             <Copy text={trimAddress(poolId)} copyText={poolId} className={classMap.poolId}/>
                         </div>
                     </div>
-                    <Stats
-                        title={'Pool fees'}
-                        stats={[
-                            {
-                                content: `${(poolData.data.margin_cost * 100).toFixed(2)}%`,
-                                color: '#D7D7D7'
-                            },
-                            {
-                                content: `₳${formatBalance(poolData.data.fixed_cost)}`,
-                                color: '#D7D7D7'
-                            }
-                        ]}
-                    />
-                    <Bar
-                        title={'Stake (Saturation)'}
-                        content={`₳ ${formatBalance(poolData.data.live_stake)} (${formatPercentage(poolData.data.live_saturation)}%)`}
-                        percentage={poolData.data.live_saturation * 100}
-                        colorMap={{
-                            0: '#4BB543',
-                            85: '#FFCC00',
-                            95: '#FF3333'
-                        }}
-                    />
-                    <Bar
-                        title={`Pledge (Pledge ${poolData.data.live_pledge < poolData.data.declared_pledge ? 'NOT met' : 'met'})`}
-                        content={`₳ ${formatBalance(poolData.data.live_pledge)} (${formatPercentage(parseInt(poolData.data.live_pledge) / parseInt(poolData.data.declared_pledge))}%)`}
-                        percentage={((parseInt(poolData.data.live_pledge) / parseInt(poolData.data.declared_pledge)) * 100)}
-                        defaultColor={'red'}
-                        colorMap={{
-                            0: '#FF3333',
-                            100: '#4BB543',
-                        }}
-                    />
+                    <div className={classMap.poolBody}>
+                        <Stats
+                            title={'Pool fees'}
+                            stats={[
+                                {
+                                    content: `${(poolData.data.margin_cost * 100).toFixed(2)}%`,
+                                    color: '#D7D7D7'
+                                },
+                                {
+                                    content: `₳${formatBalance(poolData.data.fixed_cost, 0)}`,
+                                    color: '#D7D7D7'
+                                }
+                            ]}
+                        />
+                        <div className={classMap.poolBodyBars}>
+                            <Bar
+                                title={'Stake (Saturation)'}
+                                content={`₳ ${formatBalance(poolData.data.live_stake)} (${formatPercentage(poolData.data.live_saturation)}%)`}
+                                percentage={poolData.data.live_saturation * 100}
+                                colorMap={{
+                                    0: '#87e381',
+                                    85: '#ffe15e',
+                                    95: '#ff6c6c'
+                                }}
+                            />
+                            <Bar
+                                title={`Pledge (Pledge ${poolData.data.live_pledge < poolData.data.declared_pledge ? 'NOT met' : 'met'})`}
+                                content={`₳ ${formatBalance(poolData.data.live_pledge)} (${formatPercentage(parseInt(poolData.data.live_pledge) / parseInt(poolData.data.declared_pledge))}%)`}
+                                percentage={((parseInt(poolData.data.live_pledge) / parseInt(poolData.data.declared_pledge)) * 100)}
+                                defaultColor={'#ff6c6c'}
+                                colorMap={{
+                                    0: '#ff6c6c',
+                                    100: '#87e381',
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
             }
         </div>

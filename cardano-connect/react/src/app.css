@@ -341,6 +341,9 @@
     align-items: center;
     gap: var(--wpcc-base-sizing);
 }
+.wpcc-pool .wpcc-loader {
+    margin: auto;
+}
 .wpcc-pool-content {
     display: flex;
     flex-direction: column;
@@ -358,6 +361,18 @@
 .wpcc-pool-header-right {
     margin-left: auto;
     text-align: right;
+}
+.wpcc-pool-body {
+    display: flex;
+    gap: var(--wpcc-base-sizing);
+}
+.wpcc-pool-body-bars {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--wpcc-base-sizing) / 2);
+    border-left: 1px solid var(--wpcc-primary-gray);
+    padding-left: calc(var(--wpcc-base-sizing));
 }
 .wpcc-pool-image {
     border-radius: 50%;
@@ -393,7 +408,7 @@
         flex-wrap: wrap;
     }
     .wpcc-pool {
-        width: calc(50% - calc(var(--wpcc-base-sizing) * 2.5));
+        width: calc(50% - calc(var(--wpcc-base-sizing) / 2));
     }
 }
 
@@ -407,7 +422,7 @@
 }
 .wpcc-bar-content {
     position: relative;
-    background-color: var(--wpcc-primary-gray);
+    background-color: white;
     border-radius: calc(var(--wpcc-border-radius));
     overflow: hidden;
 }
@@ -433,20 +448,20 @@
 
 .wpcc-stats {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: calc(var(--wpcc-base-sizing) / 2);
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+    gap: calc(var(--wpcc-base-sizing) / 4);
 }
 .wpcc-stats-title {
     width: 100%;
-    text-align: center;
 }
 .wpcc-stats-content {
     padding: calc(var(--wpcc-base-sizing) / 2);
     border-radius: var(--wpcc-border-radius);
     border-width: 3px;
     border-style: solid;
+    text-align: center;
 }
 
 /** Message component **/
