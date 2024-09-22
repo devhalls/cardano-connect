@@ -39,6 +39,15 @@ declare type Options = {
     label_assets_policy_label: string
     label_assets_quantity_label: string
     label_no_assets: string
+    label_no_pools: string
+    label_no_pool: string
+    label_delegate_to_pool: string
+    label_delegated_to_pool: string
+    label_pool_fees: string
+    label_pool_stake: string
+    label_pool_stake_saturated: string
+    label_pool_pledge_met: string
+    label_pool_pledge_not_met: string
     label_text_copied: string
     label_text_copied_failed: string
     assets_whitelist: string
@@ -52,6 +61,7 @@ declare type Message = {
     id: number
     message: string
     timestamp: number
+    timeout?: number
 }
 declare type Asset = {
     unit: string
@@ -106,7 +116,8 @@ declare type UxTO = {
 }
 declare type UserData = {
     user: User,
-    web3: UserWeb3
+    web3: UserWeb3,
+    account: UserAccount
 }
 declare type User = {
     ID: number
@@ -136,6 +147,19 @@ declare type UserWeb3 = {
     cardano_connect_address_testnet: string
     cardano_connect_stake_address_testnet: string
     cardano_connect_network: 'mainnet'|'testnet'
+}
+declare type UserAccount = {
+    stake_address: string
+    active: boolean
+    active_epoch: number
+    controlled_amount: string
+    rewards_sum: string
+    withdrawals_sum: string
+    reserves_sum: string
+    treasury_sum: string
+    drep_id: string,
+    withdrawable_amount: string,
+    pool_id: string
 }
 declare type ImageFormatted = {
     src: string
@@ -221,6 +245,7 @@ declare type UserState = {
     network: string | null
     web3: UserWeb3 | null
     user: User | null
+    account: UserAccount | null
     assets?: Asset[] | null
     apiAssets?: ApiAsset[] | null
     balances?: Balance[] | null
@@ -252,6 +277,8 @@ declare interface ComponentPools {
 declare interface ComponentPool {
     poolId: string
     index: number
+    delegateStake?: (poolId: string) => Promise<void>
+    withdrawRewards?: (poolId: string) => Promise<void>
 }
 declare interface ComponentBalance {
     className?: string

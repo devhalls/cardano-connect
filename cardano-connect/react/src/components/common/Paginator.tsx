@@ -23,19 +23,20 @@ export const Paginator = ({
     const [total, setTotal] = useState<number>(0);
     const [items, setItems] = useState<(ApiAsset | Pool | Asset)[] | null>([]);
     const [itemsPerPage, setItemsPerPage] = useState<number>(perPage)
+    const [updatedPage, setUpdatedPage] = useState<number>(1);
 
     // Click handlers
 
-    const changePage = useCallback((dir: '+' | '-') => {
-        const newPage = (dir === '+' ? page + 1 : page - 1);
+    const changePage = useCallback((newPage: number) => {
         setLoading(true)
         fetcher(newPage, itemsPerPage).then(data => {
             setItems(data.items)
             setTotal(data.total)
             setPage(newPage)
+            setUpdatedPage(newPage)
             setLoading(false)
         })
-    }, [page, itemsPerPage])
+    }, [itemsPerPage])
 
     // Set data on load
 
@@ -50,17 +51,31 @@ export const Paginator = ({
     return (
         <>
             {perPage > 0 ? <div className={classMap.pagination}>
-                <span>{page} / {total > itemsPerPage ? Math.ceil(total / itemsPerPage) : 1}</span>
+                <span>
+                    <input
+                        onChange={(v) => setUpdatedPage(parseInt(v.currentTarget.value || '1'))}
+                        type={'number'}
+                        value={updatedPage}
+                        min={1}
+                        max={Math.ceil(total / itemsPerPage)}
+                    />{' '}
+                    / {total > itemsPerPage ? Math.ceil(total / itemsPerPage) : 1}
+                </span>
                 <button
                     disabled={loading || page <= 1}
-                    onClick={() => changePage('-')}>
+                    onClick={() => changePage(page - 1)}>
                     {options.label_paginate_prev}
                 </button>
                 <button
                     disabled={loading || (items && page >= Math.ceil(total / itemsPerPage))}
-                    onClick={() => changePage('+')}>
+                    onClick={() => changePage(page + 1)}>
                     {options.label_paginate_next}
                 </button>
+                {updatedPage !== page ? <button
+                    disabled={loading}
+                    onClick={() => changePage(updatedPage)}>
+                    Update
+                </button> : null}
                 <span>{total} {options.label_paginate_items}</span>
             </div> : null }
             <div className={className}>

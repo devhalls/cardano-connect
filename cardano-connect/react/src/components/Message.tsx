@@ -23,7 +23,7 @@ export const Message = () => {
     useEffect(() => {
         if (message.messages) {
             message.messages.map(a => {
-                onRemoveError(a.id, 6000)
+                onRemoveError(a.id, a.timeout || 6000)
                 return a
             })
         }

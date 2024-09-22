@@ -96,7 +96,9 @@ class Plugin extends Base
             )[0];
             $defaults = [];
             foreach ($settings_fields as $name => $settings_field) {
-                $defaults[$name] = $settings_field['default'];
+				if (isset($settings_field['default'])) {
+					$defaults[ $name ] = $settings_field['default'];
+				}
             }
             add_option($setting['name'], $defaults);
         }

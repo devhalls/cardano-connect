@@ -26,6 +26,15 @@ export const mockOption: AjaxResponse<Options> = {
         label_assets_policy_label: 'Token Collection',
         label_assets_quantity_label: 'Qty',
         label_no_assets: 'No assets found',
+        label_no_pools: 'No pools found',
+        label_no_pool: 'Unable to load pool data',
+        label_delegate_to_pool: 'Delegate',
+        label_delegated_to_pool: 'You are delegated to this pool',
+        label_pool_fees: 'Pool fees',
+        label_pool_stake: 'Stake (Saturation)',
+        label_pool_stake_saturated: 'Stake (SATURATED)',
+        label_pool_pledge_met: 'Pledge (Pledge met)',
+        label_pool_pledge_not_met: 'Pledge (Pledge NOT met)',
         label_text_copied: 'Copied!',
         label_text_copied_failed: 'Copy failed',
         login_redirect: '/wallet',
@@ -42,7 +51,7 @@ export const mockOption: AjaxResponse<Options> = {
     }
 }
 
-export const mockUser: AjaxResponse<{ user: User|null; web3: UserWeb3|null }> = {
+export const mockUser: AjaxResponse<{ user: User|null; web3: UserWeb3|null; account: UserAccount|null }> = {
     nonce: 'nonce_value',
     success: true,
     message: '',
@@ -77,6 +86,19 @@ export const mockUser: AjaxResponse<{ user: User|null; web3: UserWeb3|null }> = 
             cardano_connect_wallet: 'eternl',
             cardano_connect_address_testnet: 'addr_test1qrt7n958gtzy4cvsuarsu6gr058tj9s64zahd3ezrkq7f20zvgd6cz0xh86sq70jvk7z56zztgpfnt9v85zryhag9lcq2p9ezh',
             cardano_connect_stake_address_testnet: 'stake_test1ur3xyxavp8ntnagq08ext0p2dpp95q5e4jkr6ppjt75zluq9706vn'
+        },
+        account: {
+            stake_address: "stake1uynmzzvxnasu6lyxjdpurvrtnmpntvlx00ekjupeyhf9s9cld72hf",
+            active: true,
+            active_epoch: 247,
+            controlled_amount: "66059337",
+            rewards_sum: "137310146",
+            withdrawals_sum: "137310146",
+            reserves_sum: "0",
+            treasury_sum: "0",
+            drep_id: null,
+            withdrawable_amount: "0",
+            pool_id: "pool1keasvddt9vndl8jyhg204s6kqusv5zgzg3kk3l3g949ew402ahe"
         }
     },
 }
@@ -178,12 +200,12 @@ const poolMockData: ({pool_id: string} & PoolData)[]  = [
             "hash": "a0091fbf52d709447231d7124069bcae3e055268afdf5a26a6d5f1b8bacb298c",
             "ticker": "UPSTR",
             "name": "Upstream",
-            "description": "Upstream is an independent ADA Stake Pool Operator. Hosts of the London Cardano Social and the 2022\/2023 Cardano Summits, we provide community driven events and educational content. Actively supporting decentralisation, sustainability and SPO alliances.",
+            "description": "Upstream is an independent ADA Stake Pool Operator. Hosts of the London Cardano Social and the 2022/2023 Cardano Summits, we provide community driven events and educational content. Actively supporting decentralisation, sustainability and SPO alliances.",
             "homepage": "https://upstream.org.uk"
         },
         "metadata_file": {
             "name": "Upstream",
-            "description": "Upstream is an independent ADA Stake Pool Operator. Hosts of the London Cardano Social and the 2022\/2023 Cardano Summits, we provide community driven events and educational content. Actively supporting decentralisation, sustainability and SPO alliances.",
+            "description": "Upstream is an independent ADA Stake Pool Operator. Hosts of the London Cardano Social and the 2022/2023 Cardano Summits, we provide community driven events and educational content. Actively supporting decentralisation, sustainability and SPO alliances.",
             "ticker": "UPSTR",
             "homepage": "https://upstream.org.uk",
             "extended": "https://upstream.org.uk/assets/extendedPoolMetaData.json"

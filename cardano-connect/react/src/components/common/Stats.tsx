@@ -9,8 +9,8 @@ export const Stats = ({
     return (
         <div className={`${classMap.stats} ${className}`}>
             {title ? <div className={classMap.statsTitle}>{title}</div> : null}
-            {stats.map(s =>
-                <div className={classMap.statsContent} style={{ borderColor: s.color }}>{s.content}</div>
+            {stats.map((s, i) =>
+                <div key={i} className={classMap.statsContent} style={{ borderColor: s.color }}>{s.content}</div>
             )}
         </div>
     )

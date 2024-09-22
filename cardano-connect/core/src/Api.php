@@ -122,7 +122,7 @@ class Api extends Base
 	 */
 	public function getUser(): array
 	{
-		return $this->returnResponse(true, $this->getCurrentUser());
+		return $this->returnResponse(true, $this->getCurrentUser(null, $this->connectDataProvider));
 	}
 
 	/**
@@ -238,7 +238,7 @@ class Api extends Base
         if ( $success ) {
             wp_set_current_user( $user_id );
             wp_set_auth_cookie( $user_id );
-            $data = $this->getCurrentUser();
+            $data = $this->getCurrentUser(null, $this->connectDataProvider);
             return $this->returnResponse( true, $data, $message );
         }
 

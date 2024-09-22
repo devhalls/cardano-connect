@@ -1,5 +1,11 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {classMap, formatBalance, formatPercentage, trimAddress} from "../library/utils";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {
+    classMap,
+    formatBalance,
+    formatPercentageFromDecimal,
+    formatPercentageFromBig,
+    trimAddress
+} from "../library/utils";
 import {Copy} from "./common/Copy";
 import {backendGetPool} from "../library";
 import {useAppSelector} from "../library/state";
@@ -8,17 +14,32 @@ import {Loader} from "./common/Loader";
 import {Bar} from "./common/Bar";
 import {Stats} from "./common/Stats";
 import {LinkIcon} from "./common/LinkIcon";
+import {getUserState} from "../library/user";
 
-export const Pool = ({poolId, index}: ComponentPool) => {
+export const Pool = ({
+    poolId,
+    index,
+    delegateStake,
+}: ComponentPool) => {
 
     // APP State
 
+    const user: UserState = useAppSelector(getUserState)
     const options: OptionState = useAppSelector(getOptionState)
 
     // Local state
 
     const [loading, setLoading] = useState(true)
+    const [loadingAction, setLoadingAction] = useState(false)
     const [poolData, setPoolData] = useState<PoolData | null>(null)
+
+    // Handlers
+
+    const handleDelegate = async () => {
+        setLoadingAction(true)
+        await delegateStake(poolId)
+        setLoadingAction(false)
+    }
 
     // Helpers
 
@@ -34,17 +55,28 @@ export const Pool = ({poolId, index}: ComponentPool) => {
         setLoading(false)
     }, [poolId])
 
-    // Set data on load
+    const poolPledgePercent = useMemo<number>(() =>
+        formatPercentageFromBig(poolData?.data?.live_pledge, poolData?.data?.declared_pledge), [poolData])
+    const poolSaturationPercent = useMemo<number>(() =>
+        formatPercentageFromDecimal(poolData?.data?.live_saturation), [poolData])
+    const userDelegated = useMemo(() =>
+        (user?.account?.active && user?.account?.pool_id === poolId), [user])
+    const isSaturated = useMemo(() =>
+        ((poolData?.data?.live_saturation ? poolData?.data?.live_saturation * 100 : 0) > 100), [poolData])
+    const isNoPledged = useMemo(() =>
+        (poolPledgePercent ? poolPledgePercent < 100 : true), [poolData, poolPledgePercent])
+
+    // Get pool data on load
 
     useEffect(() => {
         getPool().then()
-    }, [getPool]);
+    }, [getPool])
 
     return (
         <div key={poolId + '-' + index} className={`${classMap.pool} pool-${poolId}`}>
             {loading ? <Loader/> : !poolData ?
                 <div className={classMap.notFound}>
-                    {options.label_no_assets}
+                    {options.label_no_pool}<br/><Copy text={poolId} />
                 </div> :
                 <div className={classMap.poolContent}>
                     <div className={classMap.poolHeader}>
@@ -62,6 +94,13 @@ export const Pool = ({poolId, index}: ComponentPool) => {
                         ) : null}
                         <div className={classMap.poolHeaderRight}>
                             <div className={classMap.poolSocial}>
+                                {poolData.metadata?.homepage
+                                    ? <LinkIcon
+                                        title={poolData.metadata?.name || poolId}
+                                        icon={'link'}
+                                        url={poolData.metadata?.homepage}
+                                    />
+                                    : null}
                                 {poolData.metadata_file_extended?.info?.social?.twitter_handle
                                     ? <LinkIcon
                                         title={'Twitter'}
@@ -110,7 +149,7 @@ export const Pool = ({poolId, index}: ComponentPool) => {
                     </div>
                     <div className={classMap.poolBody}>
                         <Stats
-                            title={'Pool fees'}
+                            title={options.label_pool_fees}
                             stats={[
                                 {
                                     content: `${(poolData.data.margin_cost * 100).toFixed(2)}%`,
@@ -124,9 +163,9 @@ export const Pool = ({poolId, index}: ComponentPool) => {
                         />
                         <div className={classMap.poolBodyBars}>
                             <Bar
-                                title={'Stake (Saturation)'}
-                                content={`₳ ${formatBalance(poolData.data.live_stake)} (${formatPercentage(poolData.data.live_saturation)}%)`}
-                                percentage={poolData.data.live_saturation * 100}
+                                title={isSaturated ? options.label_pool_stake_saturated : options.label_pool_stake}
+                                content={`₳ ${formatBalance(poolData.data.live_stake)} (${poolSaturationPercent}%)`}
+                                percentage={poolSaturationPercent}
                                 colorMap={{
                                     0: '#87e381',
                                     85: '#ffe15e',
@@ -134,9 +173,9 @@ export const Pool = ({poolId, index}: ComponentPool) => {
                                 }}
                             />
                             <Bar
-                                title={`Pledge (Pledge ${poolData.data.live_pledge < poolData.data.declared_pledge ? 'NOT met' : 'met'})`}
-                                content={`₳ ${formatBalance(poolData.data.live_pledge)} (${formatPercentage(parseInt(poolData.data.live_pledge) / parseInt(poolData.data.declared_pledge))}%)`}
-                                percentage={((parseInt(poolData.data.live_pledge) / parseInt(poolData.data.declared_pledge)) * 100)}
+                                title={isNoPledged ? options.label_pool_pledge_not_met : options.label_pool_pledge_met}
+                                content={`₳ ${formatBalance(poolData.data.live_pledge)} (${poolPledgePercent}%)`}
+                                percentage={poolPledgePercent}
                                 defaultColor={'#ff6c6c'}
                                 colorMap={{
                                     0: '#ff6c6c',
@@ -145,6 +184,14 @@ export const Pool = ({poolId, index}: ComponentPool) => {
                             />
                         </div>
                     </div>
+                    {user?.connected ? <div className={classMap.actions}>
+                        {loadingAction ? <Loader className={'wpcc-loader'}/> : (
+                            <>
+                                {delegateStake && !userDelegated ? <button className={classMap.actionsButton} onClick={handleDelegate} type={'button'}>{options.label_delegate_to_pool}</button> : null}
+                                {userDelegated ? <span className={classMap.actionsButtonPlaceholder}>{options.label_delegated_to_pool}</span> : null}
+                            </>
+                        )}
+                    </div> : null }
                 </div>
             }
         </div>

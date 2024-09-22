@@ -205,9 +205,13 @@ class Settings extends Base
                 $this->renderFieldCheckbox($params['setting_name'], $params['field_name'], $params['field_data']);
                 break;
 
-            case 'select':
-                $this->renderFieldSelect($params['setting_name'], $params['field_name'], $params['field_data']);
-                break;
+	        case 'select':
+		        $this->renderFieldSelect($params['setting_name'], $params['field_name'], $params['field_data']);
+		        break;
+
+	        case 'title':
+		        $this->renderFieldTitle($params['setting_name'], $params['field_name'], $params['field_data']);
+		        break;
         }
     }
 
@@ -270,7 +274,7 @@ class Settings extends Base
 
     public function renderFieldCheckbox($setting_name, $field_name, $field_data): void
     {
-        $default = $field_data['default'];
+        $default = $field_data['default'] ?? null;
         $extra_classes = $field_data['extra_classes'] ?? '';
         printf(
             '<input type="checkbox" class="%s" id="%s" name="%s[%s]" value="1" %s /> %s',
@@ -296,6 +300,11 @@ class Settings extends Base
 			'default' => $default,
 		], true);
     }
+
+	public function renderFieldTitle($setting_name, $field_name, $field_data): void
+	{
+		echo '<h2>' . esc_html($field_data['title']) . '</h2>';
+	}
 
     /**
      * Settings group callback, intentionally black, unused but necessary for WP settings API.

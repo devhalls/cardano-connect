@@ -6,6 +6,7 @@ const initialState: UserState = {
     connected: null,
     web3: null,
     user: null,
+    account: null,
     network: null,
     assets: null,
     apiAssets: null,

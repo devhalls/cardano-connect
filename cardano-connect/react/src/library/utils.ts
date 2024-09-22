@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js";
+
 export const trimAddress = (string: string, padded: number = 6) => {
     return string
         ? `${string.substring(0, padded)}...${string.substring(string.length-(padded), string.length)}`
@@ -27,6 +29,9 @@ export const translateError = (error: string): string => {
             match: 'user canceled connection',
             replace: 'User canceled the connection'
         },{
+            match: 'user declined sign tx',
+            replace: 'User declined the transaction'
+        },{
             match: 'no account set',
             replace: 'No account is set for connection, please enable a connection in your wallet then try again'
         }
@@ -53,8 +58,16 @@ export const formatNumber = (x: number): string => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export const formatPercentage = (x: number): string => {
-    return (x * 100).toFixed(2)
+export const formatPercentageFromDecimal = (x: number): number => {
+    return parseFloat((x * 100).toFixed(2))
+}
+
+export const formatPercentageFromBig = (a: string, b: string): number => {
+    const aBn = new BigNumber(a)
+    const bBn = new BigNumber(b)
+    return (a && b)
+        ? parseFloat(aBn.div(bBn).multipliedBy(100).toFixed(2))
+        : 0
 }
 
 export const ucFirst = (string: string) => {
@@ -181,5 +194,8 @@ export const classMap = {
     stats: 'wpcc-stats',
     statsTitle: 'wpcc-stats-title',
     statsContent: 'wpcc-stats-content',
-
+    // Actions buttons component classes.
+    actions: 'wpcc-actions',
+    actionsButton: 'wpcc-actions-button',
+    actionsButtonPlaceholder: 'wpcc-actions-button-placeholder',
 }

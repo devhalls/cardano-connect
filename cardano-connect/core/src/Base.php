@@ -2,6 +2,9 @@
 
 namespace WPCC;
 
+use WPCC\Connect\Base as ConnectBase;
+use WPCC\Connect\Response;
+
 abstract class Base
 {
     /**
@@ -39,6 +42,15 @@ abstract class Base
 		self::SETTING_PREFIX . 'label_assets_policy_label',
 		self::SETTING_PREFIX . 'label_assets_quantity_label',
 		self::SETTING_PREFIX . 'label_no_assets',
+		self::SETTING_PREFIX . 'label_no_pools',
+		self::SETTING_PREFIX . 'label_no_pool',
+		self::SETTING_PREFIX . 'label_delegate_to_pool',
+		self::SETTING_PREFIX . 'label_delegated_to_pool',
+		self::SETTING_PREFIX . 'label_pool_fees',
+		self::SETTING_PREFIX . 'label_pool_stake',
+		self::SETTING_PREFIX . 'label_pool_stake_saturated'.
+		self::SETTING_PREFIX . 'label_pool_pledge_met',
+		self::SETTING_PREFIX . 'label_pool_pledge_not_met',
 		self::SETTING_PREFIX . 'label_text_copied',
 		self::SETTING_PREFIX . 'label_text_copied_failed',
 		self::SETTING_PREFIX . 'assets_whitelist',
@@ -155,6 +167,15 @@ abstract class Base
 	        'label_create_mainnet_prompt' => null,
 			'label_create_testnet_prompt' => null,
 	        'label_no_assets' => null,
+	        'label_no_pools'=> null,
+			'label_no_pool'=> null,
+			'label_delegate_to_pool'=> null,
+	        'label_delegated_to_pool'=> null,
+			'label_pool_fees'=> null,
+			'label_pool_stake'=> null,
+	        'label_pool_stake_saturated' => null,
+			'label_pool_pledge_met'=> null,
+			'label_pool_pledge_not_met'=> null,
 	        'label_text_copied' => null,
 			'label_text_copied_failed' => null,
 	        'label_paginate_prev' => null,
@@ -320,6 +341,11 @@ abstract class Base
                         'name' => self::SETTING_PREFIX.'label_settings',
                         'callback' => 'settingsCallback',
                         'fields' => [
+	                        self::SETTING_PREFIX.'connector_button_labels' => [
+		                        'type' => 'title',
+		                        'label' => '',
+		                        'title' => __('Cardano connect button', 'cardano-connect')
+	                        ],
                             self::SETTING_PREFIX.'label_connect' => [
                                 'default' => __('Cardano Connect', 'cardano-connect'),
                                 'label' => __('Connect button', 'cardano-connect'),
@@ -347,15 +373,6 @@ abstract class Base
                                 ],
                                 'note' => __('Text shown when displaying the wallet list', 'cardano-connect')
                             ],
-                            self::SETTING_PREFIX.'label_empty' => [
-                                'default' => __('No wallets detected. Please install a Wallet browser extension or switch browsers.', 'cardano-connect'),
-                                'label' => __('No wallets available', 'cardano-connect'),
-                                'type' => 'text',
-                                'rules' => [
-                                    'required',
-                                ],
-                                'note' => __('Text shown when the user has no compatible wallet extensions installed', 'cardano-connect')
-                            ],
                             self::SETTING_PREFIX.'label_disconnect' => [
 	                            'default' => __('Disconnect', 'cardano-connect'),
 	                            'label' => __('Disconnect button', 'cardano-connect'),
@@ -365,6 +382,11 @@ abstract class Base
 	                            ],
 	                            'note' => __('Text shown on the disconnect button', 'cardano-connect')
                             ],
+	                        self::SETTING_PREFIX.'connector_prompt_labels' => [
+		                        'type' => 'title',
+		                        'label' => '',
+		                        'title' => __('Cardano connect prompts', 'cardano-connect')
+	                        ],
                             self::SETTING_PREFIX.'label_disconnect_prompt' => [
 	                            'default' => __('Are you sure you would like to disconnect?', 'cardano-connect'),
 	                            'label' => __('Disconnect prompt', 'cardano-connect'),
@@ -437,6 +459,11 @@ abstract class Base
 	                            ],
 	                            'note' => __('Text shown when user is logged in but connected to a network they have not connected to before', 'cardano-connect')
                             ],
+	                        self::SETTING_PREFIX.'pagination_labels' => [
+		                        'type' => 'title',
+		                        'label' => '',
+		                        'title' => __('Pagination labels', 'cardano-connect')
+	                        ],
                             self::SETTING_PREFIX.'label_paginate_prev' => [
 	                            'default' => __('Prev', 'cardano-connect'),
 	                            'label' => __('Previous button', 'cardano-connect'),
@@ -464,6 +491,11 @@ abstract class Base
 	                            ],
 	                            'note' => __('Text shown next to the pagination total results number', 'cardano-connect')
                             ],
+	                        self::SETTING_PREFIX.'asset_labels' => [
+		                        'type' => 'title',
+		                        'label' => '',
+		                        'title' => __('Asset labels', 'cardano-connect')
+	                        ],
                             self::SETTING_PREFIX.'label_assets_policy_label' => [
 	                            'default' => __('Token Collection', 'cardano-connect'),
 	                            'label' => __('Policy label text', 'cardano-connect'),
@@ -490,6 +522,97 @@ abstract class Base
 			                        'required',
 		                        ],
 		                        'note' => __('Text shown if no assets are found in their wallet', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'pool_labels' => [
+		                        'type' => 'title',
+		                        'label' => '',
+		                        'title' => __('Pool labels', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_no_pools' => [
+		                        'default' => __('No pools found', 'cardano-connect'),
+		                        'label' => __('No pools found prompt', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown if no pools are found in the list of pools', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_no_pool' => [
+		                        'default' => __('Unable to load pool data', 'cardano-connect'),
+		                        'label' => __('Unable to load pool data prompt', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown if we are unable to load a pools data', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_delegate_to_pool' => [
+		                        'default' => __('Delegate', 'cardano-connect'),
+		                        'label' => __('Delegate to pool button text', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Button text for the delegate to pool button', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_delegated_to_pool' => [
+		                        'default' => __('You are delegated to this pool', 'cardano-connect'),
+		                        'label' => __('Delegated to pool text', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown when user is delegated to  a pool in place of the delegate button', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_pool_fees' => [
+		                        'default' => __('Pool fees', 'cardano-connect'),
+		                        'label' => __('Pool fees label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed above a pools fees', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_pool_stake' => [
+		                        'default' => __('Stake (Saturation)', 'cardano-connect'),
+		                        'label' => __('Pools stake and saturation label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed above a pools saturation bar', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_pool_stake_saturated' => [
+		                        'default' => __('Stake (SATURATED)', 'cardano-connect'),
+		                        'label' => __('Pools stake and saturation label when saturated', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed above a pools saturation bar when their stake is saturated', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_pool_pledge_met' => [
+		                        'default' => __('Pledge (Pledge met)', 'cardano-connect'),
+		                        'label' => __('Pools pledge met label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed above a pools pledge bar when their pledge is met', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_pool_pledge_not_met' => [
+		                        'default' => __('Pledge (Pledge NOT met)', 'cardano-connect'),
+		                        'label' => __('Pools pledge NOT met label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed above a pools pledge bar when their pledge is NOT met', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'copy_labels' => [
+		                        'type' => 'title',
+		                        'label' => '',
+		                        'title' => __('Copy text labels', 'cardano-connect')
 	                        ],
                             self::SETTING_PREFIX.'label_text_copied' => [
 	                            'default' => __('Copied', 'cardano-connect'),
@@ -596,7 +719,7 @@ abstract class Base
 	}
 
 	/**
-	 * Load a template.
+	 * Get an assets URL path.
 	 * @param string $file Path under $this->template_path.
 	 * @return string
 	 */
@@ -637,29 +760,37 @@ abstract class Base
 	 * Get the current authenticated user and their metadata.
 	 * Returns empty user object with ID=0 if not logged in.
 	 */
-	protected function getCurrentUser(int $user_id = null): array
+	protected function getCurrentUser(int $user_id = null, ConnectBase $provider = null): array
 	{
 		$user = $user_id ? get_user_by('ID', $user_id) : wp_get_current_user();
 		$meta = [];
+		$provider_data = new Response(false);
 
 		if ($user->ID) {
 			foreach ($this->user_fields as $f) {
 				$meta[$f['name']] = get_user_meta($user->ID, $f['name'], true);
 			}
+			$stake_address = $meta['cardano_connect_network'] === 'mainnet'
+				? $meta['cardano_connect_stake_address']
+				: $meta['cardano_connect_stake_address_testnet'];
+			$provider_data = $provider
+				? $provider->getAccount($stake_address)
+				: $provider_data;
 		} else {
 			$user = [];
 		}
 
 		return [
 			'user' => $user,
-			'web3' => $meta
+			'web3' => $meta,
+			'account' => (array) $provider_data->response,
 		];
 	}
 
 	/**
 	 * Get a user by an address, checks both testnet and mainnet address and stake fields.
 	 */
-	protected function getUserByAddress(string $address): array
+	protected function getUserByAddress(string $address, ConnectBase $provider = null): array
 	{
 		$user = get_users([
 			'meta_query' => [
@@ -682,7 +813,7 @@ abstract class Base
 				]
 			]
 		])[0];
-		return $this->getCurrentUser($user->ID ?: null);
+		return $this->getCurrentUser($user->ID ?: null, $provider);
 	}
 
 	/**

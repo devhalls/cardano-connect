@@ -11,7 +11,11 @@ const messageSlice = createSlice({
     name: 'message',
     initialState,
     reducers: {
-        setMessage(state, action: PayloadAction<{  type: Message['type']; message: Message['message'] }>) {
+        setMessage(state, action: PayloadAction<{
+            type: Message['type']
+            message: Message['message']
+            timeout?: Message['timeout']
+        }>) {
             state.messages = [...(state.messages || []), ...[{
                 id: new Date().getTime(),
                 timestamp: new Date().getTime(),

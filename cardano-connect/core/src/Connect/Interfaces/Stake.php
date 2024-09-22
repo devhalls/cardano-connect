@@ -11,6 +11,4 @@ interface Stake {
 	public function getStakePoolData( string $pool_id ): Response;
 
 	public function getStakePoolMetadata( string $pool_id ): Response;
-
-	public function getStakeHistory( string $stake_address ): Response;
 }

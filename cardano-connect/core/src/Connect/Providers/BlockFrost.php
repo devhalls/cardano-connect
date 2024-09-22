@@ -3,11 +3,12 @@
 namespace WPCC\Connect\Providers;
 
 use WPCC\Connect\Base;
+use WPCC\Connect\Interfaces\Account;
 use WPCC\Connect\Response;
 use WPCC\Connect\Interfaces\Asset;
 use WPCC\Connect\Interfaces\Stake;
 
-class BlockFrost extends Base implements Asset, Stake
+class BlockFrost extends Base implements Account, Asset, Stake
 {
 	protected function setHeaders(): array {
 		return [
@@ -36,6 +37,10 @@ class BlockFrost extends Base implements Asset, Stake
 
 	public function getStakePoolMetadataFile( string $url ): Response {
 		return $this->get( $url );
+	}
+
+	public function getAccount( string $stake_address ): Response {
+		return $this->get('accounts/' . $stake_address );
 	}
 
 	public function getStakeHistory(string $stake_address): Response {

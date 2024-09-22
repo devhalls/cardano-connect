@@ -103,6 +103,7 @@ export const Connector = ({}: ComponentConnector) => {
                     network: userRes.data.web3?.cardano_connect_network,
                     web3: userRes.data.web3,
                     user: userRes.data.user,
+                    account: userRes.data.account,
                     nonce: userRes.nonce,
                 }))
                 setAuthenticated(true)
