@@ -23,7 +23,7 @@ export const Pools = ({
     const options: OptionState = useAppSelector(getOptionState)
     const { connect, wallet, connected} = useWallet()
 
-    const getPools = async (page: number, perPage: number) => {
+    const getPools = async (page: number, perPage: number, filters?: Filter[]|null) => {
         if (whitelistString) {
             const poolIds = whitelistString?.length ? whitelistString.split('\n').map(a => a.trim()) : []
             const formatted: Pool[] = poolIds.map(p => {
@@ -37,7 +37,8 @@ export const Pools = ({
         const data = await backendGetPools({
             nonce: wpCardanoConnect?.nonce,
             page,
-            perPage
+            perPage,
+            filters
         })
         return data.data
     }
@@ -73,14 +74,82 @@ export const Pools = ({
         }
     }, [user?.web3?.cardano_connect_wallet]);
 
+    const filters: Filter[] = [
+        {
+            placeholder: options.label_paginate_search_text_placeholder,
+            label: options.label_paginate_search_text,
+            type: 'text',
+            key: 's',
+            value: '',
+            order: 1,
+        },
+        {
+            label: options.label_paginate_search_metadata,
+            type: 'checkbox',
+            key: 'no_metadata',
+            value: false,
+            order: 2,
+        },
+        {
+            label: options.label_paginate_search_retired,
+            type: 'checkbox',
+            key: 'hide_retired',
+            value: true,
+            order: 3,
+        },
+        {
+            label: options.label_paginate_search_saturation,
+            type: 'range',
+            key: 'live_saturation',
+            value: '0',
+            min: 0,
+            max: 1000,
+            order: 4,
+            format: (v) => parseInt(v)/1000,
+            display: (v) => v != '0' ? '<' + parseInt(v)/10 + '%' : ''
+        },
+        {
+            label: options.label_paginate_search_order,
+            type: 'select',
+            key: 'orderby',
+            value: 'random',
+            className: classMap.paginationOrder,
+            order: 5,
+            options: [
+                {
+                    label: 'Random (daily rotation)',
+                    value: 'random'
+                },
+                {
+                    label: 'Random (weekly rotation)',
+                    value: 'random_7'
+                },
+                {
+                    label: 'Saturation descending',
+                    value: 'live_saturation_desc'
+                },
+                {
+                    label: 'Saturation ascending',
+                    value: 'live_saturation_asc'
+                }
+            ]
+        },
+    ]
+
     return (
         <Paginator
             className={classMap.pools}
             perPage={perPage}
             fetcher={getPools}
             notFound={notFound || options.label_no_pools}
+            defaultFilters={filters}
             renderer={(p: Pool, i: number) =>
-                <PoolComponent key={p.pool_id} poolId={p.pool_id} index={i} delegateStake={delegateStake}/>
+                <PoolComponent
+                    key={p.pool_id}
+                    poolId={p.pool_id}
+                    index={i}
+                    delegateStake={delegateStake}
+                />
             }
         />
     )

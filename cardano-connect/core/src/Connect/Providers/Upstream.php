@@ -3,7 +3,7 @@
 namespace WPCC\Connect\Providers;
 
 use WPCC\Connect\Base;
-use WPCC\Connect\Response;
+use WPCC\Connect\Responses\Response;
 use WPCC\Connect\Interfaces\Signer;
 
 class Upstream extends Base Implements Signer

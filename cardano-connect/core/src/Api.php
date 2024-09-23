@@ -4,13 +4,14 @@ namespace WPCC;
 
 use WPCC\Connect\Base as ConnectBase;
 use WPCC\Connect\PostTypes\StakePool;
-use WPCC\Connect\Response;
+use WPCC\Connect\Responses\Response;
 use WPCC\Connect\Providers\Upstream;
 
 class Api extends Base
 {
 	public ConnectBase $connectSignerProvider;
 	public ConnectBase $connectDataProvider;
+	public ConnectBase $connectPoolProvider;
 
     /**
      * @inheritDoc
@@ -22,8 +23,11 @@ class Api extends Base
 		// Set signer provider.
 		$this->connectSignerProvider = $this->loadSigner();
 
-		// Set chain data provider.
-		$this->connectDataProvider = $this->loadProvider();
+	    // Set chain data provider.
+	    $this->connectDataProvider = $this->loadProvider();
+
+	    // Set pool data provider.
+	    $this->connectPoolProvider = $this->loadProvider('pools');
     }
 
     /**
@@ -275,16 +279,21 @@ class Api extends Base
 		);
 	}
 
+	/**
+	 * Get a list of stake poos from the provider API.
+	 * @route /cardano-connect/pools
+	 */
 	public function getStakePools( $data ): array
 	{
 		$page = $data->get_param('page') ?: 1;
 		$per_page = $data->get_param('perPage') ?: 10;
-		$data = $this->connectDataProvider->getStakePools($page, $per_page);
+		$filters = $data->get_param('filters') ?: [];
+		$data = $this->connectPoolProvider->getStakePools($page, $per_page, $filters);
 		if ($data->success) {
 			return $this->returnResponse(
 				true,
 				[
-					'total' => 3000,
+					'total' => $data->total,
 					'items' => (array) $data->response
 				]
 			);
@@ -295,14 +304,18 @@ class Api extends Base
 		);
 	}
 
+	/**
+	 * Get a stake pool by its pool_id from the provider API.
+	 * @route /cardano-connect/pools/{id}
+	 */
 	public function getPool( $data ): array
 	{
 		$pool_id = $this->sanitizeText($data['id']) ?: null;
-		$data = $this->connectDataProvider->getStakePool($pool_id);
+		$data = $this->connectPoolProvider->getStakePool($pool_id);
 		if ($data->success) {
 			return $this->returnResponse(
 				true,
-				$data->response
+				(array) $data->response
 			);
 		}
 		return $this->returnResponse(
@@ -314,6 +327,7 @@ class Api extends Base
 	/**
 	 * Get a users reward history data from the external db-sync API.
 	 * @route /cardano-connect/rewards
+	 * @todo finish implementation
 	 */
 	public function getStakeHistory(): array
 	{
@@ -338,9 +352,8 @@ class Api extends Base
 
     /**
      * Return a formatted API response with a new wp_create_nonce( 'wp_rest' ).
-     * @param string|null $message
      */
-    private function returnResponse(bool $success, array $data, string $message = '' ): array
+    private function returnResponse(bool $success, array|string $data, string $message = '' ): array
     {
         return [
             'success' => $success,

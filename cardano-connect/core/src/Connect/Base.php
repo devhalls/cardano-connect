@@ -6,18 +6,19 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
+use WPCC\Connect\Responses\Response;
 
 abstract class Base
 {
 	protected string $base_uri;
 
-	protected $api_key;
+	protected string|null $api_key = null;
 
 	protected array $headers = [];
 
 	public Client $client;
 
-	public function __construct(string $endpoint, string $api_key = null) {
+	public function __construct(string $endpoint, string|null $api_key = null) {
 		$this->base_uri = $endpoint;
 		$this->api_key = $api_key;
 		$this->headers = $this->setHeaders();
@@ -44,7 +45,7 @@ abstract class Base
 				RequestOptions::QUERY => $query
 			] : []);
 			$result = json_decode(
-				$response->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR
+				$response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR
 			);
 			return new Response(true, $result);
 		} catch ( GuzzleException $e ) {
@@ -59,7 +60,7 @@ abstract class Base
 		try {
 			$response = $this->client->post($uri, [RequestOptions::JSON => $data]);
 			$result = json_decode(
-				$response->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR
+				$response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR
 			);
 			return new Response(true, $result);
 		} catch ( GuzzleException $e ) {
@@ -69,7 +70,8 @@ abstract class Base
 		}
 	}
 
-	public function getJsonUrl( string $url ): Response {
+	public function getJsonUrl( string $url ): Response
+	{
 		return $this->get( $url );
 	}
 }

@@ -19,6 +19,7 @@ declare type Options = {
     mainnet_active: boolean
     login_redirect: null|string
     logout_redirect: null|string
+    pools_data_source: string
     disable_styles: boolean
     assets_placeholder: string
     assets_whitelist: string
@@ -40,6 +41,12 @@ declare type Options = {
     label_paginate_prev: string
     label_paginate_next: string
     label_paginate_items: string
+    label_paginate_search_text: string
+    label_paginate_search_text_placeholder: string
+    label_paginate_search_metadata: string
+    label_paginate_search_retired: string
+    label_paginate_search_saturation: string
+    label_paginate_search_order: string
     label_assets_policy_label: string
     label_assets_quantity_label: string
     label_no_assets: string
@@ -168,12 +175,6 @@ declare type Pool = {
     pool_id: string
 }
 declare type PoolData = {
-    metadata?: PoolMetadata
-    data?: PoolDetails
-    metadata_file?: PoolMetadataFile
-    metadata_file_extended?: PoolMetadataFileExtended
-}
-declare type PoolDetails = {
     pool_id: string
     hex: string
     vrf_key: string
@@ -189,48 +190,69 @@ declare type PoolDetails = {
     live_pledge: string
     margin_cost: number
     fixed_cost: string
-    reward_account: string
-    owners: string[]
-    registration: string[]
-    retirement: string[]
+    reward_account: string|null
+    owners: string[]|null
+    registration: string[]|null
+    retirement: string[]|null
+    metadata: PoolMetadata|null
+    metadata_extended: PoolMetadataExtended|null
+    synced_at: string | null
 }
 declare type PoolMetadata = {
-    pool_id: string
-    hex: string
-    url: string
-    hash: string
-    ticker: string
-    name: string
-    description: string
-    homepage: string
+    url: string|null
+    hash: string|null
+    ticker: string|null
+    name: string|null
+    description: string|null
+    homepage: string|null
+    extended: string|null
 }
-declare type PoolMetadataFile = {
-    ticker: string
-    name: string
-    description: string
-    homepage: string
-    extended?: string
-}
-declare type PoolMetadataFileExtended = {
+declare type PoolMetadataExtended = {
     info: {
-        url_png_icon_64x64?: string
-        url_png_logo?: string
-        location?: string
+        url_png_icon_64x64: string|null
+        url_png_logo: string|null
+        location: string|null
         social: {
-            twitter_handle?: string
-            telegram_handle?: string
-            facebook_handle?: string
-            youtube_handle?: string
-            twitch_handle?: string
-            discord_handle?: string
-            github_handle?: string
+            twitter_handle: string|null
+            telegram_handle: string|null
+            facebook_handle: string|null
+            youtube_handle: string|null
+            twitch_handle: string|null
+            discord_handle: string|null
+            github_handle: string|null
+            linkedin_handle: string|null
         },
-        about: {
-            me: string
-            server: string
-            company: string
-        },
-    }
+        verification_cexplorer: string|null,
+        // about?: {
+        //     me?: string
+        //     server?: string
+        //     company?: string
+        // },
+    },
+    itn: {
+        owner: string,
+        witness: string
+    }|null,
+    //votes: string[]|null
+}
+declare type Filter = {
+    type: 'text' | 'checkbox' | 'range' | 'select'
+    key: string,
+    value: any
+    label?: string,
+    className?: string
+    placeholder?: string,
+    options?: any
+    min?: number
+    max?: number
+    format?: (value: any) => any
+    display?: (value: any) => any
+    order: number
+}
+declare type FilterPost = {
+    type: Filter['type']
+    key: Filter['key']
+    value: Filter['value']
 }
 
 // States
@@ -278,6 +300,7 @@ declare interface ComponentPool {
     index: number
     delegateStake?: (poolId: string) => Promise<void>
     withdrawRewards?: (poolId: string) => Promise<void>
+    key?: string
 }
 declare interface ComponentBalance {
     className?: string
@@ -316,8 +339,14 @@ declare interface ComponentLoader {
 }
 declare interface ComponentPaginator<T> {
     renderer: (item: T, index: number) => React.ReactElement
-    fetcher: (page: number, perPage: number) => Promise<PaginatedData<T>>
+    fetcher: (page: number, perPage: number, filters?: FilterPost[]) => Promise<PaginatedData<T>>
     perPage?: number
     className?: string
     notFound?: string
+    defaultFilters?: Filter[]
+}
+declare interface ComponentFilter {
+    filter: Filter,
+    setFilter: (filter: Filter) => void
+    key?: string
 }

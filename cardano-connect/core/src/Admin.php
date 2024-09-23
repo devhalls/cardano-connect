@@ -2,9 +2,10 @@
 
 namespace WPCC;
 
+use JsonException;
 use WP_User;
 use WPCC\Connect\PostTypes\StakePool;
-use WPCC\Connect\Response;
+use WPCC\Connect\Responses\Response;
 
 class Admin extends Base
 {
@@ -29,13 +30,17 @@ class Admin extends Base
         add_action( 'edit_user_profile_update', [$this, 'saveUserProfileFields'] );
     }
 
+	/**
+	 * @throws JsonException
+	 */
 	public function adminAjaxSyncPools(): void {
 		if (defined('DOING_AJAX') && DOING_AJAX) {
-			$response = ( new StakePool() )->sync($this->loadProvider());
+			$response = ( new StakePool() )->syncPools($this->loadProvider(), 100, 6, 10);
 		} else {
 			$response = new Response(false, ['message' => __('Access denied.', 'cardano-connect')]);
 		}
-		print_r((array) $response);
+		print_r( json_encode( (array) $response, JSON_THROW_ON_ERROR ) );
+		die();
 	}
 
 	/**

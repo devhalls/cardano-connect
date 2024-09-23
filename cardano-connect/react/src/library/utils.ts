@@ -63,6 +63,9 @@ export const formatPercentageFromDecimal = (x: number): number => {
 }
 
 export const formatPercentageFromBig = (a: string, b: string): number => {
+    if (b === "0") {
+        return 0
+    }
     const aBn = new BigNumber(a)
     const bBn = new BigNumber(b)
     return (a && b)
@@ -118,6 +121,19 @@ export const classMap = {
     notFound: 'wpcc-not-found wpcc-card',
     pagination: 'wpcc-pagination wpcc-card',
     paginationItems: 'wpcc-pagination-items',
+    paginationPaged: 'wpcc-pagination-paged',
+    paginationFilters: 'wpcc-pagination-filters',
+    paginationFilter: 'wpcc-pagination-filter',
+    paginationOrder: 'wpcc-pagination-filter-order',
+    paginationPage: 'wpcc-pagination-page',
+    paginationPrev: 'wpcc-pagination-prev',
+    paginationNext: 'wpcc-pagination-next',
+    paginationReset: 'wpcc-pagination-reset',
+    paginationUpdate: 'wpcc-pagination-update',
+    paginationTotal: 'wpcc-pagination-total',
+    paginationToggle: 'wpcc-pagination-toggle',
+    paginationToggleIcon: 'wpcc-icon wpcc-icon-filter',
+    paginationToggleIconClose: 'wpcc-icon wpcc-icon-filter-close',
     copy: 'wpcc-copy',
     icon: 'wpcc-icon',
     linkIcon: 'wpcc-link-icon',
@@ -183,6 +199,7 @@ export const classMap = {
     poolName: 'wpcc-pool-name',
     poolSocial: 'wpcc-pool-social',
     poolId: 'wpcc-pool-id',
+    poolDetail: 'wpcc-pool-detail',
     // Bar component classes.
     bar: 'wpcc-bar',
     barTitle: 'wpcc-bar-title',

@@ -90,9 +90,9 @@ class Plugin extends Base
 	{
 		$stake_pool = new StakePool();
 		$testnet_suffix = $this->getSetting( Base::SETTING_PREFIX . 'mainnet_active' ? '' : '_testnet');
-		if ($this->getSetting(Base::SETTING_PREFIX.'pool_data_source'.$testnet_suffix) === 'local') {
+		if ($this->getSetting(Base::SETTING_PREFIX.'pools_data_source'.$testnet_suffix) === 'local_wp') {
 			register_post_type(
-				$stake_pool->getName(),
+				$stake_pool::NAME,
 				$stake_pool->getConfig()
 			);
 		}

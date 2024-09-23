@@ -4,7 +4,8 @@ namespace WPCC;
 
 use WPCC\Connect\Base as ConnectBase;
 use WPCC\Connect\Providers\Upstream;
-use WPCC\Connect\Response;
+use WPCC\Connect\Responses\Response;
+use WPCC\Connect\Providers\BlockFrost;
 
 abstract class Base
 {
@@ -26,8 +27,8 @@ abstract class Base
 		self::SETTING_PREFIX.'user_whitelist',
 		self::SETTING_PREFIX.'user_blacklist',
 		self::SETTING_PREFIX.'endpoint',
-		self::SETTING_PREFIX.'pool_data_source',
-		self::SETTING_PREFIX.'pool_data_source_testnet',
+		self::SETTING_PREFIX.'pools_data_source',
+		self::SETTING_PREFIX.'pools_data_source_testnet',
 		self::SETTING_PREFIX.'disable_styles',
 		// Asset settings.
 		self::SETTING_PREFIX.'assets_placeholder',
@@ -55,6 +56,12 @@ abstract class Base
 		self::SETTING_PREFIX.'label_paginate_prev',
 		self::SETTING_PREFIX.'label_paginate_next',
 		self::SETTING_PREFIX.'label_paginate_items',
+		self::SETTING_PREFIX.'label_paginate_search_text',
+		self::SETTING_PREFIX.'label_paginate_search_text_placeholder',
+		self::SETTING_PREFIX.'label_paginate_search_metadata',
+		self::SETTING_PREFIX.'label_paginate_search_retired',
+		self::SETTING_PREFIX.'label_paginate_search_saturation',
+		self::SETTING_PREFIX.'label_paginate_search_order',
 		self::SETTING_PREFIX.'label_assets_policy_label',
 		self::SETTING_PREFIX.'label_assets_quantity_label',
 		self::SETTING_PREFIX.'label_no_assets',
@@ -79,6 +86,7 @@ abstract class Base
 		'mainnet_active',
 		'login_redirect',
 		'logout_redirect',
+		'pools_data_source',
 		'disable_styles',
 		// Asset settings.
 		'assets_placeholder',
@@ -102,6 +110,12 @@ abstract class Base
 		'label_paginate_prev',
 		'label_paginate_next',
 		'label_paginate_items',
+		'label_paginate_search_text',
+		'label_paginate_search_text_placeholder',
+		'label_paginate_search_metadata',
+		'label_paginate_search_retired',
+		'label_paginate_search_saturation',
+		'label_paginate_search_order',
 		'label_assets_policy_label',
 		'label_assets_quantity_label',
 		'label_no_assets',
@@ -223,8 +237,15 @@ abstract class Base
 	private function loadSettings(): array
     {
         $role_options = $this->getUserRoles();
-		$providers = $this->getDataProviders('mainnet');
-	    $providers_testnet = $this->getDataProviders();
+		$pool_providers = [[
+			'label' => __( 'User data provider only (no local storage)', 'cardano-connect' ),
+			'value' => 'default',
+			'class' => 'Local',
+		],[
+			'label' => __( 'Local data storage (Custom post type synced with data provider)', 'cardano-connect' ),
+			'value' => 'local_wp',
+			'class' => 'Local',
+		]];
         return [
             self::SETTING_PREFIX.'main_settings_group' => [
                 'tab_label' => __('Main settings', 'cardano-connect'),
@@ -286,33 +307,6 @@ abstract class Base
 	                            'type' => 'text',
 	                            'note' => __('Use our endpoint to validate signatures, or add your own to take full control over the authentication lifecycle.', 'cardano-connect'),
                             ],
-	                        self::SETTING_PREFIX.'pool_data_settings' => [
-		                        'type' => 'title',
-		                        'label' => __('Pool data', 'cardano-connect'),
-		                        'args' => [
-			                        'class' => 'wpcc-row-title',
-		                        ]
-	                        ],
-                            self::SETTING_PREFIX.'pool_data_source' => [
-	                            'default' => 'https://cardano-mainnet.blockfrost.io/api/v0/',
-	                            'label' => __('Pool data source', 'cardano-connect'),
-	                            'type' => 'select',
-	                            'note' => __('Select the pool data source. Selecting local storage allows for advanced filtering for pools, this will create a custom post type Pools kept updated by wp cron jobs.', 'cardano-connect'),
-	                            'options' => [...$providers, [
-									'label' => __('Local data storage (Custom post type)', 'cardano-connect'),
-		                            'value' => 'local'
-	                            ]]
-                            ],
-	                        self::SETTING_PREFIX.'pool_data_source_testnet' => [
-		                        'default' => 'https://cardano-preview.blockfrost.io/api/v0/',
-		                        'label' => __('Pool data source (testnet)', 'cardano-connect'),
-		                        'type' => 'select',
-		                        'note' => __('Select the pool data source for testnet pools', 'cardano-connect'),
-		                        'options' => [...$providers_testnet, [
-			                        'label' => __('Local data storage (Custom post type)', 'cardano-connect'),
-			                        'value' => 'local'
-		                        ]]
-	                        ],
 	                        self::SETTING_PREFIX.'style_settings' => [
 		                        'type' => 'title',
 		                        'label' => __('Plugin styles', 'cardano-connect'),
@@ -331,7 +325,7 @@ abstract class Base
                 ]
             ],
             self::SETTING_PREFIX.'assets_settings_group' => [
-	            'tab_label' => __('Assets settings', 'cardano-connect'),
+	            'tab_label' => __('Data source settings', 'cardano-connect'),
 	            'name' => self::SETTING_PREFIX.'assets_settings',
 	            'sections' => [
 		            self::SETTING_PREFIX.'assets_settings_section' => [
@@ -363,31 +357,31 @@ abstract class Base
 				            ],
 				            self::SETTING_PREFIX.'asset_api_settings' => [
 					            'type' => 'title',
-					            'label' => __('Asset data settings', 'cardano-connect'),
+					            'label' => __('Data source', 'cardano-connect'),
 					            'args' => [
 						            'class' => 'wpcc-row-title',
 					            ]
 				            ],
 				            self::SETTING_PREFIX.'assets_api_endpoint' => [
 					            'default' => 'https://cardano-mainnet.blockfrost.io/api/v0/',
-					            'label' => __('Asset API endpoint', 'cardano-connect'),
+					            'label' => __('API endpoint', 'cardano-connect'),
 					            'type' => 'select',
 					            'note' => __('API endpoint to fetch asset metadata.', 'cardano-connect'),
 					            'rules' => [
 						            'required',
 					            ],
-					            'options' => $providers
+					            'options' => $this->getDataProviders('mainnet')
 				            ],
 				            self::SETTING_PREFIX.'assets_api_endpoint_testnet' => [
 					            'default' => 'https://cardano-testnet.blockfrost.io/api/v0/',
 					            'label' => __('Asset API endpoint (testnet)', 'cardano-connect'),
 					            'type' => 'select',
 					            'note' => __('API endpoint to fetch asset metadata. (testnet)', 'cardano-connect'),
-					            'options' => $providers_testnet
+					            'options' => $this->getDataProviders()
 				            ],
 				            self::SETTING_PREFIX.'assets_api_key' => [
 					            'default' => '',
-					            'label' => __('Asset API key', 'cardano-connect'),
+					            'label' => __('API key', 'cardano-connect'),
 					            'type' => 'text',
 					            'rules' => [
 						            'required',
@@ -396,7 +390,7 @@ abstract class Base
 				            ],
 				            self::SETTING_PREFIX.'assets_api_key_testnet' => [
 					            'default' => '',
-					            'label' => __('Asset API key (testnet)', 'cardano-connect'),
+					            'label' => __('API key (testnet)', 'cardano-connect'),
 					            'type' => 'text',
 					            'note' => __('API endpoint key. (testnet)', 'cardano-connect')
 				            ],
@@ -408,6 +402,27 @@ abstract class Base
 						            'required',
 					            ],
 					            'note' => __('IPFS gateway URL.', 'cardano-connect')
+				            ],
+				            self::SETTING_PREFIX.'pools_data_settings' => [
+					            'type' => 'title',
+					            'label' => __('Pool data', 'cardano-connect'),
+					            'args' => [
+						            'class' => 'wpcc-row-title',
+					            ]
+				            ],
+				            self::SETTING_PREFIX.'pools_data_source' => [
+					            'default' => 'https://cardano-mainnet.blockfrost.io/api/v0/',
+					            'label' => __('Pool data source', 'cardano-connect'),
+					            'type' => 'select',
+					            'note' => __('Select the pool data source. Selecting local storage allows for advanced filtering for pools, this will create a custom post type Pools kept updated by wp cron jobs.', 'cardano-connect'),
+					            'options' => $pool_providers
+				            ],
+				            self::SETTING_PREFIX.'pools_data_source_testnet' => [
+					            'default' => 'https://cardano-preview.blockfrost.io/api/v0/',
+					            'label' => __('Pool data source (testnet)', 'cardano-connect'),
+					            'type' => 'select',
+					            'note' => __('Select the pool data source for testnet pools', 'cardano-connect'),
+					            'options' => $pool_providers
 				            ],
 			            ]
 		            ]
@@ -595,6 +610,60 @@ abstract class Base
 	                            ],
 	                            'note' => __('Text shown next to the pagination total results number', 'cardano-connect')
                             ],
+	                        self::SETTING_PREFIX.'label_paginate_search_text' => [
+		                        'default' => __('Search by', 'cardano-connect'),
+		                        'label' => __('Test search label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown next to the text search field', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_paginate_search_text_placeholder' => [
+		                        'default' => __('ticker, name or pool_id', 'cardano-connect'),
+		                        'label' => __('Test search placeholder', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown in the text search field', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_paginate_search_metadata' => [
+		                        'default' => __('Has metadata', 'cardano-connect'),
+		                        'label' => __('Metadata checkbox label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown next to the metadata checkbox field', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_paginate_search_retired' => [
+		                        'default' => __('Hide retired', 'cardano-connect'),
+		                        'label' => __('Retired checkbox label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown next to the retired checkbox field', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_paginate_search_saturation' => [
+		                        'default' => __('Saturation', 'cardano-connect'),
+		                        'label' => __('Saturation search label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown next to the saturation slider', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_paginate_search_order' => [
+		                        'default' => __('Order', 'cardano-connect'),
+		                        'label' => __('Order select label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown next to the order select', 'cardano-connect')
+	                        ],
 	                        self::SETTING_PREFIX.'asset_labels' => [
 		                        'type' => 'title',
 		                        'label' => __('Asset labels', 'cardano-connect'),
@@ -807,15 +876,25 @@ abstract class Base
 	}
 
 	/**
-	 * Return the data provider class.
+	 * Return the data provider class for the passed type.
+	 * @param string $type 'assets' | 'pools'
+	 * @return ConnectBase
 	 */
-	protected function loadProvider(): ConnectBase {
+	protected function loadProvider(string $type = 'assets'): ConnectBase {
 		$mainnet_active = $this->getSetting(self::SETTING_PREFIX.'mainnet_active');
 		$testnet_suffix = $mainnet_active ? '' : '_testnet';
-		$providers = $this->getDataProviders($mainnet_active ? 'mainnet' : 'testnet');
-		$endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint' . $testnet_suffix);
-		$api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key' . $testnet_suffix);
-		$class = 'WPCC\\Connect\\Providers\\Blockfrost'; // default provider
+		$providers = $this->getDataProviders($mainnet_active ? 'mainnet' : 'testnet', $type === 'pools');
+		$api_key = $this->getSetting( self::SETTING_PREFIX . 'assets_api_key' . $testnet_suffix) ?? '';
+		$endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint' . $testnet_suffix) ?? '';
+		$class = BlockFrost::class; // default provider
+
+		if ($type === 'pools') {
+			$pool_data_source = $this->getSetting(self::SETTING_PREFIX.'pools_data_source' . $testnet_suffix) ?? '';
+			if ($pool_data_source === 'local_wp') {
+				$endpoint = $pool_data_source;
+			}
+		}
+
 		foreach ($providers as $p) {
 			if ($p['value'] === $endpoint) {
 				$class = 'WPCC\\Connect\\Providers\\' . $p['class'];
@@ -976,27 +1055,38 @@ abstract class Base
 	/**
 	 * Get list of data providers formatted as select field option arrays.
 	 */
-	protected function getDataProviders(string $network = 'testnet'): array
+	protected function getDataProviders(string $network = 'testnet', bool $include_local = false): array
 	{
+		$local = [
+			'label' => __( 'Local data storage (Custom post type)', 'cardano-connect' ),
+			'value' => 'local_wp',
+			'class' => 'Local',
+		];
 		$providers = [
 			[
 				'value' => 'https://cardano-mainnet.blockfrost.io/api/v0/',
-				'label' => __('Blockfrost (Mainnet)', 'cardano-connect'),
-				'class' => 'Blockfrost',
+				'label' => __('BlockFrost (Mainnet)', 'cardano-connect'),
+				'class' => 'BlockFrost',
 			]
 		];
 		$providers_testnet = [
 			[
 				'value' => 'https://cardano-preview.blockfrost.io/api/v0/',
-				'label' => __('Blockfrost (Preview)', 'cardano-connect'),
-				'class' => 'Blockfrost',
+				'label' => __('BlockFrost (Preview)', 'cardano-connect'),
+				'class' => 'BlockFrost',
 			],
 			[
 				'value' => 'https://cardano-preprod.blockfrost.io/api/v0/',
-				'label' => __('Blockfrost (Preprod)', 'cardano-connect'),
-				'class' => 'Blockfrost',
+				'label' => __('BlockFrost (Preprod)', 'cardano-connect'),
+				'class' => 'BlockFrost',
 			]
 		];
+
+		if ($include_local) {
+			$providers = [ ...$providers, $local ];
+			$providers_testnet = [ ...$providers_testnet, $local ];
+		}
+
 		return $network === 'testnet' ? $providers_testnet : $providers;
 	}
 

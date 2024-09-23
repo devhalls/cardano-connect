@@ -3,7 +3,7 @@
         'name' => 'pend/wpcc',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'a9608e22a1dacd01e5a0af677c5f7959f88106c4',
+        'reference' => 'fdb340931e37a4c09cae1ad93befd81ed4e5756a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -40,7 +40,7 @@
         'pend/wpcc' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'a9608e22a1dacd01e5a0af677c5f7959f88106c4',
+            'reference' => 'fdb340931e37a4c09cae1ad93befd81ed4e5756a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -103,7 +103,7 @@
         'roave/security-advisories' => array(
             'pretty_version' => 'dev-latest',
             'version' => 'dev-latest',
-            'reference' => 'f8de2a81061775002d96aea80b12f2ab3c5eeb8d',
+            'reference' => '4d2e39c44028ba729fe50efdf731d3d2ede4046b',
             'type' => 'metapackage',
             'install_path' => NULL,
             'aliases' => array(

@@ -77,6 +77,7 @@ export async function backendGetPools(data: {
     page: number
     perPage: number
     nonce: string
+    filters?: Filter[]
 }): Promise<AjaxResponse<PaginatedData<Pool>>> {
     instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
     return nodeEnv === 'development'
@@ -84,7 +85,8 @@ export async function backendGetPools(data: {
         : await get(`pools`, {
             params: {
                 page: data.page,
-                perPage: data.perPage
+                perPage: data.perPage,
+                filters: data.filters
             }
         });
 }

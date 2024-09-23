@@ -32,7 +32,7 @@
                         <p><?php esc_html_e("Using an WordPress block editor, search for 'Cardano' and select the WP Cardano Connector to place this anywhere in your theme.", 'cardano-connect') ?></p>
                         <p><?php esc_html_e("If your theme does not support Blocks, you can use the short code in any content editor or WordPress theme or plugin file.", 'cardano-connect') ?></p>
                     </div>
-                    <div class="wpcc-col-1 wpcc-content" style="width: 50ress user is create with the role you sele%">
+                    <div class="wpcc-col-1 wpcc-content" style="width: 50%">
                         <img width="100%" src="<?php echo esc_html($this->getAssetUrl('screenshot-1.jpg')) ?>" alt="<?php esc_html_e("WordPress block", 'cardano-connect') ?>">
                     </div>
                 </div>

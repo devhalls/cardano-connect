@@ -2,7 +2,7 @@
 
 namespace WPCC\Connect\Interfaces;
 
-use WPCC\Connect\Response;
+use WPCC\Connect\Responses\Response;
 
 interface Account {
 	public function getAccount( string $stake_address ): Response;

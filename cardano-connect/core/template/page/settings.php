@@ -10,7 +10,7 @@
 
     <?php settings_errors() ?>
 
-    <div class="wpcc-row">
+    <div class="wpcc-row" style="margin-bottom: 24px">
         <div class="wpcc-col-2">
 	        <?php $this->getTemplate('partial/info-'.$this->current_settings_group, [], true); ?>
 	        <?php $this->getTemplate('partial/notice', [], true); ?>
@@ -39,4 +39,6 @@
             </form>
         </div>
     </div>
+
+    <?php $this->getTemplate('partial/setting-import', [], true); ?>
 </div>

@@ -74,14 +74,21 @@
     margin: 0
 }
 
-    /** Elements **/
+/** Elements **/
 .wpcc-code {
     display: block;
     padding: 8px;
     word-break: break-all;
+    line-height: 1.1;
+}
+.wpcc-pre {
+    margin: 0;
 }
 .wpcc-hr {
     margin: 24px 0;
+}
+#sync-pools {
+    margin-bottom: 16px !important;
 }
 .toplevel_page_wpcc_settings_dashboard.menu-top img {
     width: 16px;
