@@ -303,7 +303,7 @@ class Settings extends Base
 
 	public function renderFieldTitle($setting_name, $field_name, $field_data): void
 	{
-		echo '<h2>' . esc_html($field_data['title']) . '</h2>';
+		echo isset($field_data['note']) ? '<p>' . esc_html($field_data['note']) . '</p>' : null;
 	}
 
     /**

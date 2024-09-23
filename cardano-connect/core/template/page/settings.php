@@ -27,7 +27,7 @@
                     </a>
                 <?php endforeach; ?>
             </div>
-            <form method="post" action="options.php">
+            <form method="post" action="options.php" class="wpcc-options-form">
                 <input type="hidden"
                        name="<?php echo esc_html(WPCC\Settings::SETTINGS_PAGE) ?>"
                        value="<?php echo esc_html($this->current_settings_group) ?>"

@@ -68,4 +68,8 @@ abstract class Base
 			return new Response(false, $e->getMessage());
 		}
 	}
+
+	public function getJsonUrl( string $url ): Response {
+		return $this->get( $url );
+	}
 }

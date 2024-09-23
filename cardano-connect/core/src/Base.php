@@ -17,49 +17,104 @@ abstract class Base
 	 * @var string[]
 	 */
 	public const SETTING_FIELD_NAMES = [
-		self::SETTING_PREFIX . 'version',
-		self::SETTING_PREFIX . 'plugin_name',
-		self::SETTING_PREFIX . 'mainnet_active',
-		self::SETTING_PREFIX . 'disable_styles',
-		self::SETTING_PREFIX . 'login_redirect',
-		self::SETTING_PREFIX . 'logout_redirect',
-		self::SETTING_PREFIX . 'label_connect',
-		self::SETTING_PREFIX . 'label_connected',
-		self::SETTING_PREFIX . 'label_connect_cancel',
-		self::SETTING_PREFIX . 'label_empty',
-		self::SETTING_PREFIX . 'label_disconnect',
-		self::SETTING_PREFIX . 'label_disconnect_prompt',
-		self::SETTING_PREFIX . 'label_error',
-		self::SETTING_PREFIX . 'label_welcome_new',
-		self::SETTING_PREFIX . 'label_welcome_back',
-		self::SETTING_PREFIX . 'label_switch_to_testnet',
-		self::SETTING_PREFIX . 'label_invalid_account',
-		self::SETTING_PREFIX . 'label_create_mainnet_prompt',
-		self::SETTING_PREFIX . 'label_create_testnet_prompt',
-		self::SETTING_PREFIX . 'label_paginate_next',
-		self::SETTING_PREFIX . 'label_paginate_prev',
-		self::SETTING_PREFIX . 'label_paginate_items',
-		self::SETTING_PREFIX . 'label_assets_policy_label',
-		self::SETTING_PREFIX . 'label_assets_quantity_label',
-		self::SETTING_PREFIX . 'label_no_assets',
-		self::SETTING_PREFIX . 'label_no_pools',
-		self::SETTING_PREFIX . 'label_no_pool',
-		self::SETTING_PREFIX . 'label_delegate_to_pool',
-		self::SETTING_PREFIX . 'label_delegated_to_pool',
-		self::SETTING_PREFIX . 'label_pool_fees',
-		self::SETTING_PREFIX . 'label_pool_stake',
-		self::SETTING_PREFIX . 'label_pool_stake_saturated'.
-		self::SETTING_PREFIX . 'label_pool_pledge_met',
-		self::SETTING_PREFIX . 'label_pool_pledge_not_met',
-		self::SETTING_PREFIX . 'label_text_copied',
-		self::SETTING_PREFIX . 'label_text_copied_failed',
-		self::SETTING_PREFIX . 'assets_whitelist',
-		self::SETTING_PREFIX . 'assets_api_endpoint',
-		self::SETTING_PREFIX . 'assets_api_key',
-		self::SETTING_PREFIX . 'assets_ipfs_endpoint',
-		self::SETTING_PREFIX . 'assets_placeholder',
-		self::SETTING_PREFIX . 'user_whitelist',
-		self::SETTING_PREFIX . 'user_blacklist'
+		// Main settings.
+		self::SETTING_PREFIX.'mainnet_active',
+		self::SETTING_PREFIX.'login_redirect',
+		self::SETTING_PREFIX.'logout_redirect',
+		self::SETTING_PREFIX.'user_role',
+		self::SETTING_PREFIX.'user_whitelist',
+		self::SETTING_PREFIX.'user_blacklist',
+		self::SETTING_PREFIX.'endpoint',
+		self::SETTING_PREFIX.'pool_data_source',
+		self::SETTING_PREFIX.'pool_data_source_testnet',
+		self::SETTING_PREFIX.'disable_styles',
+		// Asset settings.
+		self::SETTING_PREFIX.'assets_placeholder',
+		self::SETTING_PREFIX.'assets_whitelist',
+		self::SETTING_PREFIX.'assets_api_endpoint',
+		self::SETTING_PREFIX.'assets_api_endpoint_testnet',
+		self::SETTING_PREFIX.'assets_api_key',
+		self::SETTING_PREFIX.'assets_api_key_testnet',
+		self::SETTING_PREFIX.'assets_ipfs_endpoint',
+		// Label settings.
+		self::SETTING_PREFIX.'label_connect',
+		self::SETTING_PREFIX.'label_connected',
+		self::SETTING_PREFIX.'label_connect_cancel',
+		self::SETTING_PREFIX.'label_disconnect',
+		self::SETTING_PREFIX.'label_empty',
+		self::SETTING_PREFIX.'label_disconnect_prompt',
+		self::SETTING_PREFIX.'label_disconnected_prompt',
+		self::SETTING_PREFIX.'label_error',
+		self::SETTING_PREFIX.'label_welcome_new',
+		self::SETTING_PREFIX.'label_welcome_back',
+		self::SETTING_PREFIX.'label_switch_to_testnet',
+		self::SETTING_PREFIX.'label_invalid_account',
+		self::SETTING_PREFIX.'label_create_mainnet_prompt',
+		self::SETTING_PREFIX.'label_create_testnet_prompt',
+		self::SETTING_PREFIX.'label_paginate_prev',
+		self::SETTING_PREFIX.'label_paginate_next',
+		self::SETTING_PREFIX.'label_paginate_items',
+		self::SETTING_PREFIX.'label_assets_policy_label',
+		self::SETTING_PREFIX.'label_assets_quantity_label',
+		self::SETTING_PREFIX.'label_no_assets',
+		self::SETTING_PREFIX.'label_no_pools',
+		self::SETTING_PREFIX.'label_no_pool',
+		self::SETTING_PREFIX.'label_delegate_to_pool',
+		self::SETTING_PREFIX.'label_delegated_to_pool',
+		self::SETTING_PREFIX.'label_pool_fees',
+		self::SETTING_PREFIX.'label_pool_stake',
+		self::SETTING_PREFIX.'label_pool_stake_saturated',
+		self::SETTING_PREFIX.'label_pool_pledge_met',
+		self::SETTING_PREFIX.'label_pool_pledge_not_met',
+		self::SETTING_PREFIX.'label_text_copied',
+		self::SETTING_PREFIX.'label_text_copied_failed',
+	];
+
+	/** @var string[] @var string[] */
+	public const OPTION_FIELDS_NAMES = [
+		'version',
+		'plugin_name',
+		// Main settings.
+		'mainnet_active',
+		'login_redirect',
+		'logout_redirect',
+		'disable_styles',
+		// Asset settings.
+		'assets_placeholder',
+		'assets_whitelist',
+		'assets_ipfs_endpoint',
+		// Label settings.
+		'label_connect',
+		'label_connected',
+		'label_connect_cancel',
+		'label_disconnect',
+		'label_empty',
+		'label_disconnect_prompt',
+		'label_disconnected_prompt',
+		'label_error',
+		'label_welcome_new',
+		'label_welcome_back',
+		'label_switch_to_testnet',
+		'label_invalid_account',
+		'label_create_mainnet_prompt',
+		'label_create_testnet_prompt',
+		'label_paginate_prev',
+		'label_paginate_next',
+		'label_paginate_items',
+		'label_assets_policy_label',
+		'label_assets_quantity_label',
+		'label_no_assets',
+		'label_no_pools',
+		'label_no_pool',
+		'label_delegate_to_pool',
+		'label_delegated_to_pool',
+		'label_pool_fees',
+		'label_pool_stake',
+		'label_pool_stake_saturated',
+		'label_pool_pledge_met',
+		'label_pool_pledge_not_met',
+		'label_text_copied',
+		'label_text_copied_failed',
 	];
 
 	/**
@@ -146,48 +201,10 @@ abstract class Base
      */
     private function loadOptions(): array
     {
-        $ui_options = [
-            'version' => $this->version,
-            'plugin_name' => $this->plugin_name,
-            'mainnet_active' => false,
-	        'disable_styles' => false,
-            'login_redirect' => null,
-            'logout_redirect' => null,
-            'label_connect' => null,
-            'label_connected' => null,
-            'label_connect_cancel' => null,
-            'label_empty' => null,
-            'label_disconnect' => null,
-	        'label_disconnect_prompt' => null,
-            'label_error' => null,
-            'label_welcome_new' => null,
-            'label_welcome_back' => null,
-            'label_switch_to_testnet' => null,
-	        'label_invalid_account' => null,
-	        'label_create_mainnet_prompt' => null,
-			'label_create_testnet_prompt' => null,
-	        'label_no_assets' => null,
-	        'label_no_pools'=> null,
-			'label_no_pool'=> null,
-			'label_delegate_to_pool'=> null,
-	        'label_delegated_to_pool'=> null,
-			'label_pool_fees'=> null,
-			'label_pool_stake'=> null,
-	        'label_pool_stake_saturated' => null,
-			'label_pool_pledge_met'=> null,
-			'label_pool_pledge_not_met'=> null,
-	        'label_text_copied' => null,
-			'label_text_copied_failed' => null,
-	        'label_paginate_prev' => null,
-			'label_paginate_next' => null,
-			'label_paginate_items' => null,
-			'label_assets_policy_label' => null,
-			'label_assets_quantity_label' => null,
-            'assets_whitelist' => null,
-            'assets_ipfs_endpoint' => null,
-            'assets_placeholder' => null,
-        ];
-
+		$ui_options = array_merge(array_flip(self::OPTION_FIELDS_NAMES), [
+			'version' => $this->version,
+			'plugin_name' => $this->plugin_name]
+		);
         $configured_options = $this->getSetting();
         foreach ($configured_options as $name => $val) {
             $ui_name = str_replace(self::SETTING_PREFIX, '', $name);
@@ -204,16 +221,9 @@ abstract class Base
      */
 	private function loadSettings(): array
     {
-        $roles = wp_roles();
-        $role_options = [];
-        if ($roles->roles) {
-            foreach ($roles->roles as $id => $role) {
-                $role_options[] = [
-                    'value' => $id,
-                    'label' => $role['name'],
-                ];
-            }
-        }
+        $role_options = $this->getUserRoles();
+		$providers = $this->getDataProviders('mainnet');
+	    $providers_testnet = $this->getDataProviders();
         return [
             self::SETTING_PREFIX.'main_settings_group' => [
                 'tab_label' => __('Main settings', 'cardano-connect'),
@@ -223,17 +233,18 @@ abstract class Base
                         'name' => self::SETTING_PREFIX.'main_settings',
                         'callback' => 'settingsCallback',
                         'fields' => [
+	                        self::SETTING_PREFIX.'connector_button_settings' => [
+		                        'type' => 'title',
+		                        'label' => __('Connection settings', 'cardano-connect'),
+		                        'args' => [
+									'class' => 'wpcc-row-title',
+		                        ]
+	                        ],
                             self::SETTING_PREFIX.'mainnet_active' => [
                                 'default' => false,
                                 'label' => __('Activate mainnet?', 'cardano-connect'),
                                 'type' => 'checkbox',
                                 'note' => __('Check this box to activate mainnet connections. If you change this option, users on the other network will need to create new accounts with a new wallet on this network.', 'cardano-connect')
-                            ],
-                            self::SETTING_PREFIX.'disable_styles' => [
-	                            'default' => false,
-	                            'label' => __('Disable styles?', 'cardano-connect'),
-	                            'type' => 'checkbox',
-	                            'note' => __('Check this box to disable default plugin styles. You can add your own styles using your theme or other plugins.', 'cardano-connect')
                             ],
                             self::SETTING_PREFIX.'login_redirect' => [
                                 'default' => null,
@@ -242,7 +253,7 @@ abstract class Base
                                 'note' => __('Leave blank to disable redirect (refresh page) when a user connects their wallet.', 'cardano-connect')
                             ],
                             self::SETTING_PREFIX.'logout_redirect' => [
-                                'default' => '',
+                                'default' => '/',
                                 'label' => __('Logout redirection', 'cardano-connect'),
                                 'type' => 'text',
                                 'note' => __('Leave blank to disable redirect (refresh page) when a user disconnects their wallet.', 'cardano-connect')
@@ -274,6 +285,46 @@ abstract class Base
 	                            'type' => 'text',
 	                            'note' => __('Use our endpoint to validate signatures, or add your own to take full control over the authentication lifecycle.', 'cardano-connect'),
                             ],
+	                        self::SETTING_PREFIX.'pool_data_settings' => [
+		                        'type' => 'title',
+		                        'label' => __('Pool data', 'cardano-connect'),
+		                        'args' => [
+			                        'class' => 'wpcc-row-title',
+		                        ]
+	                        ],
+                            self::SETTING_PREFIX.'pool_data_source' => [
+	                            'default' => 'https://cardano-mainnet.blockfrost.io/api/v0/',
+	                            'label' => __('Pool data source', 'cardano-connect'),
+	                            'type' => 'select',
+	                            'note' => __('Select the pool data source. Selecting local storage allows for advanced filtering for pools, this will create a custom post type Pools kept updated by wp cron jobs.', 'cardano-connect'),
+	                            'options' => [...$providers, [
+									'label' => __('Local data storage (Custom post type)', 'cardano-connect'),
+		                            'value' => 'local'
+	                            ]]
+                            ],
+	                        self::SETTING_PREFIX.'pool_data_source_testnet' => [
+		                        'default' => 'https://cardano-preview.blockfrost.io/api/v0/',
+		                        'label' => __('Pool data source (testnet)', 'cardano-connect'),
+		                        'type' => 'select',
+		                        'note' => __('Select the pool data source for testnet pools', 'cardano-connect'),
+		                        'options' => [...$providers_testnet, [
+			                        'label' => __('Local data storage (Custom post type)', 'cardano-connect'),
+			                        'value' => 'local'
+		                        ]]
+	                        ],
+	                        self::SETTING_PREFIX.'style_settings' => [
+		                        'type' => 'title',
+		                        'label' => __('Plugin styles', 'cardano-connect'),
+		                        'args' => [
+									'class' => 'wpcc-row-title'
+		                        ]
+	                        ],
+	                        self::SETTING_PREFIX.'disable_styles' => [
+		                        'default' => false,
+		                        'label' => __('Disable styles?', 'cardano-connect'),
+		                        'type' => 'checkbox',
+		                        'note' => __('Check this box to disable default plugin styles. You can add your own styles using your theme or other plugins.', 'cardano-connect')
+	                        ],
                         ]
                     ]
                 ]
@@ -286,12 +337,12 @@ abstract class Base
 			            'name' => self::SETTING_PREFIX.'assets_settings',
 			            'callback' => 'settingsCallback',
 			            'fields' => [
-				            self::SETTING_PREFIX.'assets_whitelist' => [
-					            'default' => '',
-					            'label' => __('Global Policy Whitelist', 'cardano-connect'),
-					            'type' => 'textarea',
-					            'rules' => [],
-					            'note' => __('List of policy IDs, add a new line for each policy ID.', 'cardano-connect')
+				            self::SETTING_PREFIX.'asset_settings' => [
+					            'type' => 'title',
+					            'label' => __('Asset settings', 'cardano-connect'),
+					            'args' => [
+						            'class' => 'wpcc-row-title',
+					            ]
 				            ],
 				            self::SETTING_PREFIX.'assets_placeholder' => [
 					            'default' => $this->getAssetUrl('logo-dark.svg'),
@@ -300,25 +351,53 @@ abstract class Base
 					            'rules' => [
 						            'required',
 					            ],
-					            'note' => __('Displayed in place of an images when unable to fetch the image.', 'cardano-connect')
+					            'note' => __('Displayed in place of asset files when unable to load a file.', 'cardano-connect')
+				            ],
+				            self::SETTING_PREFIX.'assets_whitelist' => [
+					            'default' => '',
+					            'label' => __('Global policy whitelist', 'cardano-connect'),
+					            'type' => 'textarea',
+					            'rules' => [],
+					            'note' => __('List of allowed policy IDs, add a new line for each policy ID.', 'cardano-connect')
+				            ],
+				            self::SETTING_PREFIX.'asset_api_settings' => [
+					            'type' => 'title',
+					            'label' => __('Asset data settings', 'cardano-connect'),
+					            'args' => [
+						            'class' => 'wpcc-row-title',
+					            ]
 				            ],
 				            self::SETTING_PREFIX.'assets_api_endpoint' => [
 					            'default' => 'https://cardano-mainnet.blockfrost.io/api/v0/',
-					            'label' => __('API endpoint', 'cardano-connect'),
-					            'type' => 'text',
+					            'label' => __('Asset API endpoint', 'cardano-connect'),
+					            'type' => 'select',
+					            'note' => __('API endpoint to fetch asset metadata.', 'cardano-connect'),
 					            'rules' => [
 						            'required',
 					            ],
-					            'note' => __('API endpoint to fetch asset metadata.', 'cardano-connect')
+					            'options' => $providers
+				            ],
+				            self::SETTING_PREFIX.'assets_api_endpoint_testnet' => [
+					            'default' => 'https://cardano-testnet.blockfrost.io/api/v0/',
+					            'label' => __('Asset API endpoint (testnet)', 'cardano-connect'),
+					            'type' => 'select',
+					            'note' => __('API endpoint to fetch asset metadata. (testnet)', 'cardano-connect'),
+					            'options' => $providers_testnet
 				            ],
 				            self::SETTING_PREFIX.'assets_api_key' => [
 					            'default' => '',
-					            'label' => __('API key', 'cardano-connect'),
+					            'label' => __('Asset API key', 'cardano-connect'),
 					            'type' => 'text',
 					            'rules' => [
 						            'required',
 					            ],
 					            'note' => __('API endpoint key.', 'cardano-connect')
+				            ],
+				            self::SETTING_PREFIX.'assets_api_key_testnet' => [
+					            'default' => '',
+					            'label' => __('Asset API key (testnet)', 'cardano-connect'),
+					            'type' => 'text',
+					            'note' => __('API endpoint key. (testnet)', 'cardano-connect')
 				            ],
 				            self::SETTING_PREFIX.'assets_ipfs_endpoint' => [
 					            'default' => 'https://ipfs.io/ipfs/',
@@ -343,8 +422,10 @@ abstract class Base
                         'fields' => [
 	                        self::SETTING_PREFIX.'connector_button_labels' => [
 		                        'type' => 'title',
-		                        'label' => '',
-		                        'title' => __('Cardano connect button', 'cardano-connect')
+		                        'label' => __('Cardano connect button', 'cardano-connect'),
+		                        'args' => [
+			                        'class' => 'wpcc-row-title',
+		                        ]
 	                        ],
                             self::SETTING_PREFIX.'label_connect' => [
                                 'default' => __('Cardano Connect', 'cardano-connect'),
@@ -382,10 +463,21 @@ abstract class Base
 	                            ],
 	                            'note' => __('Text shown on the disconnect button', 'cardano-connect')
                             ],
+	                        self::SETTING_PREFIX.'label_empty' => [
+		                        'default' => __('No wallets detected. Please install a Wallet browser extension or switch browsers.', 'cardano-connect'),
+		                        'label' => __('No wallets found', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown when the user has no wallets installed', 'cardano-connect')
+	                        ],
 	                        self::SETTING_PREFIX.'connector_prompt_labels' => [
 		                        'type' => 'title',
-		                        'label' => '',
-		                        'title' => __('Cardano connect prompts', 'cardano-connect')
+		                        'label' => __('Cardano connect prompts', 'cardano-connect'),
+		                        'args' => [
+			                        'class' => 'wpcc-row-title',
+		                        ]
 	                        ],
                             self::SETTING_PREFIX.'label_disconnect_prompt' => [
 	                            'default' => __('Are you sure you would like to disconnect?', 'cardano-connect'),
@@ -396,6 +488,15 @@ abstract class Base
 	                            ],
 	                            'note' => __('Text confirmation shown when user clicks the disconnect button', 'cardano-connect')
                             ],
+	                        self::SETTING_PREFIX.'label_disconnected_prompt' => [
+		                        'default' => __('Successfully disconnected', 'cardano-connect'),
+		                        'label' => __('Disconnected prompt', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown when user has disconnected', 'cardano-connect')
+	                        ],
                             self::SETTING_PREFIX.'label_error' => [
                                 'default' => __('Unable to sign authentication', 'cardano-connect'),
                                 'label' => __('Connect generic error', 'cardano-connect'),
@@ -461,8 +562,10 @@ abstract class Base
                             ],
 	                        self::SETTING_PREFIX.'pagination_labels' => [
 		                        'type' => 'title',
-		                        'label' => '',
-		                        'title' => __('Pagination labels', 'cardano-connect')
+		                        'label' => __('Pagination labels', 'cardano-connect'),
+		                        'args' => [
+			                        'class' => 'wpcc-row-title',
+		                        ]
 	                        ],
                             self::SETTING_PREFIX.'label_paginate_prev' => [
 	                            'default' => __('Prev', 'cardano-connect'),
@@ -493,8 +596,10 @@ abstract class Base
                             ],
 	                        self::SETTING_PREFIX.'asset_labels' => [
 		                        'type' => 'title',
-		                        'label' => '',
-		                        'title' => __('Asset labels', 'cardano-connect')
+		                        'label' => __('Asset labels', 'cardano-connect'),
+		                        'args' => [
+			                        'class' => 'wpcc-row-title',
+		                        ]
 	                        ],
                             self::SETTING_PREFIX.'label_assets_policy_label' => [
 	                            'default' => __('Token Collection', 'cardano-connect'),
@@ -525,8 +630,10 @@ abstract class Base
 	                        ],
 	                        self::SETTING_PREFIX.'pool_labels' => [
 		                        'type' => 'title',
-		                        'label' => '',
-		                        'title' => __('Pool labels', 'cardano-connect')
+		                        'label' => __('Pool labels', 'cardano-connect'),
+		                        'args' => [
+			                        'class' => 'wpcc-row-title',
+		                        ]
 	                        ],
 	                        self::SETTING_PREFIX.'label_no_pools' => [
 		                        'default' => __('No pools found', 'cardano-connect'),
@@ -611,8 +718,10 @@ abstract class Base
 	                        ],
 	                        self::SETTING_PREFIX.'copy_labels' => [
 		                        'type' => 'title',
-		                        'label' => '',
-		                        'title' => __('Copy text labels', 'cardano-connect')
+		                        'label' => __('Copy text labels', 'cardano-connect'),
+		                        'args' => [
+			                        'class' => 'wpcc-row-title',
+		                        ]
 	                        ],
                             self::SETTING_PREFIX.'label_text_copied' => [
 	                            'default' => __('Copied', 'cardano-connect'),
@@ -814,6 +923,51 @@ abstract class Base
 			]
 		])[0];
 		return $this->getCurrentUser($user->ID ?: null, $provider);
+	}
+
+	/**
+	 * Get list of user roles formatted as select field option arrays.
+	 */
+	protected function getUserRoles(): array
+	{
+		$roles = wp_roles();
+		$role_options = [];
+		if ($roles->roles) {
+			foreach ($roles->roles as $id => $role) {
+				$role_options[] = [
+					'value' => $id,
+					'label' => $role['name'],
+				];
+			}
+		}
+		return $role_options;
+	}
+
+	/**
+	 * Get list of data providers formatted as select field option arrays.
+	 */
+	protected function getDataProviders(string $network = 'testnet'): array
+	{
+		$providers = [
+			[
+				'value' => 'https://cardano-mainnet.blockfrost.io/api/v0/',
+				'label' => __('Blockfrost (Mainnet)', 'cardano-connect'),
+				'class' => 'Blockfrost',
+			]
+		];
+		$providers_testnet = [
+			[
+				'value' => 'https://cardano-preview.blockfrost.io/api/v0/',
+				'label' => __('Blockfrost (Preview)', 'cardano-connect'),
+				'class' => 'Blockfrost',
+			],
+			[
+				'value' => 'https://cardano-preprod.blockfrost.io/api/v0/',
+				'label' => __('Blockfrost (Preprod)', 'cardano-connect'),
+				'class' => 'Blockfrost',
+			]
+		];
+		return $network === 'testnet' ? $providers_testnet : $providers;
 	}
 
 	/**

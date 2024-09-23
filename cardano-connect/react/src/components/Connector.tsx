@@ -77,6 +77,10 @@ export const Connector = ({}: ComponentConnector) => {
                     onError(disconnectRes.message)
                 } else {
                     dispatch(resetUserState())
+                    dispatch(setMessage({
+                        message: disconnectRes.message,
+                        type: 'success'
+                    }))
                     // Now we have cleared WP cookies reload the page
                     if (options.logout_redirect) {
                         global.window.location.replace(options.logout_redirect)

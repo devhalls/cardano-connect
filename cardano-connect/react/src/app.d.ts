@@ -17,22 +17,26 @@ declare type Options = {
     version: string
     plugin_name: string
     mainnet_active: boolean
-    disable_styles: boolean
     login_redirect: null|string
     logout_redirect: null|string
+    disable_styles: boolean
+    assets_placeholder: string
+    assets_whitelist: string
+    assets_ipfs_endpoint: string
     label_connect: string
     label_connected: string
     label_connect_cancel: string
-    label_empty: string
     label_disconnect: string
+    label_empty: string
     label_disconnect_prompt: string
+    label_disconnected_prompt: string
     label_error: string
-    label_invalid_account: string
+    label_welcome_new: string
+    label_welcome_back: string
     label_switch_to_testnet: string
+    label_invalid_account: string
     label_create_mainnet_prompt: string
     label_create_testnet_prompt: string
-    label_welcome_back: string
-    label_welcome_new: string
     label_paginate_prev: string
     label_paginate_next: string
     label_paginate_items: string
@@ -50,11 +54,6 @@ declare type Options = {
     label_pool_pledge_not_met: string
     label_text_copied: string
     label_text_copied_failed: string
-    assets_whitelist: string
-    assets_api_endpoint: string
-    assets_api_key: string
-    assets_ipfs_endpoint: string
-    assets_placeholder: string
 }
 declare type Message = {
     type: 'error' | 'success' | 'notice'

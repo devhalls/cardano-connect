@@ -2,6 +2,8 @@
 
 namespace WPCC;
 
+use WPCC\Connect\PostTypes\StakePool;
+
 class Plugin extends Base
 {
     /**
@@ -10,6 +12,7 @@ class Plugin extends Base
     public function run(): void
     {
 	    add_action( 'init', [$this, 'registerBlocks'] );
+	    add_action( 'init', [$this, 'registerPostTypes'] );
 	    add_shortcode( 'cardano-connect-connector', [$this, 'registerConnectorShortcode']  );
 	    add_shortcode( 'cardano-connect-assets', [$this, 'registerAssetsShortcode']  );
 	    add_shortcode( 'cardano-connect-balance', [$this, 'registerBalanceShortcode']  );
@@ -81,6 +84,18 @@ class Plugin extends Base
 			), $attributes
 		);
 		return $this->getTemplate('shortcode/cardano-connect-pools', $formatted_attributes);
+	}
+
+	public function registerPostTypes(): void
+	{
+		$stake_pool = new StakePool();
+		$testnet_suffix = $this->getSetting( Base::SETTING_PREFIX . 'mainnet_active' ? '' : '_testnet');
+		if ($this->getSetting(Base::SETTING_PREFIX.'pool_data_source'.$testnet_suffix) === 'local') {
+			register_post_type(
+				$stake_pool->getName(),
+				$stake_pool->getConfig()
+			);
+		}
 	}
 
     /**

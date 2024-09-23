@@ -3,22 +3,22 @@ import {RootState} from "./state";
 
 // Define the initial slice state
 const initialState: OptionState = {
-    assets_placeholder: null,
-    assets_api_endpoint: null,
-    assets_api_key: null,
-    assets_ipfs_endpoint: null,
     version: null,
     plugin_name: null,
     mainnet_active: null,
-    disable_styles: null,
     login_redirect: null,
     logout_redirect: null,
+    disable_styles: null,
+    assets_placeholder: null,
+    assets_whitelist: null,
+    assets_ipfs_endpoint: null,
     label_connect: null,
     label_connected: null,
     label_connect_cancel: null,
     label_empty: null,
     label_disconnect: null,
     label_disconnect_prompt: null,
+    label_disconnected_prompt: null,
     label_error: null,
     label_invalid_account: null,
     label_switch_to_testnet: null,
@@ -43,7 +43,6 @@ const initialState: OptionState = {
     label_paginate_items: null,
     label_assets_policy_label: null,
     label_assets_quantity_label: null,
-    assets_whitelist: null,
 }
 
 // Define the slice

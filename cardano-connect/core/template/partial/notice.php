@@ -3,7 +3,9 @@
  * @var WPCC\Settings $this
  */
 
-if (!empty($this->options['mainnet_active'])) : ?>
+use WPCC\Base;
+
+if (!empty($this->getSetting( Base::SETTING_PREFIX . 'mainnet_active'))) : ?>
     <div class="wpcc-section wpcc-section-success">
         <h3><strong><?php esc_html_e("Mainnet active", 'cardano-connect') ?></strong></h3>
         <p><?php esc_html_e("Users can will now be allowed to connect with their Mainnet and Testnet wallets. Please read the below notes for ensuring users Testnet accounts are linked to the user Mainnet accounts if required.", 'cardano-connect') ?></p>
