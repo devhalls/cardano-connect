@@ -36,6 +36,7 @@ class Assets extends Base
     public function registerAdminAssets(): void
     {
         wp_enqueue_style('wpcc-settings-css', $this->asset_cdn . 'admin.css', [], $this->version);
+	    wp_enqueue_script('wpcc-settings-js', $this->asset_cdn . 'admin.js', ['jquery'], $this->version, true);
     }
 
 	/**

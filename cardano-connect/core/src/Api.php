@@ -3,6 +3,7 @@
 namespace WPCC;
 
 use WPCC\Connect\Base as ConnectBase;
+use WPCC\Connect\PostTypes\StakePool;
 use WPCC\Connect\Response;
 use WPCC\Connect\Providers\Upstream;
 
@@ -17,24 +18,12 @@ class Api extends Base
     public function run(): void
     {
         add_action( 'rest_api_init', [$this, 'registerApi'] );
-	    $mainnet_active = $this->getSetting(self::SETTING_PREFIX.'mainnet_active');
-	    $testnet_suffix = $mainnet_active ? '' : '_testnet';
-		$providers = $this->getDataProviders($mainnet_active ? 'mainnet' : 'testnet');
 
 		// Set signer provider.
-	    $endpoint = $this->getSetting(self::SETTING_PREFIX.'endpoint' . $testnet_suffix);
-		$this->connectSignerProvider = new Upstream( $endpoint );
+		$this->connectSignerProvider = $this->loadSigner();
 
 		// Set chain data provider.
-	    $endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint' . $testnet_suffix);
-	    $api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key' . $testnet_suffix);
-	    $class = 'WPCC\\Connect\\Providers\\Blockfrost'; // default provider
-		foreach ($providers as $p) {
-			if ($p['value'] === $endpoint) {
-		        $class = 'WPCC\\Connect\\Providers\\' . $p['class'];
-			}
-	    }
-		$this->connectDataProvider = new $class( $endpoint, $api_key );
+		$this->connectDataProvider = $this->loadProvider();
     }
 
     /**
@@ -309,31 +298,16 @@ class Api extends Base
 	public function getPool( $data ): array
 	{
 		$pool_id = $this->sanitizeText($data['id']) ?: null;
-		$data = $this->connectDataProvider->getStakePoolData($pool_id);
-		$metadata = $this->connectDataProvider->getStakePoolMetaData($pool_id);
-		if ($metadata->success) {
-			$metadata_array = (array) $metadata->response;
-			$metadata_file = $this->connectDataProvider->getJsonUrl($metadata_array['url']);
-			$metadata_file_array = $metadata_file->success ? (array) $metadata_file->response : null;
-			if (isset($metadata_file_array['extended'])) {
-				$metadata_file_extended = $this->connectDataProvider->getJsonUrl($metadata_file_array['extended']);
-				$metadata_file_extended_array = $metadata_file_extended->success ? (array) $metadata_file_extended->response : null;
-			} else {
-				$metadata_file_extended_array = null;
-			}
+		$data = $this->connectDataProvider->getStakePool($pool_id);
+		if ($data->success) {
 			return $this->returnResponse(
 				true,
-				[
-					'data' => (array) $data->response,
-					'metadata' => $metadata_array,
-					'metadata_file' => $metadata_file_array,
-					'metadata_file_extended' => $metadata_file_extended_array
-				]
+				$data->response
 			);
 		}
 		return $this->returnResponse(
 			false,
-			[$pool_id]
+			[]
 		);
 	}
 

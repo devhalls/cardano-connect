@@ -3,6 +3,7 @@
 namespace WPCC;
 
 use WPCC\Connect\Base as ConnectBase;
+use WPCC\Connect\Providers\Upstream;
 use WPCC\Connect\Response;
 
 abstract class Base
@@ -803,6 +804,35 @@ abstract class Base
 				'column' => false,
 			],
 		];
+	}
+
+	/**
+	 * Return the data provider class.
+	 */
+	protected function loadProvider(): ConnectBase {
+		$mainnet_active = $this->getSetting(self::SETTING_PREFIX.'mainnet_active');
+		$testnet_suffix = $mainnet_active ? '' : '_testnet';
+		$providers = $this->getDataProviders($mainnet_active ? 'mainnet' : 'testnet');
+		$endpoint = $this->getSetting(self::SETTING_PREFIX.'assets_api_endpoint' . $testnet_suffix);
+		$api_key = $this->getSetting(self::SETTING_PREFIX.'assets_api_key' . $testnet_suffix);
+		$class = 'WPCC\\Connect\\Providers\\Blockfrost'; // default provider
+		foreach ($providers as $p) {
+			if ($p['value'] === $endpoint) {
+				$class = 'WPCC\\Connect\\Providers\\' . $p['class'];
+			}
+		}
+		return new $class( $endpoint, $api_key );
+	}
+
+	/**
+	 * Return the data signer class.
+	 */
+	protected function loadSigner(): ConnectBase
+	{
+		$mainnet_active = $this->getSetting(self::SETTING_PREFIX.'mainnet_active');
+		$testnet_suffix = $mainnet_active ? '' : '_testnet';
+		$endpoint = $this->getSetting(self::SETTING_PREFIX.'endpoint' . $testnet_suffix);
+		return new Upstream( $endpoint );
 	}
 
 	/**

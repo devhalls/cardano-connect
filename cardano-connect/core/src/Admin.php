@@ -3,6 +3,8 @@
 namespace WPCC;
 
 use WP_User;
+use WPCC\Connect\PostTypes\StakePool;
+use WPCC\Connect\Response;
 
 class Admin extends Base
 {
@@ -11,6 +13,9 @@ class Admin extends Base
      */
     public function run(): void
     {
+		// Register Admin ajax callbacks
+	    add_action('wp_ajax_sync_pools', array($this, 'adminAjaxSyncPools'));
+
         // Register user table columns.
         add_filter( 'manage_users_columns', [$this, 'renderUserProfileColumnHead'] );
         add_filter( 'manage_users_custom_column', [$this, 'renderUserProfileColumnRow'] , 10, 3 );
@@ -23,6 +28,15 @@ class Admin extends Base
         add_action( 'personal_options_update', [$this, 'saveUserProfileFields'] );
         add_action( 'edit_user_profile_update', [$this, 'saveUserProfileFields'] );
     }
+
+	public function adminAjaxSyncPools(): void {
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+			$response = ( new StakePool() )->sync($this->loadProvider());
+		} else {
+			$response = new Response(false, ['message' => __('Access denied.', 'cardano-connect')]);
+		}
+		print_r((array) $response);
+	}
 
 	/**
 	 * @param $columns

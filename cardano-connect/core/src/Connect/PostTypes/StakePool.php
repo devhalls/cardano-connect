@@ -2,7 +2,9 @@
 namespace WPCC\Connect\PostTypes;
 
 use WPCC\Base;
+use WPCC\Connect\Base as ConnectBase;
 use WPCC\Connect\Interfaces\PostType;
+use WPCC\Connect\Response;
 
 class StakePool implements PostType
 {
@@ -40,5 +42,47 @@ class StakePool implements PostType
 			'rewrite'             => true,
 			'query_var'           => true,
 		];
+	}
+
+	public function sync( ConnectBase $provider ): Response {
+		$result = [];
+		$error = false;
+		$per_page = 1;
+		do {
+			$pools = $provider->getStakePools(1, $per_page);
+			$count = count($pools->response) ?: 0;
+			foreach ($pools->response as $pool) {
+				$data = $provider->getStakePool($pool->pool_id);
+//				$result = wp_insert_post([
+//					'post_title'    => $pool_id,
+//					'post_type'     => $this->getName(),
+//					'meta_input'    => array_merge(
+//						$data->response['data'],
+//						$data->response['metadata'],
+//						$data->response['metadata_file'],
+//						$data->response['metadata_file_extended']
+//					)
+//				]);
+//				if (is_wp_error($result)) {
+//					$error = $result;
+//				}
+				$result[] = [
+					'data' => $data->response['data'],
+					'metadata' => $data->response['metadata'],
+					'metadata_file' => $data->response['metadata_file'],
+					'metadata_file_extended' => $data->response['metadata_file_extended']
+				];
+			}
+			$error = true;
+		}
+		while (!$error && $count === $per_page);
+
+		if ($error) {
+			return new Response( false, ['xxxx' => $result] );
+		}
+		return new Response(true, [
+			'data' => $result,
+			'message' => __('Stake Pools synced', 'cardano-connect')
+		]);
 	}
 }
