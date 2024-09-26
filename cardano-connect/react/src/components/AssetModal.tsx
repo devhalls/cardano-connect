@@ -3,6 +3,7 @@ import {useAppDispatch, useAppSelector} from "../library/state";
 import {classMap, formatNumber} from "../library/utils";
 import {Copy} from "./common/Copy";
 import {getUxAssetModal, setAssetModal} from "../library/ux";
+import {getOptionState} from "../library/option";
 
 export const AssetModal = () => {
 
@@ -10,6 +11,7 @@ export const AssetModal = () => {
 
     const dispatch = useAppDispatch()
     const assetModal: UxState['assetModal'] = useAppSelector(getUxAssetModal)
+    const options: OptionState = useAppSelector(getOptionState)
 
     // Local state
 
@@ -20,13 +22,13 @@ export const AssetModal = () => {
 
     const printTitleRow = (title: string) => {
         return (
-            <li className={classMap.assetModalTitleRow}>{title}</li>
+            <li className={classMap.assetTitleRow}>{title}</li>
         )
     }
 
     const printDataRow = (title: string, data: string, copy?: boolean) => {
         return (
-            <li className={classMap.assetModalDataRow}>
+            <li className={classMap.assetDataRow}>
                 <span>{title}</span>{' '}
                 {copy ? (
                     <span><Copy text={data}/></span>
@@ -59,30 +61,30 @@ export const AssetModal = () => {
     }
 
     return assetModal && (
-        <div className={classMap.assetModal}>
-            <div className={classMap.assetModalHeader}>
-                <h2 className={classMap.assetModalTitle}>{assetModal.asset.metadata?.name || assetModal.asset.onchain_metadata.name}</h2>
-                <button className={classMap.assetModalClose} onClick={() => dispatch(setAssetModal(null))}>
-                    Close
+        <div className={classMap.modal}>
+            <div className={classMap.modalHeader}>
+                <h2 className={classMap.modalTitle}>{assetModal.asset.metadata?.name || assetModal.asset.onchain_metadata?.name}</h2>
+                <button className={classMap.modalClose} onClick={() => dispatch(setAssetModal(null))}>
+                    x
                 </button>
             </div>
-            <div className={classMap.assetModalBody}>
-                <div className={classMap.assetModalCol}>
-                    <div className={classMap.assetModalImage}>
+            <div className={classMap.assetBody}>
+                <div className={classMap.assetBodyCol}>
+                    <div className={classMap.assetImage}>
                         <img
-                            src={assetModal.images[0]?.src}
-                            alt={assetModal.images[0]?.title}
+                            src={assetModal.images?.length ? assetModal.images[0]?.src : options.assets_placeholder}
+                            alt={assetModal.images?.length ? assetModal.images[0]?.title : null}
                         />
                     </div>
                     {parseInt(assetModal.asset.quantity) > 0 ? (
-                        <ul className={classMap.assetModalData}>
+                        <ul className={classMap.assetData}>
                             {printDataRow('Owned', formatNumber(parseInt(assetModal.asset.walletAsset.quantity)), true)}
                             {printDataRow('Total Supply', formatNumber(parseInt(assetModal.asset.quantity)), true)}
                         </ul>
                     ) : null}
                 </div>
-                <div className={classMap.assetModalCol}>
-                    <ul className={classMap.assetModalData}>
+                <div className={classMap.assetBodyCol}>
+                    <ul className={classMap.assetData}>
                         {assetModal.asset.metadata && (
                             <>
                                 {printDataRow('Ticker', assetModal.asset.metadata.ticker, true)}
@@ -95,11 +97,11 @@ export const AssetModal = () => {
                         {printDataRow('Policy ID', assetModal.asset.policy_id, true)}
                     </ul>
                     <h3>Metadata</h3>
-                    <ul className={classMap.assetModalData}>
+                    <ul className={classMap.assetData}>
                         {printObjectKeys(assetModal.asset.onchain_metadata)}
                     </ul>
                     <h3>Raw JSON</h3>
-                    <pre className={classMap.assetModalCode}>
+                    <pre className={classMap.assetCode}>
                         <code>{JSON.stringify(assetModal.asset.onchain_metadata, null, 4)}</code>
                     </pre>
                     <Copy

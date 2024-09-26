@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "cardano-connect/dreps",
+  "version": "0.1.0",
+  "title": "Cardano DRep List",
+  "category": "widgets",
+  "description": "Cardano DRep listing, provides view for DReps and their metadata. Optionally filterable by DRep ID(s).",
+  "keywords": [
+    "Cardano",
+    "wallet",
+    "connect",
+    "DReps"
+  ],
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "cardano-connect",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "whitelist": {
+      "type": "string"
+    },
+    "per_page": {
+      "type": "number"
+    },
+    "not_found": {
+      "type": "string"
+    }
+  }
+}

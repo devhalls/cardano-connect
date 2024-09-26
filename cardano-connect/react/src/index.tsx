@@ -12,6 +12,9 @@ import './app.css';
 import {Message} from "./components/Message";
 import {AssetModal} from "./components/AssetModal";
 import {Pools} from "./components/Pools";
+import 'react-tooltip/dist/react-tooltip.css'
+import {CompareModal} from "./components/CompareModal";
+import {Dreps} from "./components/Dreps";
 
 const connectorElements = document.getElementsByClassName('wp-block-cardano-connect-connector')
 for (let i = 0; i < connectorElements.length; i++) {
@@ -101,6 +104,32 @@ for (let i = 0; i < poolsElements.length; i++) {
     );
 }
 
+const drepsElements = document.getElementsByClassName('wp-block-cardano-connect-dreps')
+for (let i = 0; i < drepsElements.length; i++) {
+    const pools = ReactDOM.createRoot(drepsElements[i]);
+    const perPage: number = drepsElements[i].getAttribute('data-per_page')
+        ? parseInt(drepsElements[i].getAttribute('data-per_page'))
+        : undefined
+    const notFound: string = drepsElements[i].getAttribute('data-not_found')
+        ? drepsElements[i].getAttribute('data-not_found')
+        : undefined
+    pools.render(
+        <React.StrictMode>
+            <MeshProvider>
+                <Provider store={state}>
+                    <PersistGate persistor={persistor}>
+                        <Dreps
+                            perPage={perPage}
+                            notFound={notFound}
+                            whitelistString={drepsElements[i].getAttribute('data-whitelist')}
+                        />
+                    </PersistGate>
+                </Provider>
+            </MeshProvider>
+        </React.StrictMode>
+    );
+}
+
 const globalElement = document.createElement('div')
 globalElement.id = 'wp-block-cardano-connect-global'
 document.body.appendChild(globalElement)
@@ -112,6 +141,7 @@ message.render(
                 <PersistGate persistor={persistor}>
                     <Message />
                     <AssetModal />
+                    <CompareModal />
                 </PersistGate>
             </Provider>
         </MeshProvider>

@@ -22,23 +22,27 @@ $response = $sync_start
 
     <div class="wpcc-row">
         <div class="wpcc-col">
-            <div>
-                <label for="sync_items">Page</label>
-                <input type="number" id="sync_start" name="sync_start" value="<?php echo $sync_start_next ?>" />
-            </div>
-            <div>
-                <label for="sync_items">Loops</label>
-                <input type="number" id="sync_loop" name="sync_loop" value="<?php echo $sync_loop ?>" />
-            </div>
-            <div>
-                <label for="sync_items">Items</label>
-                <input type="number" id="sync_items" name="sync_items" value="<?php echo $sync_items ?>" />
+            <div class="wpcc-settings-sync-fields">
+                <div>
+                    <label for="sync_items">Page</label>
+                    <input type="number" id="sync_start" name="sync_start" value="<?php echo $sync_start_next ?>" />
+                </div>
+                <div>
+                    <label for="sync_items">Loops</label>
+                    <input type="number" id="sync_loop" name="sync_loop" value="<?php echo $sync_loop ?>" />
+                </div>
+                <div>
+                    <label for="sync_items">Items</label>
+                    <input type="number" id="sync_items" name="sync_items" value="<?php echo $sync_items ?>" />
+                </div>
             </div>
         </div>
         <div class="wpcc-col">
-            <div>
-                <label for="sync_item_ids">Pool ID</label>
-                <input type="text" id="sync_item_ids" name="sync_item_ids" value="<?php echo $sync_item_ids ? $sync_item_ids[0] : null ?>" />
+            <div class="wpcc-settings-sync-fields">
+                <div>
+                    <label for="sync_item_ids">Pool ID</label>
+                    <input type="text" id="sync_item_ids" name="sync_item_ids" value="<?php echo $sync_item_ids ? $sync_item_ids[0] : null ?>" />
+                </div>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {mockApiAsset, mockApiPool, mockApiPools, mockOption, mockUser} from "./mock";
+import {mockApiAsset, mockApiDrep, mockApiDreps, mockApiPool, mockApiPools, mockOption, mockUser} from "./mock";
 
 const nodeEnv: string = process.env.NODE_ENV
 
@@ -98,5 +98,33 @@ export async function backendGetPool(data: {
     instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
     return nodeEnv === 'development'
         ? mockApiPool(data.poolId)
-        : await get(`pool/${data.poolId}`)
+        : await get(`pools/${data.poolId}`)
+}
+
+export async function backendGetDreps(data: {
+    page: number
+    perPage: number
+    nonce: string
+    filters?: Filter[]
+}): Promise<AjaxResponse<PaginatedData<Drep>>> {
+    instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
+    return nodeEnv === 'development'
+        ? mockApiDreps(data.page, data.perPage)
+        : await get(`dreps`, {
+            params: {
+                page: data.page,
+                perPage: data.perPage,
+                filters: data.filters
+            }
+        });
+}
+
+export async function backendGetDrep(data: {
+    nonce: string,
+    drepId: string
+}): Promise<AjaxResponse<DrepData>> {
+    instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
+    return nodeEnv === 'development'
+        ? mockApiDrep(data.drepId)
+        : await get(`dreps/${data.drepId}`)
 }

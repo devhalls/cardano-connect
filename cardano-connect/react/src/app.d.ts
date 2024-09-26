@@ -47,6 +47,8 @@ declare type Options = {
     label_paginate_search_retired: string
     label_paginate_search_saturation: string
     label_paginate_search_order: string
+    label_paginate_search_update: string
+    label_paginate_search_reset: string
     label_assets_policy_label: string
     label_assets_quantity_label: string
     label_no_assets: string
@@ -59,6 +61,17 @@ declare type Options = {
     label_pool_stake_saturated: string
     label_pool_pledge_met: string
     label_pool_pledge_not_met: string
+    label_pool_retiring: string
+    label_pool_retired: string
+    label_pool_synced: string
+    label_pool_lifetime_blocks: string
+    label_pool_last_epoch_blocks: string
+    label_pool_delegators: string
+    label_compare_view_pools: string
+    label_compare_view_dreps: string
+    label_compare_add: string
+    label_compare_remove: string
+    label_compare_no_items: string
     label_text_copied: string
     label_text_copied_failed: string
 }
@@ -254,11 +267,34 @@ declare type FilterPost = {
     key: Filter['key']
     value: Filter['value']
 }
+declare type Drep = {
+    drep_id: string
+}
+declare type DrepData = {
+    drep_id: string
+    hex: string
+    amount: string
+    active: boolean
+    active_epoch: number
+    has_script: boolean
+    metadata: DrepMetadata|null
+}
+declare type DrepMetadata = {
+    drep_id: string
+    hex: string
+    url: string
+    hash: string
+    json_metadata: any
+    bytes: string
+}
 
 // States
 
 declare type UxState = {
     assetModal: { asset: ApiAsset; images: ImageFormatted[] } | null
+    compareModal: 'pools' | 'dreps' | null
+    comparePools: PoolData[] | null
+    compareDreps: DrepData[] | null
 }
 declare type OptionState = Options
 declare type UserState = {
@@ -294,14 +330,28 @@ declare interface ComponentPools {
     whitelistString?: string,
     perPage?: number
     notFound?: string
+    pools?: PoolData[]
 }
 declare interface ComponentPool {
     poolId: string
     index: number
     delegateStake?: (poolId: string) => Promise<void>
-    withdrawRewards?: (poolId: string) => Promise<void>
+    key?: string
+    pool?: PoolData
+}
+declare interface ComponentDreps {
+    whitelistString?: string,
+    perPage?: number
+    notFound?: string
+    dreps?: Drep[]
+}
+declare interface ComponentDrep {
+    drepId: string
+    index: number
+    delegateStake?: (drepId: string) => Promise<void>
     key?: string
 }
+
 declare interface ComponentBalance {
     className?: string
 }
@@ -332,6 +382,8 @@ declare interface ComponentLinkIcon {
     url: string
     icon?: string
     className?: string
+    toolTip?: string
+    toolTipId?: string
 }
 declare interface ComponentLoader {
     className?: string

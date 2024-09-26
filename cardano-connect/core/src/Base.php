@@ -62,6 +62,8 @@ abstract class Base
 		self::SETTING_PREFIX.'label_paginate_search_retired',
 		self::SETTING_PREFIX.'label_paginate_search_saturation',
 		self::SETTING_PREFIX.'label_paginate_search_order',
+		self::SETTING_PREFIX.'label_paginate_search_update',
+		self::SETTING_PREFIX.'label_paginate_search_reset',
 		self::SETTING_PREFIX.'label_assets_policy_label',
 		self::SETTING_PREFIX.'label_assets_quantity_label',
 		self::SETTING_PREFIX.'label_no_assets',
@@ -74,6 +76,17 @@ abstract class Base
 		self::SETTING_PREFIX.'label_pool_stake_saturated',
 		self::SETTING_PREFIX.'label_pool_pledge_met',
 		self::SETTING_PREFIX.'label_pool_pledge_not_met',
+		self::SETTING_PREFIX.'label_pool_retiring',
+		self::SETTING_PREFIX.'label_pool_retired',
+		self::SETTING_PREFIX.'label_pool_synced',
+		self::SETTING_PREFIX.'label_pool_lifetime_blocks',
+		self::SETTING_PREFIX.'label_pool_last_epoch_blocks',
+		self::SETTING_PREFIX.'label_pool_delegators',
+		self::SETTING_PREFIX.'label_compare_view_pools',
+		self::SETTING_PREFIX.'label_compare_view_dreps',
+		self::SETTING_PREFIX.'label_compare_add',
+		self::SETTING_PREFIX.'label_compare_remove',
+		self::SETTING_PREFIX.'label_compare_no_items',
 		self::SETTING_PREFIX.'label_text_copied',
 		self::SETTING_PREFIX.'label_text_copied_failed',
 	];
@@ -116,6 +129,8 @@ abstract class Base
 		'label_paginate_search_retired',
 		'label_paginate_search_saturation',
 		'label_paginate_search_order',
+		'label_paginate_search_update',
+		'label_paginate_search_reset',
 		'label_assets_policy_label',
 		'label_assets_quantity_label',
 		'label_no_assets',
@@ -128,6 +143,17 @@ abstract class Base
 		'label_pool_stake_saturated',
 		'label_pool_pledge_met',
 		'label_pool_pledge_not_met',
+		'label_pool_retiring',
+		'label_pool_retired',
+		'label_pool_synced',
+		'label_pool_lifetime_blocks',
+		'label_pool_last_epoch_blocks',
+		'label_pool_delegators',
+		'label_compare_view_pools',
+		'label_compare_view_dreps',
+		'label_compare_add',
+		'label_compare_remove',
+		'label_compare_no_items',
 		'label_text_copied',
 		'label_text_copied_failed',
 	];
@@ -438,7 +464,7 @@ abstract class Base
                         'fields' => [
 	                        self::SETTING_PREFIX.'connector_button_labels' => [
 		                        'type' => 'title',
-		                        'label' => __('Cardano connect button', 'cardano-connect'),
+		                        'label' => __('Connect button', 'cardano-connect'),
 		                        'args' => [
 			                        'class' => 'wpcc-row-title',
 		                        ]
@@ -490,7 +516,7 @@ abstract class Base
 	                        ],
 	                        self::SETTING_PREFIX.'connector_prompt_labels' => [
 		                        'type' => 'title',
-		                        'label' => __('Cardano connect prompts', 'cardano-connect'),
+		                        'label' => __('Connect prompts', 'cardano-connect'),
 		                        'args' => [
 			                        'class' => 'wpcc-row-title',
 		                        ]
@@ -664,6 +690,26 @@ abstract class Base
 		                        ],
 		                        'note' => __('Text shown next to the order select', 'cardano-connect')
 	                        ],
+
+	                        self::SETTING_PREFIX.'label_paginate_search_update' => [
+		                        'default' => __('Update', 'cardano-connect'),
+		                        'label' => __('Update button text', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown in the update filters button', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_paginate_search_reset' => [
+		                        'default' => __('Reset', 'cardano-connect'),
+		                        'label' => __('Reset button text', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text shown in the reset search filters button', 'cardano-connect')
+	                        ],
+
 	                        self::SETTING_PREFIX.'asset_labels' => [
 		                        'type' => 'title',
 		                        'label' => __('Asset labels', 'cardano-connect'),
@@ -786,6 +832,117 @@ abstract class Base
 		                        ],
 		                        'note' => __('Text displayed above a pools pledge bar when their pledge is NOT met', 'cardano-connect')
 	                        ],
+
+	                        self::SETTING_PREFIX.'label_pool_retiring' => [
+		                        'default' => __('Retiring', 'cardano-connect'),
+		                        'label' => __('Pools retiring soon text', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed if a pool is retiring soon', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_pool_retired' => [
+		                        'default' => __('Pool retired', 'cardano-connect'),
+		                        'label' => __('Pools retired text', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed if a pool has retired', 'cardano-connect')
+	                        ],
+
+
+
+	                        self::SETTING_PREFIX.'label_pool_synced' => [
+		                        'default' => __('Last synced -', 'cardano-connect'),
+		                        'label' => __('Pool synced time label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed next to the pools last synced time', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_pool_lifetime_blocks' => [
+							    'default' => __('Lifetime blocks:', 'cardano-connect'),
+							    'label' => __('Pools lifetime block count label', 'cardano-connect'),
+							    'type' => 'text',
+							    'rules' => [
+								    'required',
+							    ],
+							    'note' => __('Text displayed next to the pools lifetime blocks count', 'cardano-connect')
+						    ],
+	                        self::SETTING_PREFIX.'label_pool_last_epoch_blocks' => [
+							    'default' => __('Last epoch blocks:', 'cardano-connect'),
+							    'label' => __('Pool last epochs label', 'cardano-connect'),
+							    'type' => 'text',
+							    'rules' => [
+								    'required',
+							    ],
+							    'note' => __('Text displayed next to the pools last epoch block count', 'cardano-connect')
+						    ],
+	                        self::SETTING_PREFIX.'label_pool_delegators' => [
+							    'default' => __('Delegators:', 'cardano-connect'),
+							    'label' => __('Pool delegator count label', 'cardano-connect'),
+							    'type' => 'text',
+							    'rules' => [
+								    'required',
+							    ],
+							    'note' => __('Text displayed next to the pools delegator count', 'cardano-connect')
+						    ],
+	                        self::SETTING_PREFIX.'compare_labels' => [
+		                        'type' => 'title',
+		                        'label' => __('Copy text labels', 'cardano-connect'),
+		                        'args' => [
+			                        'class' => 'wpcc-row-title',
+		                        ]
+	                        ],
+	                        self::SETTING_PREFIX.'label_compare_view_pools' => [
+		                        'default' => __('Compare Pools', 'cardano-connect'),
+		                        'label' => __('Compare Pools modal button', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed in the comparison modal show Pools button and as the modal title, shows the popup when clicked', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_compare_view_dreps' => [
+		                        'default' => __('Compare DReps', 'cardano-connect'),
+		                        'label' => __('Compare DReps modal button', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed in the comparison modal show DReps button and as the modal title, shows the popup when clicked', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_compare_add' => [
+		                        'default' => __('Add to compare', 'cardano-connect'),
+		                        'label' => __('Add to compare button label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed on add to compare button tooltips', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_compare_remove' => [
+		                        'default' => __('Remove from compare', 'cardano-connect'),
+		                        'label' => __('Remove from compare button label', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed on remove from compare button tooltips', 'cardano-connect')
+	                        ],
+	                        self::SETTING_PREFIX.'label_compare_no_items' => [
+		                        'default' => __('No items selected for comparison', 'cardano-connect'),
+		                        'label' => __('No items in comparison list text', 'cardano-connect'),
+		                        'type' => 'text',
+		                        'rules' => [
+			                        'required',
+		                        ],
+		                        'note' => __('Text displayed in the comparison list when no items have ben selected', 'cardano-connect')
+	                        ],
+
 	                        self::SETTING_PREFIX.'copy_labels' => [
 		                        'type' => 'title',
 		                        'label' => __('Copy text labels', 'cardano-connect'),

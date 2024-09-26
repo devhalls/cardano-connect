@@ -66,9 +66,21 @@
 }
 .wpcc-row table th {
     width: 180px;
+    padding-left: 20px;
+}
+.wpcc-row .form-table {
+    margin-top: 32px;
 }
 .wpcc-row .form-table .wpcc-row-title th {
-    font-size: 1.2rem;
+    background-color: #f2f2f2 !important;
+    border-radius: 16px 0 0 16px;
+}
+.wpcc-row .form-table .wpcc-row-title td {
+    background-color: #f2f2f2 !important;
+    border-radius: 0 16px 16px 0;
+}
+.wpcc-row .form-table .wpcc-row-title th {
+    font-size: 1rem;
 }
 .wpcc-row .form-table .wpcc-row-title p {
     margin: 0
@@ -94,7 +106,20 @@
     width: 16px;
     height: 16px;
 }
-
+.wpcc-settings-sync-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+.wpcc-settings-sync-fields > div {
+    display: flex;
+    align-items: center;
+}
+.wpcc-settings-sync-fields label {
+    width: 50px;
+    display: block;
+}
 /** Supporter admin component **/
 .wpcc-supporter-container {
     display: flex;

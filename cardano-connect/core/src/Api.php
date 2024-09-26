@@ -96,10 +96,28 @@ class Api extends Base
 	    );
 	    register_rest_route(
 		    $this->plugin_name,
-		    '/pool/(?P<id>[a-zA-Z0-9-]+)',
+		    '/pools/(?P<id>[a-zA-Z0-9-]+)',
 		    [
 			    'methods'  => 'GET',
 			    'callback' => [$this, 'getPool'],
+			    'permission_callback' => '__return_true'
+		    ]
+	    );
+	    register_rest_route(
+		    $this->plugin_name,
+		    '/dreps/',
+		    [
+			    'methods'  => 'GET',
+			    'callback' => [$this, 'getDreps'],
+			    'permission_callback' => '__return_true'
+		    ]
+	    );
+	    register_rest_route(
+		    $this->plugin_name,
+		    '/dreps/(?P<id>[a-zA-Z0-9-]+)',
+		    [
+			    'methods'  => 'GET',
+			    'callback' => [$this, 'getDrep'],
 			    'permission_callback' => '__return_true'
 		    ]
 	    );
@@ -280,7 +298,7 @@ class Api extends Base
 	}
 
 	/**
-	 * Get a list of stake poos from the provider API.
+	 * Get a list of stake pools from the provider API.
 	 * @route /cardano-connect/pools
 	 */
 	public function getStakePools( $data ): array
@@ -312,6 +330,51 @@ class Api extends Base
 	{
 		$pool_id = $this->sanitizeText($data['id']) ?: null;
 		$data = $this->connectPoolProvider->getStakePool($pool_id);
+		if ($data->success) {
+			return $this->returnResponse(
+				true,
+				(array) $data->response
+			);
+		}
+		return $this->returnResponse(
+			false,
+			[]
+		);
+	}
+
+	/**
+	 * Get a list of dreps from the provider API.
+	 * @route /cardano-connect/dreps
+	 */
+	public function getDreps( $data ): array
+	{
+		$page = $data->get_param('page') ?: 1;
+		$per_page = $data->get_param('perPage') ?: 10;
+		$filters = $data->get_param('filters') ?: [];
+		$data = $this->connectDataProvider->getDreps($page, $per_page, $filters);
+		if ($data->success) {
+			return $this->returnResponse(
+				true,
+				[
+					'total' => $data->total,
+					'items' => (array) $data->response
+				]
+			);
+		}
+		return $this->returnResponse(
+			false,
+			[]
+		);
+	}
+
+	/**
+	 * Get a drep by its drep_id from the provider API.
+	 * @route /cardano-connect/dreps/{id}
+	 */
+	public function getDrep( $data ): array
+	{
+		$drep_id = $this->sanitizeText($data['id']) ?: null;
+		$data = $this->connectDataProvider->getDrep($drep_id);
 		if ($data->success) {
 			return $this->returnResponse(
 				true,

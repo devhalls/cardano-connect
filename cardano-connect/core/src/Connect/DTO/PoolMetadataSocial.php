@@ -1,7 +1,7 @@
 <?php
 namespace WPCC\Connect\DTO;
 
-class PoolMetadataSocial {
+class PoolMetadataSocial extends Base {
 	/** @var string[] */
 	public const FILLABLE = [
 		'twitter_handle',

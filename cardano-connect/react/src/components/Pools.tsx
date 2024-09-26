@@ -13,7 +13,8 @@ import {setMessage} from "../library/message";
 export const Pools = ({
     whitelistString = null,
     perPage = 10, // Set to 0 to disable pagination
-    notFound
+    notFound,
+    pools
 }: ComponentPools) => {
 
     // APP State
@@ -106,7 +107,7 @@ export const Pools = ({
             max: 1000,
             order: 4,
             format: (v) => parseInt(v)/1000,
-            display: (v) => v != '0' ? '<' + parseInt(v)/10 + '%' : ''
+            display: (v) => v != '0' ? '< ' + parseInt(v)/10 + '%' : 'any'
         },
         {
             label: options.label_paginate_search_order,
@@ -136,7 +137,20 @@ export const Pools = ({
         },
     ]
 
-    return (
+    return pools ? (
+        <>
+            {pools.length > 0 ? pools.map(((p, i) => (
+                <PoolComponent
+                    key={p.pool_id}
+                    poolId={p.pool_id}
+                    index={i}
+                    delegateStake={delegateStake}
+                />
+            ))) : (
+                <div className={classMap.notFound}>{notFound || options.label_no_pools}</div>
+            )}
+        </>
+    ) : (
         <Paginator
             className={classMap.pools}
             perPage={perPage}

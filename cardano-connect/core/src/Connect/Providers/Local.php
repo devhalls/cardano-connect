@@ -51,6 +51,9 @@ class Local extends Base implements StakePool
 		$formatted = [
 			'meta_query' => []
 		];
+		if (!empty($filters)) {
+			return $filters;
+		}
 		foreach ($filters as $filter) {
 			// Format orderby query.
 			if ($filter['key'] === 'orderby') {

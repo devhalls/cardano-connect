@@ -3,16 +3,22 @@
 namespace WPCC\Connect\Providers;
 
 use WPCC\Connect\Base;
+use WPCC\Connect\DTO\DrepId;
+use WPCC\Connect\DTO\DrepMetadata;
 use WPCC\Connect\DTO\Pool;
 use WPCC\Connect\DTO\PoolId;
+use WPCC\Connect\DTO\Drep;
+use WPCC\Connect\Interfaces\Drep as DrepInterface;
 use WPCC\Connect\Responses\Response;
 use WPCC\Connect\Interfaces\Account;
 use WPCC\Connect\Interfaces\Asset;
 use WPCC\Connect\Interfaces\StakePool;
+use WPCC\Connect\Responses\ResponseDrep;
+use WPCC\Connect\Responses\ResponseDreps;
 use WPCC\Connect\Responses\ResponsePool;
 use WPCC\Connect\Responses\ResponsePools;
 
-class BlockFrost extends Base implements Account, Asset, StakePool
+class BlockFrost extends Base implements Account, Asset, StakePool, DrepInterface
 {
 	// Inherited methods.
 
@@ -99,13 +105,61 @@ class BlockFrost extends Base implements Account, Asset, StakePool
 		);
 	}
 
+	// Drep interface.
+
+
+	public function getDreps( int $page = 1, int $count = 10, ?array $filters = null ): ResponseDreps
+	{
+		$response = $this->get('governance/dreps', [
+			'page' => $page,
+			'count' => $count
+		]);
+		$formatted = [];
+		if ($response->success) {
+			foreach ($response->response as $item) {
+				$formatted[] = new DrepId(...$item);
+			}
+		}
+		return new ResponseDreps(
+			$response->success,
+			$formatted,
+			3001,
+			$response->message,
+		);
+	}
+
+	public function getDrep( string $drep_id ): ResponseDrep
+	{
+		$response = $this->get( 'governance/dreps/' . $drep_id );
+		$data_arr = $response->success ? (array) $response->response : null;
+		if ($data_arr) {
+			$response_metadata = $this->get( 'governance/dreps/' . $drep_id . '/metadata');
+			if ($response_metadata->success) {
+				$metadata_arr = new DrepMetadata(...$response_metadata->response);
+				$data_arr = array_merge(
+					$data_arr,
+					[ 'metadata' =>  $metadata_arr ]
+				);
+			}
+			$drep = new Drep(...$data_arr);
+			return new ResponseDrep(true, $drep);
+		}
+		return new ResponseDrep(
+			$response->success,
+			$response->response,
+			$response->message
+		);
+	}
+
 	// BlockFrost specific helpers.
 
-	private function getStakePoolData( string $pool_id ): Response {
+	private function getStakePoolData( string $pool_id ): Response
+	{
 		return $this->get( 'pools/' . $pool_id );
 	}
 
-	private function getStakePoolMetadata( string $pool_id ): Response {
+	private function getStakePoolMetadata( string $pool_id ): Response
+	{
 		return $this->get( 'pools/' . $pool_id . '/metadata' );
 	}
 }

@@ -66,6 +66,7 @@
 
 .wpcc-icon {
     display: block;
+    background-repeat: no-repeat;
     width: calc(var(--wpcc-base-sizing) * 1.2);
     height: calc(var(--wpcc-base-sizing) * 1.2);
 }
@@ -107,6 +108,20 @@
     width: 18px;
     background-image: url('data:image/svg+xml,<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.48 387.72"><defs><style>.cls-1{fill:%23282828;}</style></defs><path class="cls-1" d="M307.65,273.99c-7.04-6.9-15.6-8.68-24.88-5.44-9.19,3.21-14.25,10.09-15.49,19.62-.93,7.14,1.07,13.69,6.16,18.79,24.33,24.37,48.62,48.79,73.29,72.81,10.96,10.67,23.66,10.58,34.61-.17,24.34-23.88,48.41-48.05,72.33-72.36,9.39-9.54,8.88-25.35-.35-34.3-9.16-8.88-23.97-8.46-33.69,1.1-9.13,8.98-18.13,18.1-27.19,27.15-1.15,1.14-2.37,2.22-4.54,4.24,0-3.23,0-5.3,0-7.36,0-90.01,0-180.02-.04-270.03,0-3.3-.04-6.73-.86-9.89-2.89-11.15-13.62-18.65-24.68-17.64-12.45,1.14-21.46,10.29-22.4,22.78-.14,1.82-.07,3.66-.07,5.49,0,89.84,0,179.69,0,269.53v6.33c-.42.15-.83.31-1.25.46-10.3-10.39-20.49-20.89-30.94-31.13ZM24.27.07C6.94.12-4.48,16.86,1.7,32.74c3.76,9.65,12.49,15.27,24.02,15.28,39.24.03,78.49.01,117.73.01,41.07,0,82.14.03,123.22-.02,11.68-.02,20.82-6.45,24.05-16.64,4.97-15.68-6.32-31.26-23-31.3-40.74-.11-81.48-.04-122.22-.04S64.67-.05,24.27.07ZM25.03,159.57c-18.44.1-30.45,18.59-22.48,34.49,4.82,9.61,13.15,13.57,23.7,13.56,47.07-.04,94.15-.02,141.22-.02,12.14,0,24.29.19,36.43-.08,12.14-.27,21.52-8.29,23.72-19.68,2.03-10.5-3.41-21.66-13.38-25.89-3.84-1.63-8.35-2.3-12.56-2.33-29.27-.19-58.55-.1-87.82-.1-29.61,0-59.22-.12-88.82.05ZM26.2,318.49c-14.57.07-25.78,10.67-25.7,24.16.08,13.7,11.05,23.82,25.89,23.83,27.58.02,55.15.1,82.73-.05,12.54-.07,22.43-9.4,23.75-21.83,1.23-11.6-6.78-22.74-18.53-25.48-2.55-.59-5.27-.61-7.91-.62-13.12-.06-26.25-.03-39.37-.03-13.62,0-27.24-.05-40.87.01Z"/><path class="cls-1" d="M338.6,305.12c-10.3-10.39-20.49-20.89-30.94-31.13-7.04-6.9-15.6-8.68-24.88-5.44-9.19,3.21-14.25,10.09-15.49,19.62-.93,7.14,1.07,13.69,6.16,18.79,24.33,24.37,48.62,48.79,73.29,72.81,10.96,10.67,23.66,10.58,34.61-.17,24.34-23.88,48.41-48.05,72.33-72.36,9.39-9.54,8.88-25.35-.35-34.3-9.16-8.88-23.97-8.46-33.69,1.1-9.13,8.98-18.13,18.1-27.19,27.15-1.15,1.14-2.37,2.22-4.54,4.24,0-3.23,0-5.3,0-7.36,0-90.01,0-180.02-.04-270.03,0-3.3-.04-6.73-.86-9.89-2.89-11.15-13.62-18.65-24.68-17.64-12.45,1.14-21.46,10.29-22.4,22.78-.14,1.82-.07,3.66-.07,5.49,0,89.84,0,179.69,0,269.53v6.33c-.42.15-.83.31-1.25.46Z"/><path class="cls-1" d="M145.49.03C105.08.03,64.67-.05,24.27.07,6.94.12-4.48,16.86,1.7,32.74c3.76,9.65,12.49,15.27,24.02,15.28,39.24.03,78.49.01,117.73.01,41.07,0,82.14.03,123.22-.02,11.68-.02,20.82-6.45,24.05-16.64,4.97-15.68-6.32-31.26-23-31.3-40.74-.11-81.48-.04-122.22-.04Z"/><path class="cls-1" d="M113.85,159.52c-29.61,0-59.22-.12-88.82.05-18.44.1-30.45,18.59-22.48,34.49,4.82,9.61,13.15,13.57,23.7,13.56,47.07-.04,94.15-.02,141.22-.02,12.14,0,24.29.19,36.43-.08,12.14-.27,21.52-8.29,23.72-19.68,2.03-10.5-3.41-21.66-13.38-25.89-3.84-1.63-8.35-2.3-12.56-2.33-29.27-.19-58.55-.1-87.82-.1Z"/><path class="cls-1" d="M67.07,318.48c-13.62,0-27.24-.05-40.87.01-14.57.07-25.78,10.67-25.7,24.16.08,13.7,11.05,23.82,25.89,23.83,27.58.02,55.15.1,82.73-.05,12.54-.07,22.43-9.4,23.75-21.83,1.23-11.6-6.78-22.74-18.53-25.48-2.55-.59-5.27-.61-7.91-.62-13.12-.06-26.25-.03-39.37-.03Z"/></svg>');
 }
+.wpcc-icon-retired {
+    background-image: url('data:image/svg+xml,<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 550"><defs><style>.cls-1{fill:%23fff;}.cls-2{fill:%23d61616;}</style></defs><circle class="cls-2" cx="275" cy="275" r="275"/><path class="cls-1" d="M275.01,300.36c-9.67,0-17.51-7.84-17.51-17.51v-71.25c0-9.67,7.84-17.51,17.51-17.51s17.51,7.84,17.51,17.51v71.25c0,9.67-7.84,17.51-17.51,17.51Z"/><path class="cls-1" d="M361.36,406.09h-86.35c-.76,0-1.51-.05-2.24-.14h-84.11c-14.65,0-27.71-2.63-38.83-7.83-11.57-5.41-20.85-13.64-26.84-23.81-6-10.18-8.7-22.32-7.81-35.08.85-12.26,4.89-24.97,12-37.79l44.46-80.09,41.9-75.26c7.43-13.4,16.37-23.96,26.56-31.37,10.73-7.8,22.8-11.92,34.9-11.92s24.17,4.12,34.9,11.92c10.19,7.41,19.13,17.97,26.58,31.4l41.89,75.37,44.46,80.09c7.11,12.82,11.14,25.54,11.98,37.79.87,12.75-1.83,24.87-7.83,35.06-5.99,10.17-15.27,18.41-26.83,23.83-11.11,5.2-24.17,7.84-38.8,7.84ZM277.25,371.07h84.11c17.13,0,30.05-5.26,35.45-14.42,5.41-9.18,3.73-23.07-4.6-38.09l-44.45-80.07-41.89-75.37c-8.92-16.08-20.17-25.3-30.86-25.3s-21.95,9.22-30.86,25.29l-41.91,75.26-44.45,80.06c-8.34,15.05-10.03,28.94-4.63,38.11,5.39,9.15,18.32,14.39,35.49,14.39h86.35c.76,0,1.51.05,2.24.14Z"/><path class="cls-1" d="M275.06,348.94h-.13c-12.89,0-23.35-10.45-23.35-23.35s10.45-23.35,23.35-23.35h.13c12.89,0,23.35,10.45,23.35,23.35s-10.45,23.35-23.35,23.35Z"/></svg>');
+}
+.wpcc-icon-compare {
+    height: 18.5px;
+    background-image: url('data:image/svg+xml,<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 467.5"><defs><style>.cls-1{fill:%23282828;}</style></defs><path class="cls-1" d="M440,467.5c-60.65,0-110-49.35-110-110,0-51.16,35.11-94.28,82.5-106.52v-113.48c0-15.16-12.34-27.5-27.5-27.5v27.5c0,11.12-6.7,21.15-16.98,25.41-10.28,4.25-22.11,1.9-29.97-5.96l-54.86-54.86-.14-.14c-2.69-2.69-4.71-5.8-6.05-9.13,0,0,0,0,0-.01,0-.01-.01-.03-.02-.04-1.24-3.07-1.94-6.43-1.98-9.93h0s0-.06,0-.08v-.08s0-.03,0-.04v-.25s0-.03,0-.04v-.08s0-.05,0-.07h0c.04-3.52.74-6.87,1.98-9.94,1.25-3.11,3.09-6.04,5.52-8.61.18-.19.37-.38.56-.57l55-55c7.87-7.86,19.69-10.22,29.97-5.96,10.28,4.26,16.98,14.28,16.98,25.41v27.5c45.49,0,82.5,37.01,82.5,82.5v113.48c47.39,12.24,82.5,55.36,82.5,106.52,0,60.65-49.35,110-110,110ZM440,302.5c-30.33,0-55,24.67-55,55s24.67,55,55,55,55-24.67,55-55-24.67-55-55-55Z"/><path class="cls-1" d="M192.49,467.5c-3.54,0-7.11-.68-10.52-2.09-10.28-4.26-16.98-14.28-16.98-25.41v-27.5c-45.49,0-82.5-37.01-82.5-82.5v-113.48C35.11,204.28,0,161.16,0,110,0,49.35,49.35,0,110,0s110,49.35,110,110c0,51.16-35.11,94.28-82.5,106.52v113.48c0,15.16,12.34,27.5,27.5,27.5h0v-27.5c0-11.12,6.7-21.15,16.98-25.41,10.28-4.25,22.11-1.9,29.97,5.96l55,55c2.86,2.86,4.96,6.19,6.29,9.74.92,2.43,1.5,5.02,1.69,7.71,0,0,0,.02,0,.02v.03c.05.64.07,1.29.07,1.93s-.02,1.29-.07,1.93c0,.01,0,.02,0,.03,0,0,0,.02,0,.03-.19,2.7-.77,5.29-1.69,7.71-1.34,3.55-3.44,6.89-6.29,9.75l-55,55c-5.26,5.26-12.3,8.06-19.45,8.06ZM110,55c-30.33,0-55,24.67-55,55s24.67,55,55,55,55-24.67,55-55-24.67-55-55-55Z"/></svg>');
+}
+.wpcc-icon-json {
+    background-image: url('data:image/svg+xml,<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 550"><defs><style>.cls-1{fill:%23fff;}.cls-2{fill:%23282828;}</style></defs><circle class="cls-2" cx="275" cy="275" r="275"/><path class="cls-1" d="M91.53,265.07c31.17,0,35.56-14.62,35.56-27.73,0-10.49-1.75-20.99-3.51-31.48-1.75-10.49-3.51-20.61-3.51-31.11,0-34.48,26.34-49.09,63.65-49.09h9.22v20.61h-7.9c-25.9,0-34.68,11.99-34.68,32.23,0,8.62,1.31,17.61,3.07,26.61,1.75,9.37,3.07,18.36,3.07,28.48.44,23.98-11.85,35.98-31.61,40.47v.75c19.75,4.12,32.05,16.86,31.61,40.85,0,10.12-1.32,19.49-3.07,28.48-1.76,9.37-3.07,17.99-3.07,26.98,0,20.99,10.1,32.6,34.68,32.6h7.9v20.61h-9.22c-36.43,0-63.65-13.49-63.65-51.34,0-10.12,1.76-20.61,3.51-30.73,1.76-10.12,3.51-20.24,3.51-30.36,0-11.62-4.39-27.73-35.56-27.73v-19.11Z"/><path class="cls-1" d="M467.71,284.18c-31.17,0-35.56,16.11-35.56,27.73,0,10.12,1.76,20.24,3.51,30.36,1.76,10.12,3.51,20.61,3.51,30.73,0,37.85-27.66,51.34-63.65,51.34h-9.22v-20.61h7.46c24.58-.38,35.12-11.62,35.12-32.6,0-8.99-1.76-17.61-3.07-26.98-1.76-8.99-3.51-18.36-3.51-28.48,0-23.98,12.29-36.73,31.61-40.85v-.75c-19.32-4.5-31.61-16.49-31.61-40.47,0-10.12,1.75-19.11,3.51-28.48,1.31-8.99,3.07-17.99,3.07-26.61,0-20.24-9.22-31.86-34.68-32.23h-7.9v-20.61h8.78c37.32,0,64.09,14.62,64.09,49.09,0,10.49-1.75,20.61-3.51,31.11-1.75,10.49-3.51,20.99-3.51,31.48,0,13.12,4.39,27.73,35.56,27.73v19.11Z"/><circle class="cls-1" cx="220.93" cy="326.73" r="14.24"/><circle class="cls-1" cx="279.62" cy="326.73" r="14.24"/><circle class="cls-1" cx="338.31" cy="326.73" r="14.24"/></svg>');
+}
+.wpcc-icon-eye {
+    height: 15px;
+    background-image: url('data:image/svg+xml,<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 385.42"><defs><style>.cls-1{fill:%23282828;}</style></defs><path class="cls-1" d="M550,193.2c-2.74,5.36-5.36,10.78-8.24,16.05-24.38,44.54-55.51,83.54-95.37,115.25-31.36,24.95-66.25,42.98-105.23,52.78-27.79,6.99-56.01,9.42-84.58,7.51-56.58-3.76-106.82-24.02-151.4-58.75-32.72-25.48-59.57-56.29-82.08-90.99-8.32-12.82-15.86-26.09-22.47-39.89-.83-1.74-.85-3.16,0-4.89,28-56.44,66.29-104.29,118.03-140.77,31.75-22.39,66.71-37.63,104.97-44.65,56.26-10.33,110.75-4.37,163.01,19.29,29.93,13.55,56.53,32.12,80.38,54.62,34.38,32.43,61.82,69.98,82.35,112.56.16.33.4.62.61.93v.92ZM150.94,192.76c0,68.35,55.45,123.8,123.81,123.82,68.35.02,123.83-55.4,123.88-123.76.05-68.46-55.47-123.98-123.93-123.93-68.36.05-123.77,55.5-123.76,123.87Z"/><path class="cls-1" d="M274.75,261.54c-37.99-.02-68.82-30.91-68.77-68.89.05-37.99,30.97-68.8,68.95-68.71,37.92.09,68.64,30.86,68.65,68.77.02,37.99-30.85,68.85-68.84,68.83Z"/></svg>');
+}
 
 /** Loader component **/
 
@@ -144,6 +159,9 @@
 }
 .wpcc-pagination-paged .wpcc-pagination-total {
     margin-left: auto;
+    text-align: center;
+    line-height: 1;
+    font-size: .8rem;
 }
 .wpcc-pagination-paged {
     width: 100%;
@@ -160,6 +178,20 @@
 .wpcc-pagination-update {
     background-color: var(--wpcc-text-color-dark);
     color: white;
+    white-space: nowrap;
+}
+.wpcc-pagination-reset {
+    white-space: nowrap;
+}
+.wpcc-pagination-filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wpcc-base-sizing);
+}
+.wpcc-pagination-filters-buttons {
+    display: flex;
+    align-items: flex-start;
+    gap: calc(var(--wpcc-base-sizing) / 2);
 }
 .wpcc-pagination-filters {
     width: 100%;
@@ -190,10 +222,9 @@
     width: 100%;
 }
 .wpcc-pagination-filter-range {
-    width: 100%;
+    width: calc( 100% - 80px );
 }
 .wpcc-pagination-filter-order {
-    margin-left: auto;
     width: 100%;
 }
 .wpcc-pagination-filter label {
@@ -206,15 +237,25 @@
 .wpcc-pagination-filter-range span {
     position: absolute;
     right: 0;
-    transform: translateX(calc(100% + var(--wpcc-base-sizing) / 2));
+    width: 70px;
+    text-align: center;
+    transform: translateX(80px);
+    background: white;
+    padding: 3px;
+    border-radius: 20px;
+    font-size: .8rem;
 }
 
 @media (min-width: 768px) {
     .wpcc-pagination-filter-range {
-        margin-right: calc(var(--wpcc-base-sizing) * 3);
+        margin-right: calc(var(--wpcc-base-sizing) * 4);
     }
     .wpcc-pagination-filter {
         width: auto;
+    }
+    .wpcc-pagination-filters-container {
+        flex-direction: row;
+        padding-top: calc(var(--wpcc-base-sizing) / 2);
     }
 }
 
@@ -325,30 +366,31 @@
     }
 }
 
-/** Asset modal component **/
+/** Modal component **/
 
-.wpcc-asset-modal {
+.wpcc-modal {
     position: fixed;
     z-index: 10;
-    top: var(--wpcc-base-sizing);
-    left: var(--wpcc-base-sizing);
-    right: var(--wpcc-base-sizing);
-    bottom: calc(var(--wpcc-base-sizing) * 5);
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    bottom: calc(var(--wpcc-base-sizing) * 4);
     box-shadow: var(--wpcc-bg-shadow);
     overflow: scroll;
-    background-color: rgba(255,255,255,0.9);
+    background-color: rgba(255,255,255,1);
     padding: 0;
 }
-.wpcc-asset-modal-header {
+.wpcc-modal-header {
     display: flex;
     gap: var(--wpcc-base-sizing);
     background-color: var(--wpcc-primary-gray-light);
     padding: var(--wpcc-base-sizing);
 }
-.wpcc-asset-modal-title {
+.wpcc-modal-title {
     margin: 0;
 }
-.wpcc-asset-modal-close {
+.wpcc-modal-close {
     margin-left: auto;
 }
 .wpcc-asset-modal-body {
@@ -419,27 +461,38 @@
 
 /** Pools component */
 
+.wpcc-pagination-container {
+    scroll-margin-top: 90px;
+}
 .wpcc-pools {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: var(--wpcc-base-sizing);
 }
+.wpcc-pools .wpcc-loader {
+    width: 100%;
+    height: 100%;
+}
 .wpcc-pool {
+    box-sizing: border-box;
     display: flex;
-    align-items: center;
     gap: var(--wpcc-base-sizing);
 }
+.wpcc-pool-comparing {
+    box-shadow: var(--wpcc-bg-shadow-light);
+}
 .wpcc-pool-detail {
-    margin: 4px auto auto;
+    margin: -10px auto auto;
     bottom: 0;
     left: 16px;
     right: 16px;
     text-align: center;
     font-size: .6rem;
 }
-.wpcc-pool .wpcc-loader {
+.wpcc-pool > .wpcc-loader {
     margin: auto;
+    min-height: 297px;
 }
 .wpcc-pool-content {
     display: flex;
@@ -447,13 +500,17 @@
     width: 100%;
     gap: calc(var(--wpcc-base-sizing) / 2);
 }
-.wpcc-pool-header {
+.wpcc-pool-header,
+.wpcc-pool-description {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--wpcc-base-sizing);
     padding-bottom: var(--wpcc-base-sizing);
     border-bottom: var(--wpcc-primary-gray) thin solid;
+}
+.wpcc-pool-description {
+    padding-bottom: 12px;
 }
 .wpcc-pool-header-right {
     margin-left: auto;
@@ -485,9 +542,18 @@
     height: 100%;
 }
 .wpcc-pool-ticker {
+    cursor: pointer;
     font-weight: bolder;
 }
-.wpcc-pool-name {}
+.wpcc-pool-name {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: calc(var(--wpcc-base-sizing) / 2);
+}
+.wpcc-pool-id {
+    cursor: pointer;
+}
 .wpcc-pool-social {
     display: flex;
     gap: 4px;
@@ -507,6 +573,66 @@
     .wpcc-pool {
         width: calc(50% - calc(var(--wpcc-base-sizing) / 2));
     }
+}
+
+@media (min-width: 1800px) {
+    .wpcc-pool {
+        width: calc(33.1% - calc(var(--wpcc-base-sizing) / 2));
+    }
+}
+
+/** DReps **/
+
+.wpcc-dreps {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--wpcc-base-sizing);
+}
+.wpcc-dreps .wpcc-loader {
+    width: 100%;
+    height: 100%;
+}
+.wpcc-drep {
+    box-sizing: border-box;
+    display: flex;
+    gap: var(--wpcc-base-sizing);
+    padding-bottom: 0;
+}
+.wpcc-drep-image {
+    border-radius: 8px;
+    padding: 8px;
+    overflow: hidden;
+    width: calc(var(--wpcc-base-sizing) * 2);
+    height: calc(var(--wpcc-base-sizing) * 2);
+    border: var(--wpcc-primary-gray) thin solid;
+    background-color: white;
+}
+.wpcc-drep-image img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+.wpcc-drep-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--wpcc-base-sizing);
+    padding-bottom: calc(var(--wpcc-base-sizing) / 3);
+}
+.wpcc-drep-comparing {
+    box-shadow: var(--wpcc-bg-shadow-light);
+}
+.wpcc-pagination + .wpcc-dreps {
+    margin-top: var(--wpcc-base-sizing);
+}
+.wpcc-drep-id {
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .wpcc-dreps {}
+    .wpcc-drep {}
 }
 
 /** Bar component **/
@@ -568,13 +694,17 @@
 .wpcc-actions {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     width: 100%;
     gap: calc(var(--wpcc-base-sizing) / 2);
-    padding-top: calc(var(--wpcc-base-sizing));
+    padding: calc(var(--wpcc-base-sizing)) 0;
     border-top: 1px solid var(--wpcc-primary-gray);
 }
 .wpcc-actions-button,
+.wpcc-actions-button-light,
 .wpcc-actions-button-placeholder {
+    gap: calc(var(--wpcc-base-sizing) / 4);
+    text-align: center;
     appearance: none;
     border: none;
     display: flex;
@@ -586,13 +716,19 @@
     font-size: var(--wpcc-font-size);
     padding: calc(var(--wpcc-base-sizing) / 2) var(--wpcc-base-sizing);
 }
-.wpcc-actions-button {
+.wpcc-actions-button,
+.wpcc-actions-button-light {
     cursor: pointer;
     background: var(--wpcc-text-color-dark) !important;
     color: var(--wpcc-text-color);
     transition: all .2s;
 }
-.wpcc-actions-button:hover {
+.wpcc-actions-button-light {
+    background: var(--wpcc-primary-gray) !important;
+    color: var(--wpcc-text-color-dark);
+}
+.wpcc-actions-button:hover,
+.wpcc-actions-button-light:hover {
     transform: scale(1.05);
 }
 
@@ -720,6 +856,44 @@
 }
 .connector-menu-list > *:hover {
     opacity: 0.7;
+}
+
+/** Compare modal */
+.wpcc-compare-button-container {
+    position: fixed;
+    z-index: 1;
+    bottom: var(--wpcc-base-sizing);
+    left: var(--wpcc-base-sizing);
+    display: flex;
+    gap: calc(var(--wpcc-base-sizing) / 2);
+}
+.wpcc-compare-button {
+    appearance: none;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    gap: calc(var(--wpcc-base-sizing) / 4);
+    align-items: center;
+    box-shadow: var(--wpcc-bg-shadow);
+    font-family: var(--wpcc-font-family) sans-serif;
+    font-size: var(--wpcc-font-size);
+    color: var(--wpcc-text-color);
+    background: var(--wpcc-primary-color);
+    background: var(--wpcc-primary-gradient);
+    border-radius: var(--wpcc-border-radius);
+    height: calc(var(--wpcc-base-sizing) * 2);
+    padding: 0 var(--wpcc-base-sizing);
+    transition: all .4s;
+    background-size: 100%;
+}
+.wpcc-compare-button:hover {
+    background-size: 200%;
+}
+.wpcc-compare-modal-body {
+    display: flex;
+    flex-wrap: wrap;
+    padding: var(--wpcc-base-sizing);
+    gap: var(--wpcc-base-sizing);
 }
 
 /* Animations */

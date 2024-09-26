@@ -40,6 +40,8 @@ export const mockOption: AjaxResponse<Options> = {
         label_paginate_search_retired: 'Hide retired',
         label_paginate_search_saturation: 'Saturation',
         label_paginate_search_order: 'Order',
+        label_paginate_search_update: 'Update',
+        label_paginate_search_reset: 'Reset',
         label_assets_policy_label: 'Token Collection',
         label_assets_quantity_label: 'Qty',
         label_no_assets: 'No assets found',
@@ -52,6 +54,17 @@ export const mockOption: AjaxResponse<Options> = {
         label_pool_stake_saturated: 'Stake (SATURATED)',
         label_pool_pledge_met: 'Pledge (Pledge met)',
         label_pool_pledge_not_met: 'Pledge (Pledge NOT met)',
+        label_pool_retiring: 'Retiring',
+        label_pool_retired: 'Retired',
+        label_pool_synced: 'Last synced -',
+        label_pool_lifetime_blocks: 'Lifetime blocks:',
+        label_pool_last_epoch_blocks: 'Last epoch blocks:',
+        label_pool_delegators: 'Delegators:',
+        label_compare_view_pools: 'Compare pools',
+        label_compare_view_dreps: 'Compare Dreps',
+        label_compare_add: 'Add to compare',
+        label_compare_remove: 'Remove from compare',
+        label_compare_no_items: 'No items selected for comparison',
         label_text_copied: 'Copied!',
         label_text_copied_failed: 'Copy failed',
     }
@@ -195,7 +208,7 @@ const poolMockData: ({pool_id: string} & PoolData)[]  = [
             "5425091203a6217012f57d67621ba1ac39babb8407eaaa4d619bf938fa728443",
             "0bb1ecbf7bc3fa854a3ab2eeba0b550c23cbbac6ebaacb1fdef0c96020f64dcb"
         ],
-        "retirement": [],
+        "retirement": ['dsadqwdqnvkeiibnfk83289fnuwfc8cjom'],
         "metadata": {
             "url": "https://upstream.org.uk/assets/poolMetaData.json",
             "hash": "a0091fbf52d709447231d7124069bcae3e055268afdf5a26a6d5f1b8bacb298c",
@@ -260,7 +273,7 @@ const poolMockData: ({pool_id: string} & PoolData)[]  = [
             "f87a5497aa10de6492734f52169616e84887fab081a0da354c5b07a8e0835f81",
             "c97c539d503f5b2f4475cf70aa614cc3255435f82e15f1a99735ae039d9389be"
         ],
-        "retirement": [],
+        "retirement": ['dsadqwdqnvkeiibnfk83289fnuwfc8cjom', 'dsadqwdqnvkeiibnfk83289fnuwfc8cjom'],
         "metadata": {
             "url": "https://raw.githubusercontent.com/Octalus/cardano/master/p.json",
             "hash": "ca7d12decf886e31f5226b5946c62edc81a7e40af95ce7cd6465122e309d5626",
@@ -766,5 +779,48 @@ export const mockApiPool = (poolId: string): AjaxResponse<PoolData> => {
         success: true,
         message: '',
         data: poolMockData.find(a => a.pool_id === poolId)
+    }
+}
+
+
+const drepMockData: ({drep_id: string} & DrepData)[]  = [
+    {
+        drep_id: 'drep1000002hneyj7jl9y95m0zxdsg6dp9n9y59lvlm7xjqp4qh2jx7h',
+        hex: 'xxx',
+        amount: '3241434241414122233',
+        active: true,
+        active_epoch: 213,
+        has_script: true,
+        metadata: null
+    },
+    {
+        drep_id: 'drep1dj9qeqrh070ymszrm27y36per3uzrfd59jzshcngeud9zlv9jg8',
+        hex: 'xxx',
+        amount: '3241434241414122233',
+        active: false,
+        active_epoch: 213,
+        has_script: false,
+        metadata: null
+    }
+]
+
+export const mockApiDreps = (page: number, perPage: number): AjaxResponse<PaginatedData<DrepData>> => {
+    return {
+        nonce: 'nonce_value',
+        success: true,
+        message: '',
+        data: {
+            total: drepMockData.length,
+            items: filterPaginatedRange(drepMockData, page, perPage)
+        }
+    }
+}
+
+export const mockApiDrep = (drepId: string): AjaxResponse<DrepData> => {
+    return {
+        nonce: 'nonce_value',
+        success: true,
+        message: '',
+        data: drepMockData.find(a => a.drep_id === drepId)
     }
 }

@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/wp-content/plugins/cardano-connect/react/build/static/css/main.3144edcf.css",
-    "main.js": "/wp-content/plugins/cardano-connect/react/build/static/js/main.3d2d9a9d.js",
+    "main.css": "/wp-content/plugins/cardano-connect/react/build/static/css/main.ae69a912.css",
+    "main.js": "/wp-content/plugins/cardano-connect/react/build/static/js/main.bcf7fc6a.js",
     "static/js/787.91c23de6.chunk.js": "/wp-content/plugins/cardano-connect/react/build/static/js/787.91c23de6.chunk.js",
-    "module.wasm": "/wp-content/plugins/cardano-connect/react/build/37e7dd0d7ee994366805.module.wasm",
+    "module.wasm": "/wp-content/plugins/cardano-connect/react/build/2201b11fa90bb88700ba.module.wasm",
     "index.html": "/wp-content/plugins/cardano-connect/react/build/index.html",
-    "main.3144edcf.css.map": "/wp-content/plugins/cardano-connect/react/build/static/css/main.3144edcf.css.map",
-    "main.3d2d9a9d.js.map": "/wp-content/plugins/cardano-connect/react/build/static/js/main.3d2d9a9d.js.map",
+    "main.ae69a912.css.map": "/wp-content/plugins/cardano-connect/react/build/static/css/main.ae69a912.css.map",
+    "main.bcf7fc6a.js.map": "/wp-content/plugins/cardano-connect/react/build/static/js/main.bcf7fc6a.js.map",
     "787.91c23de6.chunk.js.map": "/wp-content/plugins/cardano-connect/react/build/static/js/787.91c23de6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3144edcf.css",
-    "static/js/main.3d2d9a9d.js"
+    "static/css/main.ae69a912.css",
+    "static/js/main.bcf7fc6a.js"
   ]
 }

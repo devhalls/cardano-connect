@@ -1,7 +1,7 @@
 <?php
 namespace WPCC\Connect\DTO;
 
-class PoolItn  {
+class PoolItn extends Base {
 	/** @var string[] */
 	public const FILLABLE = [
 		'owner',

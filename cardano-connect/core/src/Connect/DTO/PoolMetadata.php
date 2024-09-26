@@ -1,7 +1,7 @@
 <?php
 namespace WPCC\Connect\DTO;
 
-class PoolMetadata {
+class PoolMetadata extends Base {
 	/** @var string[] */
 	public const FILLABLE = [
 		'url',

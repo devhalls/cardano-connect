@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@meshsdk/core": "^1.5.2",
-    "@meshsdk/react": "^1.1.7",
+    "@meshsdk/core": "1.5.2",
+    "@meshsdk/react": "1.1.7",
     "@reduxjs/toolkit": "^2.2.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -20,6 +20,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.2",
     "react-scripts": "5.0.1",
+    "react-tooltip": "^5.28.0",
     "redux-persist": "^6.0.0",
     "web-vitals": "^2.1.4"
   },
