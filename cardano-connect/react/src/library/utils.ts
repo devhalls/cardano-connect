@@ -58,6 +58,18 @@ export const formatNumber = (x: number): string => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+export const formatNumberShort = (n: number, suffix: string = '', decimals: number = 0, uppercase: boolean = false) => {
+    let suffixes = uppercase ? ['', 'K', 'M', 'B', 'T'] : ['', 'k', 'm', 'b', 't'];
+    if (typeof n !== 'number') {
+        return (0).toFixed(decimals) + suffix;
+    }
+    if (n < 1000) {
+        return n.toFixed(decimals) + suffix;
+    }
+    let index = suffix ? suffixes.indexOf(suffix) + 1 : 1;
+    return formatNumberShort(n / 1000, suffixes[index], decimals, uppercase);
+}
+
 export const formatPercentageFromDecimal = (x: number): number => {
     return parseFloat((x * 100).toFixed(2))
 }
@@ -71,6 +83,15 @@ export const formatPercentageFromBig = (a: string, b: string): number => {
     return (a && b)
         ? parseFloat(aBn.div(bBn).multipliedBy(100).toFixed(2))
         : 0
+}
+
+export const formatAbbreviatedNumberFromBig = (a: string): string => {
+    return formatNumberShort(formatNumberFromBig(a))
+}
+
+export const formatNumberFromBig = (a: string): number => {
+    const bn = new BigNumber(a)
+    return bn.dividedBy(1000000).toNumber()
 }
 
 export const ucFirst = (string: string) => {
@@ -240,4 +261,8 @@ export const classMap = {
     compareButton: 'wpcc-compare-button',
     compareButtonIcon: 'wpcc-icon wpcc-icon-compare',
     compareModalBody: 'wpcc-compare-modal-body',
+    // Graphs
+    graphContainer: 'wpcc-graph-container',
+    plotContainer: 'wpcc-plot-container',
+    plotClose: 'wpcc-plot-close wpcc-icon wpcc-icon-close',
 }

@@ -47,15 +47,64 @@ class Local extends Base implements StakePool
 		return new ResponsePool( (bool) $pool, $pool);
 	}
 
+	public function getStakePoolStats(string $order = null, string $dir = 'asc'): ResponsePools {
+		global $wpdb;
+		$fields = [
+			'a' => 'pool_id',
+			'b' => 'hex',
+			'c' => 'vrf_key',
+			'd' => 'blocks_minted',
+			'e' => 'blocks_epoch',
+			'f' => 'live_stake',
+			'g' => 'live_size',
+			'h' => 'live_saturation',
+			'i' => 'live_delegators',
+			'j' => 'active_stake',
+			'k' => 'active_size',
+			'l' => 'declared_pledge',
+			'm' => 'live_pledge',
+			'n' => 'margin_cost',
+			'o' => 'fixed_cost',
+			'p' => 'synced_at',
+		];
+		if (! in_array( $order, $fields, true ) ) {
+			$order = 'live_stake';
+		}
+		$order_join = array_search($order, $fields);
+
+		$selects = [];
+		$joins = [];
+		foreach ($fields as $k => $f) {
+			$selects[] = "$k.meta_value $f";
+			$joins[] = "LEFT JOIN wp_postmeta $k ON wp_posts.ID = $k.post_ID AND $k.meta_key='$f'";
+		}
+		$query = "SELECT wp_posts.ID, wp_posts.post_type, "
+			.implode(",", $selects)
+			." FROM wp_posts "
+			.implode(" ", $joins)
+			." WHERE wp_posts.post_type = 'wpcc_pools'"
+			." ORDER BY $order_join.meta_value $dir";
+		$results = $wpdb->get_results($query);
+		$pools = [];
+		foreach ($results as $r) {
+			$arr = (array) $r;
+			unset($arr['ID'], $arr['post_type']);
+			if ($arr['pool_id']) {
+				$pools[] = new Pool( ...$arr );
+			}
+		}
+		return new ResponsePools(true, $pools, count($results));
+	}
+
 	private function formatFilters(array $filters): array {
 		$formatted = [
 			'meta_query' => []
 		];
-		if (!empty($filters)) {
-			return $filters;
+		if (empty($filters)) {
+			return [];
 		}
 		foreach ($filters as $filter) {
-			// Format orderby query.
+			// Format order by query.
 			if ($filter['key'] === 'orderby') {
 				if ($filter['value'] === 'random') {
 					$formatted['orderby'] = 'rand(' . date( 'Ymd' ) . ')';

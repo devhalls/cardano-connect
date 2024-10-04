@@ -41,7 +41,7 @@ export const Paginator = ({
             return {
                 value: f.format ? f.format(f.value) : f.value,
                 key: f.key,
-                type: f.type
+                type: f.type,
             }
         })
         const calculatedPage= JSON.stringify(filters) === JSON.stringify(filtersSubmittable)

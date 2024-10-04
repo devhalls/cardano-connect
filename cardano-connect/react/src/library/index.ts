@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 import {mockApiAsset, mockApiDrep, mockApiDreps, mockApiPool, mockApiPools, mockOption, mockUser} from "./mock";
 
 const nodeEnv: string = process.env.NODE_ENV
@@ -7,10 +8,26 @@ const instance = axios.create({
     baseURL: `/index.php?rest_route=/cardano-connect/`,
     withCredentials: true,
 });
+instance.interceptors.request.use(config => {
+    config.paramsSerializer = params => {
+        return qs.stringify(params, {
+            encode: true,
+        });
+    };
+    return config;
+});
 
-export async function get(route: string, options?: any) {
+
+export async function get(
+    route: string,
+    params?: {
+        page?: number
+        perPage?: number
+        filters?: FilterPost[]
+    }
+): Promise<any> {
     return await instance
-        .get(`${route}`, options)
+        .get(`${route}`, { params })
         .then(({ data }) => {
             return data;
         })
@@ -77,17 +94,31 @@ export async function backendGetPools(data: {
     page: number
     perPage: number
     nonce: string
-    filters?: Filter[]
+    filters?: FilterPost[]
 }): Promise<AjaxResponse<PaginatedData<Pool>>> {
     instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
     return nodeEnv === 'development'
         ? mockApiPools(data.page, data.perPage)
         : await get(`pools`, {
-            params: {
-                page: data.page,
-                perPage: data.perPage,
-                filters: data.filters
-            }
+            page: data.page,
+            perPage: data.perPage,
+            filters: data.filters
+        });
+}
+
+export async function backendGetPoolsStats(data: {
+    nonce: string
+    page?: number
+    perPage?: number
+    filters?: FilterPost[]
+}): Promise<AjaxResponse<PaginatedData<PoolData>>> {
+    instance.defaults.headers.common['X-WP-Nonce'] = data.nonce
+    return nodeEnv === 'development'
+        ? mockApiPools(data.page, 0)
+        : await get(`pools/stats`, {
+            page: data.page,
+            perPage: data.perPage,
+            filters: data.filters
         });
 }
 
@@ -111,11 +142,9 @@ export async function backendGetDreps(data: {
     return nodeEnv === 'development'
         ? mockApiDreps(data.page, data.perPage)
         : await get(`dreps`, {
-            params: {
-                page: data.page,
-                perPage: data.perPage,
-                filters: data.filters
-            }
+            page: data.page,
+            perPage: data.perPage,
+            filters: data.filters
         });
 }
 

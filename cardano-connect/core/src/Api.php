@@ -96,6 +96,15 @@ class Api extends Base
 	    );
 	    register_rest_route(
 		    $this->plugin_name,
+		    '/pools/stats/',
+		    [
+			    'methods'  => 'GET',
+			    'callback' => [$this, 'getStakePoolStats'],
+			    'permission_callback' => '__return_true'
+		    ]
+	    );
+	    register_rest_route(
+		    $this->plugin_name,
 		    '/pools/(?P<id>[a-zA-Z0-9-]+)',
 		    [
 			    'methods'  => 'GET',
@@ -293,7 +302,8 @@ class Api extends Base
 		}
 		return $this->returnResponse(
 			false,
-			[]
+			[],
+			$data->message
 		);
 	}
 
@@ -318,7 +328,8 @@ class Api extends Base
 		}
 		return $this->returnResponse(
 			false,
-			[]
+			[],
+			$data->message
 		);
 	}
 
@@ -338,7 +349,27 @@ class Api extends Base
 		}
 		return $this->returnResponse(
 			false,
-			[]
+			[],
+			$data->message
+		);
+	}
+
+	public function getStakePoolStats( $data ): array
+	{
+		$result = $this->connectPoolProvider->getStakePoolStats();
+		if ($result->success) {
+			return $this->returnResponse(
+				true,
+				[
+					'total' => $result->total,
+					'items' => (array) $result->response
+				]
+			);
+		}
+		return $this->returnResponse(
+			false,
+			[],
+			$result->message
 		);
 	}
 

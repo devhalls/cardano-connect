@@ -351,7 +351,6 @@ declare interface ComponentDrep {
     delegateStake?: (drepId: string) => Promise<void>
     key?: string
 }
-
 declare interface ComponentBalance {
     className?: string
 }
@@ -401,4 +400,81 @@ declare interface ComponentFilter {
     filter: Filter,
     setFilter: (filter: Filter) => void
     key?: string
+}
+declare interface ComponentDataRows {
+    rows: {
+        title: string | React.ReactElement,
+        data: string | number | React.ReactElement,
+    }[],
+    className?: string
+}
+// Graph components
+
+declare interface GraphScatterComponent<T, P> {
+    width: number
+    height: number
+    data: T[]
+    color?: string
+    margin?: GraphMargin
+    axisX?: {
+        tick?: GraphTick
+        label?: GraphLabel
+        margin?: GraphMargin
+    }
+    axisY?: {
+        tick?: GraphTick
+        label?: GraphLabel
+        margin?: GraphMargin
+    },
+    ToolTip?: GraphToolTip<P>
+}
+
+
+// Graph elements
+
+declare type GraphPlot<T> = {
+    // Position
+    id: string
+    x: number
+    y: number
+    // Styling
+    radius?: number
+    opacity?: number
+    stroke?: string
+    fill?: string
+    fillOpacity?: string
+    strokeWidth?: number
+    // Original data
+    data: T|null
+}
+
+declare interface GraphToolTip<T> {
+    plot: GraphPlot<T>|null,
+    hide: () => void
+}
+
+declare interface GraphTick {
+    spacing: number
+    length: number
+    color?: string
+    format?: (value: number) => string|number
+}
+
+declare interface GraphLabel {
+    label: string
+    format?: (value: string|number) => string|number
+    color?: string
+    position?: GraphPosition
+}
+
+declare type GraphMargin = {
+    top?: number
+    right?: number
+    bottom?: number
+    left?: number
+}
+
+declare type GraphPosition = {
+    x?: string
+    y?: string
 }

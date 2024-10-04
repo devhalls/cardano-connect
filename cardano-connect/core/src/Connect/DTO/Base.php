@@ -6,7 +6,7 @@ abstract class Base {
 	/**
 	 * Recursive toArray converting Post to assoc.
 	 */
-	protected function toArray(
+	public function toArray(
 		array|null $data = null
 	): array {
 		$array = $data ?: (array) $this;
